@@ -1,0 +1,18 @@
+# ── Orbital Insight ACM v7.0 — backend requirements ──────────────────────────
+# All stdlib: asyncio, math, random, logging, datetime, time, uuid,
+#             json, os, collections, dataclasses, typing, concurrent.futures
+# (no entry needed for those)
+
+# Web framework
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+
+# Data validation
+pydantic==2.10.3
+
+# Spatial index — optional but enables O(log N) KD-Tree vs pure-Python fallback
+numpy==2.2.1
+scipy==1.15.0
+
+# HTTP client (used by start.sh healthcheck curl, not Python — included for completeness)
+httpx==0.28.1
