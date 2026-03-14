@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  orbital-insight:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orbital-insight
+    ports:
+      - "80:80"       # HTML Frontend — Orbital Insight dashboard
+      - "8000:8000"   # FastAPI backend — NSH grader endpoint
+      - "8501:8501"   # Streamlit analytical dashboard
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 25s
