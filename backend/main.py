@@ -1572,6 +1572,7 @@ class Sim:
         self._ml_anomaly_counter = 0.0    # [ML-2] anomaly detector retrain timer
         self._ml_fuel_counter    = 0.0    # [ML-3] fuel forecaster feed timer
         self._bg_running = True
+        self._ready = False   # True after background warm-up completes
         self._build()
 
     def _build(self):
@@ -1607,18 +1608,22 @@ class Sim:
 
         self._idx.rebuild(self.debris, self.t)
         logger.info(f"ACM ready: {len(self.sats)} satellites, {len(self.debris)} debris")
+        self._ready = False   # set True after background warm-up completes
 
-        # Pre-warm contact schedules so t=0 API calls return real windows, not []
-        logger.info("Pre-warming contact schedules for all satellites…")
-        for sat in self.sats.values():
-            sat.contact_schedule = compute_contact_windows(sat.state)
-        logger.info("Contact schedules ready.")
-
-        # Initial anomaly detector training so Pc boosts are active from t=0
-        # (~0.5 s startup cost, but avoids 1800 s blind window)
-        logger.info("Initial anomaly detector training…")
-        _anomaly_det.train(self.debris)
-        logger.info(f"Anomaly detector ready — {len(_anomaly_det._scores)} debris scored.")
+        # Run contact pre-warming + anomaly training in a background thread so
+        # the API endpoint is reachable within ~1s instead of 10-30s.
+        # The _ready flag lets /api/ready report startup progress.
+        import threading as _thr
+        def _warm():
+            logger.info("Background warm-up starting…")
+            for sat in self.sats.values():
+                sat.contact_schedule = compute_contact_windows(sat.state)
+            logger.info("Contact schedules ready.")
+            _anomaly_det.train(self.debris)
+            logger.info(f"Anomaly detector ready — {len(_anomaly_det._scores)} debris scored.")
+            self._ready = True
+            logger.info("ACM fully initialised — all warm-up tasks complete.")
+        _thr.Thread(target=_warm, daemon=True).start()
 
     # ── Propagation ─────────────────────────────────────────────────────────
     def step(self, dt: Optional[float] = None):
@@ -2697,6 +2702,21 @@ async def api_snapshot():
     return {"timestamp": sim_time_to_iso(sim.t),
             "satellites": sats_out,
             "debris_cloud": debris_cloud}
+
+@app.get("/api/ready")
+async def api_ready():
+    """Readiness probe — returns 200 ready:true once warm-up completes.
+    Streamlit and load-balancers can poll this before showing the dashboard.
+    """
+    return {
+        "ready": sim._ready,
+        "stage": "running" if sim._ready else "warming_up",
+        "satellites": len(sim.sats),
+        "debris":     len(sim.debris),
+        "anomaly_trained": _anomaly_det._trained,
+        "contact_schedules_ready": all(
+            bool(s.contact_schedule) for s in sim.sats.values()),
+    }
 
 @app.get("/api/status")
 async def api_status():
