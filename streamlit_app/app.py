@@ -1,10 +1,4 @@
-"""
-Orbital Insight — Streamlit Analytics Dashboard v7.4
-NSH 2026 · Team BroCODE
-CSS / JS perfectly mirrors index.html: same fonts, variables, panel-hdr, panel-badge,
-cdm-item, sat-item, contact-win, uptime bars, telem-grid, cursor ring + tooltip.
-Best of v7.2 (login overlay, full pages, cursor) + v7.3 (panel_header, cdm-item, scan sweep).
-"""
+
 
 import streamlit as st
 import requests
@@ -376,6 +370,8 @@ hr { border:none !important; border-top:1px solid var(--border) !important; marg
   box-shadow: 0 0 12px rgba(0,200,180,0.15) !important;
 }
 /* ── stMetric dark theme — used in ML Intelligence tabs ── */
+/* Streamlit 1.28+ uses data-testid="metric-container" at the outer div */
+div[data-testid="metric-container"],
 div[data-testid="stMetric"] {
   background:var(--bg3) !important;
   border:1px solid var(--border) !important;
@@ -383,19 +379,69 @@ div[data-testid="stMetric"] {
   padding:10px 12px !important;
   transition:border-color 0.2s !important;
 }
+div[data-testid="metric-container"]:hover,
 div[data-testid="stMetric"]:hover {
   border-color:var(--border2) !important;
 }
-div[data-testid="stMetricLabel"] p {
+/* Label: Streamlit 1.30+ wraps in <label> not <p> — target both */
+div[data-testid="stMetricLabel"] > div,
+div[data-testid="stMetricLabel"] p,
+div[data-testid="stMetricLabel"] label {
   font-family:var(--font-mono) !important;
   font-size:8px !important;
   letter-spacing:0.12em !important;
   color:var(--text2) !important;
   text-transform:uppercase !important;
 }
-div[data-testid="stMetricValue"] {
+/* Value */
+div[data-testid="stMetricValue"],
+div[data-testid="stMetricValue"] > div {
   font-family:var(--font-display) !important;
   color:var(--cyan2) !important;
+  font-size:20px !important;
+}
+/* Delta — hide the default green/red arrow colour */
+div[data-testid="stMetricDelta"] svg { display:none !important; }
+div[data-testid="stMetricDelta"] > div {
+  color:var(--text2) !important;
+  font-family:var(--font-mono) !important;
+  font-size:8px !important;
+}
+
+/* ── stTabs dark theme ── */
+div[data-testid="stTabs"] button[role="tab"] {
+  font-family:var(--font-mono) !important;
+  font-size:9px !important;
+  letter-spacing:0.12em !important;
+  color:var(--text2) !important;
+  background:transparent !important;
+  border:none !important;
+  border-bottom:2px solid transparent !important;
+  border-radius:0 !important;
+  padding:6px 14px !important;
+  transition:color 0.15s, border-color 0.15s !important;
+  text-transform:uppercase !important;
+}
+div[data-testid="stTabs"] button[role="tab"]:hover {
+  color:var(--cyan2) !important;
+  border-bottom-color:var(--border2) !important;
+}
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+  color:var(--cyan2) !important;
+  border-bottom:2px solid var(--cyan2) !important;
+  text-shadow:var(--glow-cyan) !important;
+}
+/* Tab panel container */
+div[data-testid="stTabs"] > div[role="tabpanel"] {
+  border-top:1px solid var(--border) !important;
+  background:transparent !important;
+  padding-top:12px !important;
+}
+/* Tab list bar background */
+div[data-testid="stTabs"] > div[role="tablist"] {
+  background:var(--bg2) !important;
+  border-bottom:1px solid var(--border) !important;
+  gap:0 !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -1069,6 +1115,12 @@ def get_maneuver_history(limit=300):
     try: return requests.get(f"{API}/maneuver/history?limit={limit}", timeout=3).json()
     except: return []
 
+@st.cache_data(ttl=5)
+def get_events(limit=200):
+    try: return requests.get(f"{API}/events", timeout=3).json()
+    except: return []
+
+
 @st.cache_data(ttl=3)
 def get_ground_stations():
     try: return requests.get(f"{API}/ground_stations", timeout=3).json()
@@ -1145,9 +1197,9 @@ def get_ml_summary():
     except Exception as e:
         return {"_error": str(e)}
 
-def api_online():
-    try: requests.get(f"{API}/status", timeout=2); return True
-    except: return False
+def api_online() -> bool:
+    """Reuses the cached get_status() result — no extra HTTP round-trip."""
+    return bool(get_status())
 
 # ── Component helpers ──────────────────────────────────────────────────────────
 def ph(title, badge="", badge_cls="badge-cyan"):
@@ -1187,33 +1239,61 @@ def uptime_bar(sat_id, pct):
     </div>'''
 
 def altair_chart(df, x_field, y_field, color_field=None, color_scale=None, height=300, tooltips=None):
-    # If y_field is already an alt.Y object, use it directly — don't double-wrap
+    """
+    Safe Altair bar chart helper.
+    Accepts either a shorthand string or a pre-built alt.X / alt.Y object for
+    x_field / y_field — does NOT double-wrap existing encoding objects.
+    configure_axis() is intentionally omitted: when callers pass alt.Y objects
+    with their own axis= config, a top-level configure_axis() silently overrides
+    those per-field settings and causes a SchemaValidationError in Altair v5.
+    Grid styling is handled via the shared axis= specs on each encoding instead.
+    """
+    # y encoding — pass through if already an alt.Y, otherwise build one
     if isinstance(y_field, alt.Y):
         y_enc = y_field
     else:
-        y_enc = alt.Y(y_field, axis=alt.Axis(labelColor="rgba(180,230,220,0.5)", labelFont="Share Tech Mono", labelFontSize=9))
-    enc = dict(
-        x=alt.X(x_field, axis=alt.Axis(labelColor="rgba(180,230,220,0.5)", gridColor="rgba(0,210,180,0.08)", labelFont="Share Tech Mono", labelFontSize=9)),
-        y=y_enc,
-    )
+        y_enc = alt.Y(y_field, axis=alt.Axis(
+            labelColor="rgba(180,230,220,0.5)",
+            labelFont="Share Tech Mono",
+            labelFontSize=9,
+            gridColor="rgba(0,210,180,0.07)",
+            domainColor="rgba(0,210,180,0.15)",
+        ))
+
+    # x encoding — pass through if already an alt.X, otherwise build one
+    if isinstance(x_field, alt.X):
+        x_enc = x_field
+    else:
+        x_enc = alt.X(x_field, axis=alt.Axis(
+            labelColor="rgba(180,230,220,0.5)",
+            labelFont="Share Tech Mono",
+            labelFontSize=9,
+            gridColor="rgba(0,210,180,0.07)",
+            domainColor="rgba(0,210,180,0.15)",
+        ))
+
+    enc = dict(x=x_enc, y=y_enc)
     if color_field and color_scale:
         enc["color"] = alt.Color(color_field, scale=color_scale, legend=None)
     if tooltips:
         enc["tooltip"] = tooltips
-    return alt.Chart(df).mark_bar(cornerRadiusTopRight=2, cornerRadiusBottomRight=2).encode(
-        **enc
-    ).properties(height=height, background="transparent").configure_view(
-        strokeOpacity=0
-    ).configure_axis(gridColor="rgba(0,210,180,0.07)", domainColor="rgba(0,210,180,0.15)")
+
+    return (
+        alt.Chart(df)
+        .mark_bar(cornerRadiusTopRight=2, cornerRadiusBottomRight=2)
+        .encode(**enc)
+        .properties(height=height, background="transparent")
+        .configure_view(strokeOpacity=0)
+    )
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  SIDEBAR
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
-    online      = api_online()
-    status      = get_status() if online else {}
+    status      = get_status()   # single cached call — api_online() reuses this
+    online      = bool(status)
     uptime_q    = get_fleet_uptime() if online else {}
-    metrics     = get_metrics() if online else {}
+    metrics     = get_metrics()     if online else {}
 
     st.markdown(f'''
     <div class="tb-logo">🛰 ORBITAL<span style="color:var(--muted);font-weight:400"> INSIGHT</span></div>
@@ -1249,8 +1329,8 @@ with st.sidebar:
         try:
             r = requests.post(f"{API}/simulate/step",
                               json={"step_seconds": step_hrs*3600}, timeout=300).json()
-            st.session_state["sim_step_target"] = r.get("target_sim_time", 0)
-            st.session_state["sim_step_start"]  = r.get("current_sim_time", 0)
+            st.session_state["sim_step_target"] = r.get("sim_time", 0)
+            st.session_state["sim_step_start"]  = r.get("sim_time", 0) - (step_hrs * 3600)
             st.session_state["sim_step_hrs"]    = step_hrs
             st.rerun()
         except Exception as e:
@@ -1259,11 +1339,13 @@ with st.sidebar:
     # Show live progress if a step is in progress
     if "sim_step_target" in st.session_state and online:
         try:
-            target_t = st.session_state["sim_step_target"]
-            start_t  = st.session_state["sim_step_start"]
-            step_s   = st.session_state.get("sim_step_hrs", 1) * 3600
-            cur_t    = requests.get(f"{API}/status", timeout=2).json().get("sim_time", start_t)
-            pct      = min(1.0, (cur_t - start_t) / max(step_s, 1))
+            target_t      = st.session_state["sim_step_target"]
+            start_t       = st.session_state["sim_step_start"]
+            step_s        = st.session_state.get("sim_step_hrs", 1) * 3600
+            _prog_status  = get_status()   # reuse cached — no extra HTTP call
+            cur_t         = _prog_status.get("sim_time", start_t)
+            mans          = _prog_status.get("maneuvers_executed", 0)
+            pct           = min(1.0, (cur_t - start_t) / max(step_s, 1))
 
             if cur_t >= target_t - 30:
                 st.success(f"✓ {st.session_state.get('sim_step_hrs',1):.2f}h simulated")
@@ -1272,7 +1354,6 @@ with st.sidebar:
                 st.cache_data.clear()
             else:
                 st.progress(pct)
-                mans = requests.get(f"{API}/status", timeout=2).json().get("maneuvers_executed", 0)
                 st.markdown(
                     f'<div style="font-family:var(--font-mono);font-size:9px;'
                     f'color:var(--cyan2);letter-spacing:0.1em;margin-top:4px">'
@@ -1305,7 +1386,12 @@ with st.sidebar:
 
     auto_refresh = st.checkbox("Auto-refresh (3s)", value=False)
     if auto_refresh:
-        time.sleep(3); st.cache_data.clear(); st.rerun()
+        import streamlit.components.v1 as _sc
+        _sc.html(
+            "<script>setTimeout(()=>window.parent.postMessage({type:'streamlit:rerun'},'*'),3000)</script>",
+            height=0,
+        )
+        st.cache_data.clear()
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  PAGES
@@ -1505,9 +1591,24 @@ elif "Contact Schedule" in page:
     if sel_id:
         cs      = get_contact_schedule(sel_id)
         windows = cs.get("windows", [])
+        # Also check contact_windows from /api/satellites for the full list
+        sat_detail = next((s for s in satellites if s["id"] == sel_id), {})
+        all_windows = sat_detail.get("contact_windows") or windows
+        if all_windows:
+            st.markdown(ph(f"CONTACT WINDOWS — {len(all_windows)} SCHEDULED"), unsafe_allow_html=True)
+            win_rows = [{
+                "GS":           w.get("gs_id","?"),
+                "Start (UTC)":  w.get("start_iso","?")[:19],
+                "End (UTC)":    w.get("end_iso","?")[:19],
+                "Duration s":   round(w.get("duration_s",0),1),
+                "Peak El °":    w.get("peak_el_deg") or w.get("peak_elevation_deg","?"),
+                "Pre-Blackout": "⚠ YES" if w.get("is_last_before_blackout") else "",
+            } for w in all_windows]
+            st.dataframe(pd.DataFrame(win_rows), use_container_width=True, hide_index=True)
+        windows = all_windows  # use full list for card display below
         if windows:
-            cols = st.columns(min(len(windows), 3))
-            for i, w in enumerate(windows[:3]):
+            cols = st.columns(min(len(windows), 5))
+            for i, w in enumerate(windows[:5]):
                 blackout = w.get("is_last_before_blackout", False)
                 with cols[i]:
                     cls = "contact-win blackout" if blackout else "contact-win"
@@ -1673,7 +1774,7 @@ elif "Maneuver History" in page:
             color=alt.Color("Type:N",scale=alt.Scale(domain=list(color_map.keys()),range=list(color_map.values())),
                 legend=alt.Legend(labelColor="rgba(180,230,220,0.5)",titleColor="rgba(0,200,180,0.5)",labelFont="Share Tech Mono")),
             tooltip=["Type","Count"]
-        ).properties(height=160,background="transparent").configure_view(strokeOpacity=0).configure_axis(gridColor="rgba(0,210,180,0.07)")
+        ).properties(height=160,background="transparent").configure_view(strokeOpacity=0)
         st.altair_chart(bt_chart, use_container_width=True)
 
         df = pd.DataFrame([{
@@ -1689,6 +1790,37 @@ elif "Maneuver History" in page:
         st.dataframe(df, use_container_width=True, hide_index=True)
     else:
         st.info("No maneuver history yet — simulation is initialising.")
+
+    # ── ML Decision Log ────────────────────────────────────────────────────
+    st.markdown("<hr>", unsafe_allow_html=True)
+    st.markdown(ph("ML DECISION LOG", "AUTONOMOUS EVENTS", "badge-purple"), unsafe_allow_html=True)
+    events = get_events(200)
+    ml_event_types = {
+        "kalman_escalated_burn_timing":    ("🎯", "cyan",   "Kalman escalated burn — confident converging pair"),
+        "sk_skipped_would_trigger_eol":    ("⚠",  "orange", "SK skipped — would trigger EOL"),
+        "recovery_burn2_skipped_low_fuel": ("⛽", "red",    "Recovery burn 2 skipped — insufficient forecast fuel"),
+        "blind_preupload_scheduled":       ("📡", "blue",   "Blind pre-upload — burn scheduled before blackout"),
+        "collision_detected_no_evasion":   ("💥", "red",    "Collision detected — Pc below prune threshold"),
+        "actual_collision":                ("🔴", "red",    "Actual hard-body collision detected"),
+        "hohmann_recovery_planned":        ("🔄", "cyan",   "Hohmann recovery planned"),
+        "eol_graveyard_planned":           ("⚰", "purple", "EOL graveyard transfer planned"),
+        "ml_early_eol_warning":            ("⚠",  "orange", "ML early EOL warning — graveyard preemptive"),
+    }
+    ml_events = [e for e in events if e.get("type") in ml_event_types]
+    if ml_events:
+        rows = []
+        for e in ml_events[-50:][::-1]:
+            icon, color, label = ml_event_types[e["type"]]
+            rows.append({
+                "Time":      e.get("timestamp","?")[:16],
+                "Event":     f"{icon} {e['type']}",
+                "Satellite": (e.get("satellite","") or "").replace("SAT-Alpha-","A-"),
+                "Detail":    str({k:v for k,v in e.items()
+                                  if k not in ("type","time","timestamp","satellite")})[:120],
+            })
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+    else:
+        st.info("No ML decision events yet — events accumulate as the sim runs.")
 
 
 # ── Ground Stations ─────────────────────────────────────────────────────────────
@@ -1750,35 +1882,45 @@ elif "ML Intelligence" in page:
         b = get_ml_bandit()
         if b.get("_error"):
             st.warning(f"ML-1 endpoint error: {b['_error']}")
-        st.markdown(ph("UCB1 GRADIENT BANDIT — EVASION ΔV OPTIMISER"), unsafe_allow_html=True)
-        st.markdown('''<div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));
+        st.markdown(ph("THOMPSON SAMPLING BANDIT — CONTEXTUAL ΔV OPTIMISER"), unsafe_allow_html=True)
+        st.markdown(f'''<div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));
           border:1px solid rgba(170,68,255,0.2);border-radius:4px;padding:12px 14px;margin:10px 0">
           <div class="metric-label">HOW IT WORKS</div>
           <div style="font-size:9px;color:var(--text2);line-height:1.75">
-            6 arms: 0.004–0.015 km/s · UCB1 selection · reward = miss_km − 80×dv_kms<br>
-            Converges to minimum safe ΔV → saves 20–40% fuel vs fixed 0.010 km/s default.
+            6 arms: 0.004–0.015 km/s · <b>Thompson Sampling</b> (Beta posteriors) replaces UCB1<br>
+            Contextual gates: urgent TCA &lt;30 min → restricts to larger arms only<br>
+            Converges 2–3× faster than UCB1 · saves 20–40% fuel vs fixed 0.010 km/s<br>
+            Sampler: <b>{b.get("sampler","thompson_sampling")}</b> · Updates: <b>{b.get("total_updates",0)}</b>
           </div></div>''', unsafe_allow_html=True)
-        c1, c2 = st.columns(2)
+        c1, c2, c3 = st.columns(3)
         with c1: st.metric("Total Updates", b.get("total_updates", 0))
-        with c2: st.metric("Best ΔV Arm", f"{b.get('best_dv_kms','—')} km/s")
+        with c2: st.metric("Best ΔV Arm",   f"{b.get('best_dv_kms','—')} km/s")
+        with c3: st.metric("Sampler",        b.get("sampler","thompson_sampling").replace("_"," ").title())
         arms = b.get("arms", [])
         if arms:
             best_dv = b.get("best_dv_kms", 0)
             df = pd.DataFrame(arms)
-            # Use a string category for reliable Vega-Lite color condition
             df["arm_type"] = df["dv_kms"].apply(lambda v: "best" if v == best_dv else "other")
-            bar = alt.Chart(df).mark_bar(cornerRadiusTopRight=3).encode(
+            base = alt.Chart(df).encode(
                 x=alt.X("dv_kms:O", axis=alt.Axis(labelColor="#a8c8e0", title="ΔV (km/s)")),
-                y=alt.Y("mean_reward:Q", axis=alt.Axis(labelColor="#a8c8e0", title="Mean Reward")),
+            )
+            bar = base.mark_bar(cornerRadiusTopRight=3).encode(
+                y=alt.Y("posterior_mean:Q", axis=alt.Axis(labelColor="#a8c8e0", title="Posterior Mean α/(α+β)")),
                 color=alt.Color("arm_type:N",
-                    scale=alt.Scale(domain=["best","other"],
-                                    range=["#aa44ff","#00c8b4"]),
+                    scale=alt.Scale(domain=["best","other"], range=["#aa44ff","#00c8b4"]),
                     legend=None),
-                tooltip=["dv_kms","mean_reward","visits"]
-            ).properties(height=200, background="#060f1c",
-                         title=alt.TitleParams("Mean Reward per ΔV Arm", color="#a8c8e0"))
-            st.altair_chart(bar, use_container_width=True)
-            st.dataframe(df[["dv_kms","mean_reward","visits"]], use_container_width=True, hide_index=True)
+                tooltip=["dv_kms","posterior_mean","mean_reward","visits","alpha","beta"]
+            )
+            rule = base.mark_rule(color="#ffd700", strokeDash=[4,2], strokeWidth=1).encode(
+                y=alt.Y("mean_reward:Q")
+            )
+            chart = (bar + rule).properties(
+                height=200, background="#060f1c",
+                title=alt.TitleParams("Posterior Mean (bars) + Mean Reward (gold line)", color="#a8c8e0")
+            ).configure_view(strokeOpacity=0)
+            st.altair_chart(chart, use_container_width=True)
+            show_cols = [c for c in ["dv_kms","posterior_mean","mean_reward","visits","alpha","beta"] if c in df.columns]
+            st.dataframe(df[show_cols], use_container_width=True, hide_index=True)
         else:
             st.info("Bandit data accumulates after first evasion burn (~60s)")
 
@@ -1786,19 +1928,24 @@ elif "ML Intelligence" in page:
         an = get_ml_anomalies()
         if an.get("_error"):
             st.warning(f"ML-2 endpoint error: {an['_error']}")
-        st.markdown(ph("ISOLATION FOREST — DEBRIS ANOMALY SCORER"), unsafe_allow_html=True)
+        st.markdown(ph("ISOLATION FOREST v2 — 12-D ONLINE ANOMALY SCORER"), unsafe_allow_html=True)
         st.markdown(f'''<div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));
           border:1px solid rgba(170,68,255,0.2);border-radius:4px;padding:12px 14px;margin:10px 0">
           <div class="metric-label">HOW IT WORKS</div>
           <div style="font-size:9px;color:var(--text2);line-height:1.75">
-            {an.get("n_trees","?")} trees · {an.get("subsample","?")} samples ·
-            retrains every {int((an.get("retrain_interval_s") or 1800)//60)} min<br>
-            Score &gt;0.7 → 3× Pc boost · Score &gt;0.85 → 6× Pc boost → earlier evasion.
+            <b>{an.get("n_trees","?")} trees</b> · {an.get("subsample","?")} samples ·
+            <b>{an.get("n_features","12")}-D features</b> · max depth {an.get("max_depth","10")} ·
+            retrains every {int((an.get("retrain_interval_s") or 3600)//60)} min
+            (train #{an.get("train_count",0)})<br>
+            Score blend: 0.7 × forest + 0.3 × heuristic (v_residual)<br>
+            &gt;0.45 → 1.5× · &gt;0.60 → 3× · &gt;0.75 → 5× · &gt;0.88 → <b>8× Pc boost</b> → earlier evasion<br>
+            New debris scored <b>immediately on ingest</b> (no retrain wait)
           </div></div>''', unsafe_allow_html=True)
-        c1,c2,c3 = st.columns(3)
-        with c1: st.metric("Status", "TRAINED ✓" if an.get("trained") else "INIT…")
+        c1,c2,c3,c4 = st.columns(4)
+        with c1: st.metric("Status",        "TRAINED ✓" if an.get("trained") else "INIT…")
         with c2: st.metric("Debris Scored", an.get("debris_scored",0))
-        with c3: st.metric("Trees", an.get("n_trees",0))
+        with c3: st.metric("Features",      an.get("n_features", 12))
+        with c4: st.metric("Retrains",      an.get("train_count", 0))
         top = an.get("top_anomalies",[])
         if top:
             df = pd.DataFrame(top[:20])
@@ -1822,13 +1969,16 @@ elif "ML Intelligence" in page:
         ff = get_ml_fuel_forecast()
         if ff.get("_error"):
             st.warning(f"ML-3 endpoint error: {ff['_error']}")
-        st.markdown(ph("ONLINE RLS — FUEL DEPLETION FORECAST"), unsafe_allow_html=True)
+        st.markdown(ph("QUADRATIC RLS + EMA — FUEL DEPLETION FORECAST"), unsafe_allow_html=True)
         st.markdown(f'''<div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));
           border:1px solid rgba(170,68,255,0.2);border-radius:4px;padding:12px 14px;margin:10px 0">
           <div class="metric-label">HOW IT WORKS</div>
           <div style="font-size:9px;color:var(--text2);line-height:1.75">
-            fuel(t) = w₀ + w₁·t · λ={ff.get("lambda_forgetting",0.98)} · EOL threshold: {ff.get("eol_threshold_kg","?")} kg<br>
-            Skips SK burns when EOL &lt;3600s · triggers early graveyard at &lt;2h warning.
+            <b>fuel(t) = w₀ + w₁·t + w₂·t²</b> (quadratic RLS, was linear) ·
+            λ={ff.get("lambda_forgetting",0.97)} · EOL threshold: {ff.get("eol_threshold_kg","?")} kg<br>
+            EMA burn-rate α={ff.get("ema_alpha",0.3)} · burst threshold: {ff.get("burst_rate_threshold_kgs","5.0")} g/s<br>
+            EOL = min(quadratic solve, EMA estimate) → catches post-evasion fuel spikes fast<br>
+            Skips SK when EOL &lt;3600s · pre-emptive graveyard at &lt;2h warning
           </div></div>''', unsafe_allow_html=True)
         sats_ff = ff.get("satellites",[])
         if sats_ff:
@@ -1839,21 +1989,24 @@ elif "ML Intelligence" in page:
                     st.markdown(f'`{w["id"]}` — {w["fuel_now_kg"]} kg — EOL in {(w.get("t_to_eol_s") or 0)/3600:.1f}h')
             df = pd.DataFrame([{
                 "Satellite": s["id"].replace("SAT-Alpha-","A-"),
-                "Now kg":  s.get("fuel_now_kg",0),
-                "+1h kg":  s.get("fuel_1h_kg",0),
-                "+6h kg":  s.get("fuel_6h_kg",0),
-                "+24h kg": s.get("fuel_24h_kg",0),
-                "EOL ⚠":   "⚠" if s.get("eol_warning") else "",
-                "Status":  s.get("status","?"),
+                "Now kg":    s.get("fuel_now_kg",0),
+                "+1h kg":    s.get("fuel_1h_kg",0),
+                "+6h kg":    s.get("fuel_6h_kg",0),
+                "+24h kg":   s.get("fuel_24h_kg",0),
+                "Rate g/s":  round((s.get("burn_rate_ema_kgs",0) or 0) * 1000, 3),
+                "EOL ⚠":     "⚠" if s.get("eol_warning") else "",
+                "Status":    s.get("status","?"),
             } for s in sats_ff])
-            # max_value = highest current fuel across all sats, fallback 50
             fuel_max = max((s.get("fuel_now_kg", 0) for s in sats_ff), default=50)
-            fuel_max = max(fuel_max, 1)   # guard against all-zero
+            fuel_max = max(fuel_max, 1)
             st.dataframe(df, use_container_width=True, hide_index=True,
-                         column_config={"Now kg": st.column_config.ProgressColumn(
-                             "Now kg", min_value=0,
-                             max_value=fuel_max,
-                             format="%.1f kg")})
+                         column_config={
+                             "Now kg": st.column_config.ProgressColumn(
+                                 "Now kg", min_value=0, max_value=fuel_max, format="%.1f kg"),
+                             "Rate g/s": st.column_config.NumberColumn(
+                                 "Burn Rate g/s", format="%.3f",
+                                 help="EMA burn rate — spikes indicate post-evasion cluster"),
+                         })
         else:
             st.info("Forecast populates after first burn events")
 
@@ -1861,34 +2014,57 @@ elif "ML Intelligence" in page:
         rt = get_ml_risk_trends()
         if rt.get("_error"):
             st.warning(f"ML-4 endpoint error: {rt['_error']}")
-        st.markdown(ph("EXPONENTIAL SMOOTHING — CONJUNCTION RISK TRENDS"), unsafe_allow_html=True)
+        st.markdown(ph("KALMAN RISK TRACKER — CONJUNCTION STATE ESTIMATOR"), unsafe_allow_html=True)
         st.markdown(f'''<div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));
           border:1px solid rgba(170,68,255,0.2);border-radius:4px;padding:12px 14px;margin:10px 0">
           <div class="metric-label">HOW IT WORKS</div>
           <div style="font-size:9px;color:var(--text2);line-height:1.75">
-            α={rt.get("alpha",0.35)} smoothing per (sat, debris) pair.<br>
-            Trend &gt;{rt.get("skip_threshold_kms",0.05)} km/s → diverging → 24h scan skipped → ~30% CPU saving.<br>
-            Converging pairs (trend &lt;0) sorted to front of assessment queue.
+            <b>Kalman filter</b> per (sat, debris) pair — state = [miss_km, rate_kms]<br>
+            Adaptive measurement noise R scales with miss distance<br>
+            Skip gate: trend &gt;{rt.get("skip_threshold_kms",0.04)} km/s <b>AND</b> P[1,1] &lt;0.01
+            → 24h scan skipped (~30% CPU saving)<br>
+            Unseen pairs get −∞ priority → always assessed first · evicts safest pairs under memory pressure
           </div></div>''', unsafe_allow_html=True)
-        c1,c2 = st.columns(2)
-        with c1: st.metric("Tracked Pairs", int(rt.get("tracked_pairs") or 0))
-        with c2: st.metric("Skip Threshold", f"{rt.get('skip_threshold_kms', 0.05):.2f} km/s")
-        pairs = rt.get("converging_pairs",[])
+        c1, c2, c3 = st.columns(3)
+        with c1: st.metric("Tracked Pairs",  int(rt.get("tracked_pairs") or 0))
+        with c2: st.metric("Skip Threshold", f"{rt.get('skip_threshold_kms', 0.04):.2f} km/s")
+        with c3: st.metric("Max Pairs",      rt.get("max_pairs", 6000))
+        pairs = rt.get("converging_pairs", [])
         if pairs:
             df = pd.DataFrame(pairs)
+            has_unc = "rate_uncertainty" in df.columns
+            tooltip_fields = ["satellite_id", "debris_id", "trend_kms",
+                               "smoothed_miss_km"] + (["rate_uncertainty"] if has_unc else [])
             bar = alt.Chart(df).mark_bar(cornerRadiusTopRight=2).encode(
                 x=alt.X("trend_kms:Q",
                         axis=alt.Axis(labelColor="#a8c8e0",
-                                      title="Trend km/s (negative = converging)")),
+                                      title="Kalman rate km/s (negative = converging)")),
                 y=alt.Y("satellite_id:N", sort="x",
                         axis=alt.Axis(labelColor="#a8c8e0", labelFontSize=8)),
-                color=alt.condition(alt.datum.trend_kms < 0,
+                color=alt.condition(
+                    alt.datum.trend_kms < 0,
                     alt.value("#ff2244"), alt.value("#00ff88")),
-                tooltip=["satellite_id","debris_id","trend_kms","smoothed_miss_km"]
+                opacity=alt.Opacity(
+                    "rate_uncertainty:Q",
+                    scale=alt.Scale(domain=[0, 0.1], range=[1.0, 0.3]),
+                    legend=None
+                ) if has_unc else alt.value(1.0),
+                tooltip=tooltip_fields,
             ).properties(height=280, background="#060f1c",
-                         title=alt.TitleParams("Converging (sat, debris) Pairs", color="#a8c8e0"))
+                         title=alt.TitleParams(
+                             "Converging pairs — opacity = Kalman rate uncertainty",
+                             color="#a8c8e0"))
             st.altair_chart(bar, use_container_width=True)
-            st.dataframe(df, use_container_width=True, hide_index=True)
+            show_cols = [c for c in
+                         ["satellite_id","debris_id","trend_kms","smoothed_miss_km","rate_uncertainty"]
+                         if c in df.columns]
+            st.dataframe(df[show_cols], use_container_width=True, hide_index=True,
+                         column_config={
+                             "rate_uncertainty": st.column_config.NumberColumn(
+                                 "Rate Uncertainty P[1,1]",
+                                 format="%.6f",
+                                 help="Kalman covariance P[1,1]: low = confident trend estimate"),
+                         } if has_unc else {})
         else:
             st.info("Risk trends accumulate after first conjunction assessment (~60s)")
 
