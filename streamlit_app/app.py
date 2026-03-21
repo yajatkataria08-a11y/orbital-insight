@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import requests
 import pandas as pd
@@ -1092,7 +1090,7 @@ st.markdown("""
 # ═══════════════════════════════════════════════════════════════════════════════
 @st.cache_data(ttl=2)
 def get_status():
-    try: return requests.get(f"{API}/status", timeout=3).json()
+    try: return requests.get(f"{API}/status", timeout=10).json()
     except: return {}
 
 @st.cache_data(ttl=2)
@@ -1307,8 +1305,19 @@ with st.sidebar:
             f'{badge("⬤ LIVE","green")} {badge(spatial.upper(),"purple")} {badge(f"T+{sim_t_s//3600:03d}H","cyan")}',
             unsafe_allow_html=True)
     else:
-        st.markdown(badge("⬤ OFFLINE","red"), unsafe_allow_html=True)
-        st.warning("Backend not reachable")
+        # Check if backend is starting up (not yet ready) vs truly offline
+        try:
+            ready_r = requests.get(f"{API}/ready", timeout=10).json()
+            if ready_r.get("stage") == "warming_up":
+                st.markdown(badge("⬤ STARTING","orange"), unsafe_allow_html=True)
+                st.info("⏳ Backend is warming up (training anomaly detector + pre-warming contact schedules). This takes ~15s on first start. The page will refresh automatically.")
+                import time as _time; _time.sleep(2); st.rerun()
+            else:
+                st.markdown(badge("⬤ OFFLINE","red"), unsafe_allow_html=True)
+                st.warning("Backend not reachable — is the Docker container running?")
+        except Exception:
+            st.markdown(badge("⬤ OFFLINE","red"), unsafe_allow_html=True)
+            st.warning("Backend not reachable — is the Docker container running?")
 
     st.markdown(ph("NAVIGATION"), unsafe_allow_html=True)
     page = st.radio("", [
