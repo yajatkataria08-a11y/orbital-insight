@@ -1,12 +1,28 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0A1628,100:10B981&height=220&section=header&text=Orbital%20Insight&fontSize=70&fontColor=ffffff&fontAlignY=38&desc=NSH%202026%20%7C%20Autonomous%20Satellite%20Collision%20Management%20System&descAlignY=58&descSize=18" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&color=0:0A0F1E,25:0D1B3E,60:0A3D2E,100:10B981&height=260&section=header&text=🛰️%20Orbital%20Insight&fontSize=62&fontColor=ffffff&fontAlignY=36&animation=fadeIn&fontAlignX=50&desc=Autonomous%20Satellite%20Collision%20Management%20System&descAlignY=57&descSize=20&descAlign=50&stroke=10B981&strokeWidth=2" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0A0F1E,25:0D1B3E,60:0A3D2E,100:10B981&height=260&section=header&text=🛰️%20Orbital%20Insight&fontSize=62&fontColor=ffffff&fontAlignY=36&animation=fadeIn&fontAlignX=50&desc=Autonomous%20Satellite%20Collision%20Management%20System&descAlignY=57&descSize=20&descAlign=50&stroke=10B981&strokeWidth=2" width="100%" alt="Orbital Insight Banner"/>
+</picture>
+
+<br/>
+
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=800&size=15&duration=2000&pause=800&color=10B981&center=true&vCenter=true&multiline=false&repeat=true&width=680&height=30&lines=⚡+ACM+v7.0+%7C+ML+v4.0+%7C+XGBoost+%7C+FastAPI+%7C+Docker+%7C+NSH+2026+@+IIT+Delhi+⚡" alt="tech stack ticker"/>
 
 </div>
 
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&pause=1000&color=10B981&center=true&vCenter=true&width=750&lines=👋+Hi!+We+are+Team+BroCODE!;🛰️+We+built+Orbital+Insight+for+NSH+2026;🧠+It+manages+55+satellites+in+real-time;🤖+AI+predicts+crashes+before+they+happen;🚀+Built+in+48hrs+at+IIT+Delhi+Hackathon;⚡+Let+us+show+you+how+it+works...)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=26&duration=2800&pause=1200&color=10B981&background=0A0F1E00&center=true&vCenter=true&multiline=false&repeat=true&width=820&height=50&lines=👋+Team+BroCODE+says+hello+from+IIT+Delhi!;🛰️+Tracking+55+satellites+in+real-time...;⚠️+WARNING%3A+Conjunction+detected+at+47m+miss+distance;🤖+AI+confidence%3A+99.96%25+→+scheduling+burn+maneuver...;🚀+Thruster+fired.+Collision+avoided.+All+systems+nominal.;🏆+NSH+2026+→+Built+in+48hrs.+Zero+sleep.+Zero+crashes.)](https://git.io/typing-svg)
+
+
+<br/>
+
+![Satellites](https://img.shields.io/badge/🛰️_Satellites-55_Active-10B981?style=flat-square&labelColor=0A0F1E)
+![Debris](https://img.shields.io/badge/☄️_Debris_Objects-15%2C000-FF4444?style=flat-square&labelColor=0A0F1E)
+![AI_Score](https://img.shields.io/badge/🤖_AI_ROC--AUC-1.0000_%F0%9F%8F%86-FFD700?style=flat-square&labelColor=0A0F1E)
+![Build](https://img.shields.io/badge/⏱️_Built_In-48_Hours-8B5CF6?style=flat-square&labelColor=0A0F1E)
+![Event](https://img.shields.io/badge/🏛️_NSH_2026-IIT_Delhi-0EA5E9?style=flat-square&labelColor=0A0F1E)
 
 </div>
 
@@ -22,6 +38,7 @@ team = {
     "event":     "NSH 2026 — IIT Delhi Hackathon",
     "project":   "Orbital Insight — Autonomous Collision Management System",
     "version":   "ACM v7.0 + ML v4.0",
+    "built_in":  "48 hours (no sleep 😅)",
     "mission":   "Keep 55 satellites safe from 15,000 pieces of space junk",
     "motto":     "Ship fast, iterate faster. In space. 🚀"
 }
@@ -58,7 +75,7 @@ team = {
 >
 > *We built Orbital Insight to stop that from ever happening. It watches every satellite and every debris object every single second, predicts crashes using AI before they happen, and automatically fires thrusters to dodge. All by itself. No human needed.*
 >
-> *That's what we built. Here's how it works 👇"*
+> *That's what we built in 48 hours. Here's how it works 👇"*
 >
 > — **Team BroCODE, NSH 2026**
 
@@ -598,7 +615,7 @@ All timestamps in the system use **ISO 8601 UTC format** — a universal standar
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:10B981,100:0A1628&height=140&section=footer&text=Orbital+Insight+%7C+Team+BroCODE+%7C+NSH+2026+%40+IIT+Delhi&fontSize=18&fontColor=ffffff&fontAlignY=65" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:10B981,40:0A3D2E,75:0D1B3E,100:0A0F1E&height=160&section=footer&text=Team%20BroCODE%20%7C%20NSH%202026%20%40%20IIT%20Delhi%20%F0%9F%9A%80&fontSize=20&fontColor=ffffff&fontAlignY=68&animation=fadeIn&desc=Orbital+Insight+—+ACM+v7.0+%2B+ML+v4.0&descAlignY=83&descSize=13&descAlign=50" />
 
 *Built with ❤️, lots of ☕, and zero sleep by **Team BroCODE** for NSH 2026 · IIT Delhi*
 
