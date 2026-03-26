@@ -1,25 +1,56 @@
-# 🛰️ Orbital Insight — NSH 2026 Autonomous Constellation Manager
+# 🛰️ Orbital Insight — NSH 2026 Autonomous Collision Management System
 
-**Version:** ACM v8.0 | **Team:** BroCODE | **Event:** NSH 2026 (IIT Delhi Hackathon)
+**Version:** ACM v7.0 + ML v4.0 | **Team:** BroCODE | **Event:** NSH 2026 (IIT Delhi Hackathon)
 
-> A real-time satellite fleet management system with autonomous collision avoidance, predictive contact scheduling, ML-driven decision making, and multi-modal mission dashboards — built for the NSH 2026 problem statement hosted by IIT Delhi.
+> A real-time satellite fleet management system with autonomous collision avoidance, an XGBoost ML risk classifier with online learning, conformal prediction uncertainty, A/B shadow deployment, KS drift detection, and multi-modal mission dashboards — built for the NSH 2026 problem statement.
 
 ---
 
 ## 🚀 Quick Start
 
 ```bash
-# Clone and run
-git clone https://github.com/yajatkataria08-a11y/orbital-insight.git
-cd orbital-insight
+# 1. Generate training data
+cd backend
+python generate_data.py
+
+# 2. Train the ML model
+python train_model.py
+
+# 3. Launch everything via Docker
+cd ..
 docker compose up --build
 
 # Access
-# HTML Dashboard   →  http://localhost:80
-# FastAPI Backend  →  http://localhost:8000
-# API Docs         →  http://localhost:8000/docs
-# Streamlit        →  http://localhost:8501
-# Structured Logs  →  http://localhost:8000/api/logs
+# HTML Dashboard  →  http://localhost:80
+# FastAPI Backend →  http://localhost:8000
+# API Docs        →  http://localhost:8000/docs
+# Streamlit       →  http://localhost:8501
+# Structured Logs →  http://localhost:8000/api/logs
+```
+
+---
+
+## 📁 File Structure
+
+```
+V2/
+├── Dockerfile
+├── docker-compose.yml
+├── start.sh
+├── backend/
+│   ├── main.py              # FastAPI physics + ML engine (ACM v7.0)
+│   ├── train_model.py       # XGBoost trainer with Optuna + SHAP (ML v4.0)
+│   ├── generate_data.py     # Synthetic conjunction dataset generator
+│   ├── requirements.txt
+│   ├── collision_model.pkl  # Trained CalibratedClassifierCV (auto-generated)
+│   ├── model_features.pkl   # 21-feature name list (auto-generated)
+│   ├── model_threshold.pkl  # Optimal F1 threshold (auto-generated)
+│   └── model_meta.json      # Provenance, metrics, hyperparams (auto-generated)
+├── frontend/
+│   ├── index.html           # Single-file Canvas dashboard
+│   └── earth.jpg            # Earth texture for 3D view
+└── streamlit_app/
+    └── app.py               # Streamlit analytics dashboard
 ```
 
 ---
@@ -27,40 +58,209 @@ docker compose up --build
 ## 📐 Architecture
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                    Docker Container                   │
-│                    ubuntu:22.04                       │
-│                                                      │
-│   ┌──────────────┐    ┌────────────────────────┐    │
-│   │  Nginx :80   │    │   FastAPI :8000         │    │
-│   │  HTML Front  │───▶│   Physics Engine        │    │
-│   │  end (Canvas)│    │   RK4 + J2 + Chan Pc    │    │
-│   └──────────────┘    │   ML: Bandit / IF / RLS │    │
-│                        └────────────────────────┘    │
-│                                                      │
-│   ┌───────────────────────────────────────────────┐  │
-│   │   Streamlit :8501 — Analytics Dashboard       │  │
-│   │   CDM Registry · Uptime Monitor · ML Intel    │  │
-│   └───────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                      Docker Container                        │
+│                   (supervisord managed)                      │
+│                                                              │
+│  ┌─────────────┐    ┌──────────────────────────────────┐    │
+│  │  Nginx :80  │    │       FastAPI :8000               │    │
+│  │ HTML Front  │───▶│  Physics Engine  +  ML Engine     │    │
+│  │  end Canvas │    │  RK4 + J2 + Chan Pc + XGBoost     │    │
+│  └─────────────┘    └──────────────────────────────────┘    │
+│                                                              │
+│  ┌───────────────────────────────────────────────────────┐   │
+│  │       Streamlit :8501 — Analytics Dashboard           │   │
+│  │  CDM · Uptime · Maneuver · SHAP · Predict · Drift     │   │
+│  └───────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-### File Structure
+---
+
+## 🤖 ML Pipeline (New in v4.0)
+
+### Overview
+
+The ML subsystem is a full online-learning pipeline that trains, evaluates, self-improves, and hot-swaps models without any service restart.
 
 ```
-orbital-insight/
-├── backend/
-│   ├── main.py              # FastAPI physics engine (ACM v8.0)
-│   └── requirements.txt
-├── frontend/
-│   └── index.html           # Single-file Canvas dashboard
-├── streamlit_app/
-│   └── app.py               # Streamlit analytics dashboard
-├── start.sh                 # Process manager (nginx + uvicorn + streamlit)
-├── Dockerfile               # Ubuntu 22.04 base — NSH 2026 hard requirement
-├── docker-compose.yml
-└── test_long_sim.py         # Integration test suite
+generate_data.py  →  training_data.csv
+                           ↓
+                     train_model.py
+                           ↓
+              ┌────────────────────────┐
+              │  XGBoost (DART booster)│
+              │  + Focal Loss          │
+              │  + Optuna HPO (60 trials)│
+              │  + GroupKFold CV       │
+              │  + Isotonic Calibration│
+              └────────────────────────┘
+                           ↓
+                  collision_model.pkl
+                           ↓
+                       main.py
+              ┌────────────────────────┐
+              │  /api/ml/predict_risk  │
+              │  + Conformal PI        │
+              │  + LRU Cache           │
+              │  + False-neg logging   │
+              │  + A/B Shadow mode     │
+              │  + Auto hot-swap       │
+              └────────────────────────┘
+                           ↓
+                   missed_cases.csv
+                           ↓
+              retrain watcher (background)
+                           ↓
+              new model → hot-reload (no restart)
 ```
+
+### Feature Set v4.0 — 21 Features
+
+| # | Feature | Version | Description |
+|---|---------|---------|-------------|
+| 0 | `miss_distance_m` | v1 | Raw miss distance |
+| 1 | `relative_velocity_ms` | v1 | Relative speed at TCA |
+| 2 | `altitude_km` | v1 | Orbit altitude |
+| 3 | `inclination_diff_deg` | v1 | Orbital plane difference |
+| 4 | `time_to_closest_s` | v1 | Seconds to TCA |
+| 5 | `debris_eccentricity` | v1 | Debris orbit eccentricity |
+| 6 | `combined_radius_m` | v1 | Sat + debris hard-body radius |
+| 7 | `dist_rate_kms` | v1 | Range rate (closing speed) |
+| 8 | `kinetic_energy_proxy` | v2 | (rel_vel_kms)² |
+| 9 | `log_miss_distance_m` | v2 | log1p(miss_distance_m) |
+| 10 | `delta_miss_m_per_s` | v3 | First diff of miss distance |
+| 11 | `distance_acceleration` | v3 | Second diff (trend curvature) |
+| 12 | `grav_potential` | v3 | −GM/r gravitational potential |
+| 13 | `sin_inc_diff` | v3 | sin(inclination_diff_deg) |
+| 14 | `cos_inc_diff` | v3 | cos(inclination_diff_deg) |
+| 15 | `atmospheric_density_multiplier` | v3 | Solar weather / drag multiplier |
+| 16 | `vel_r_ms` | **v4** | RTN radial velocity |
+| 17 | `vel_t_ms` | **v4** | RTN transverse velocity (most critical) |
+| 18 | `vel_n_ms` | **v4** | RTN normal velocity |
+| 19 | `log_chan_pc` | **v4** | log10(Chan Pc) — physics prior |
+| 20 | `period_ratio` | **v4** | Orbital resonance ratio |
+
+### Model Architecture
+
+| Component | Choice | Reason |
+|-----------|--------|--------|
+| Booster | DART (Dropout Additive Regression Trees) | Prevents dominant-tree overfitting |
+| Objective | Focal Loss (α=0.25, γ=2.0) | Focuses training on hard borderline conjunctions |
+| Calibration | `CalibratedClassifierCV` — isotonic, cv=5 | Non-parametric probability calibration |
+| HPO | Optuna TPE — 60 trials, maximise PR-AUC | Systematic search over 10 hyperparameters |
+| CV strategy | GroupKFold(debris_id) / StratifiedKFold | Prevents debris-ID data leakage |
+| Class balance | `scale_pos_weight × 2.0` recall bias | False negatives are catastrophic |
+
+### Achieved Metrics (latest run)
+
+| Metric | Value |
+|--------|-------|
+| ROC-AUC | 1.0000 |
+| Average Precision | 1.0000 |
+| Default Recall | 0.9992 |
+| Default F1 | 0.9996 |
+| Training time | ~37 min (CPU) |
+
+---
+
+## 🔄 Online Learning — Dynamic Feedback Loop
+
+The system continuously improves without manual intervention:
+
+### 1. False-Negative Capture
+Every time the ML model disagrees with the Chan physics oracle (ML says LOW, Chan says HIGH), the conjunction is written to `missed_cases.csv` with its full feature vector.
+
+### 2. Temporal Decay Weighting
+Newer missed cases receive exponentially higher training weight:
+```
+weight(i) = exp(−λ · age_from_end)
+λ = log(2) / HALFLIFE_ROWS    (half-life = 200 rows)
+```
+
+### 3. Difficulty Scaling
+Cases the model was most wrong about get amplified most:
+```
+difficulty_scale = 1 + (MAX_SCALE − 1) × (confidence_gap / 0.5)
+confidence_gap   = max(0, 0.5 − ml_probability)
+MAX_SCALE        = 8.0
+```
+
+### 4. Automated Retraining Watcher
+A background thread watches `missed_cases.csv`. When ≥ 50 new missed cases accumulate, it spawns `train_model.py` as a subprocess and hot-reloads the model on completion — zero downtime, no container restart.
+
+### 5. Hot-Swap Gate
+The new model only replaces the incumbent if its CV Recall beats the stored `test_recall_default` by ≥ 0.2 percentage points. Otherwise it is saved as `*_candidate.pkl` for manual review.
+
+---
+
+## 🧪 A/B Shadow Mode
+
+When `collision_model_candidate.pkl` exists, the candidate runs in parallel on every live inference request:
+
+- Both incumbent and candidate predictions are logged to `comparison.log`
+- Neither prediction nor API response is altered — candidate is purely observational
+- After 100 shadow ticks, the candidate is auto-promoted if it shows strictly higher recall against the Chan oracle
+- Full comparison log visible at `GET /api/metrics → ab_shadow`
+
+---
+
+## 📊 Conformal Prediction Uncertainty
+
+Every `/api/ml/predict_risk` response includes a statistically valid uncertainty interval:
+
+```json
+"uncertainty": {
+  "lower": 0.412,
+  "upper": 0.831,
+  "coverage": 0.90,
+  "high_alert": true,
+  "calibration_n": 147
+}
+```
+
+- Uses split-conformal prediction (no extra dependencies — pure numpy)
+- Rolling 500-sample residual buffer: `s = |chan_label − ml_probability|`
+- 90% coverage prediction interval at each inference call
+- If interval width > 0.4 → `high_alert = true` → system falls back to Chan formula automatically
+
+---
+
+## 🔍 KS Drift Detection
+
+At training time and periodically in the live system, a Kolmogorov-Smirnov test compares the distribution of key features in `missed_cases.csv` against `training_data.csv`:
+
+```
+Features checked: altitude_km, miss_distance_m,
+                  relative_velocity_ms, atmospheric_density_multiplier
+p-value threshold: 0.05
+```
+
+If drift is detected, a `⚠ DRIFT` alert is logged and written to `model_meta.json → drift_detection`. This signals that the live debris environment has shifted outside the training envelope.
+
+---
+
+## 🚀 Inference Performance
+
+### LRU Cache
+Identical (satellite, debris) feature pairs within the same simulation tick are served from an LRU cache (capacity 512) instead of re-running XGBoost:
+
+```
+Cache key = tuple(round(feature_value, 2) for each feature)
+Cache is cleared at the start of each simulation tick
+```
+
+### ONNX Fast-Path (optional)
+If `collision_model.onnx` and `onnxruntime` are installed, the batch endpoint uses ONNX Runtime instead of sklearn:
+- 2–5× lower per-batch latency
+- Single C++ dispatch for the full feature matrix
+- Falls back to `.pkl` gracefully if ONNX unavailable
+
+### Batch Endpoint
+`POST /api/ml/predict_risk_batch` accepts up to 500 conjunctions in one call:
+- Single matrix multiply vs N sequential API round-trips
+- ~10–40× throughput improvement for large batches
+- Full conformal intervals, physics gate, and missed-case logging per item
 
 ---
 
@@ -69,17 +269,15 @@ orbital-insight/
 ### Constants (NSH 2026 Spec)
 
 | Parameter | Value | Unit |
-|---|---|---|
+|-----------|-------|------|
 | Gravitational parameter μ | 398600.4418 | km³/s² |
 | Earth radius | 6378.137 | km |
 | J2 coefficient | 1.08263 × 10⁻³ | — |
-| Standard gravity g₀ | 9.80665 | m/s² |
 | Specific impulse (Isp) | 300 | s |
 | Dry mass | 500 | kg |
-| Initial fuel mass | 50 | kg |
+| Fuel mass | 50 | kg |
 | Max ΔV per burn | 15 | m/s |
 | Thermal cooldown | 600 | s |
-| Comm latency | 10 | s |
 | Conjunction threshold | 100 | m |
 | Station-keeping box | 10 | km |
 | EOL fuel threshold | 5 | % |
@@ -87,45 +285,23 @@ orbital-insight/
 
 ### Propagation — RK4 + J2
 
-4th-order Runge-Kutta integrator with full J2 oblateness perturbation:
-
+4th-order Runge-Kutta with full J2 oblateness:
 ```
-aJ2_x = (3/2) · J2 · μ · RE² / r⁵ · x · (5z²/r² − 1)
-aJ2_y = (3/2) · J2 · μ · RE² / r⁵ · y · (5z²/r² − 1)
-aJ2_z = (3/2) · J2 · μ · RE² / r⁵ · z · (5z²/r² − 3)
+aJ2_x = (3/2)·J2·μ·RE²/r⁵ · x · (5z²/r² − 1)
+aJ2_y = (3/2)·J2·μ·RE²/r⁵ · y · (5z²/r² − 1)
+aJ2_z = (3/2)·J2·μ·RE²/r⁵ · z · (5z²/r² − 3)
 ```
-
-Debris is propagated every 300 simulation seconds (not every step) to avoid 15,000 RK4 calls on the hot path — a 99% reduction in per-step cost.
 
 ### Constellation — 3 Orbital Shells (55 Satellites)
 
 | Shell | Altitude | Inclination | Count |
-|---|---|---|---|
+|-------|----------|-------------|-------|
 | Alpha | 550 km | 53° | 22 |
-| Beta | 570 km | 70° | 18 |
+| Beta  | 570 km | 70° | 18 |
 | Gamma | 560 km | 97.6° (SSO) | 15 |
 
 ### Debris Field
-
 15,000 objects distributed 300–800 km, eccentricity 0–0.05.
-
----
-
-## 🤖 ML Modules (v8.0)
-
-All four ML modules are implemented from scratch — zero external ML dependencies. NumPy-accelerated where available, with pure-Python fallbacks.
-
-### ML-1 · Thompson Sampling DVBandit
-Contextual multi-armed bandit for ΔV magnitude selection. 6 arms (0.004–0.015 km/s), Beta-Bernoulli posteriors updated after each evasion. Converges 2–3× faster than UCB1. Contextual gates restrict to larger arms when TCA < 30 min or relative velocity > 10 km/s. Live stats at `GET /api/ml/bandit`.
-
-### ML-2 · Isolation Forest Anomaly Detector
-12-dimensional feature vector per debris object (velocity residual, eccentricity proxy, energy anomaly, along-track fraction, altitude rate, etc.). 16 trees, subsample 256, score blend `0.7 × forest + 0.3 × heuristic`. Anomalous debris receives a Pc multiplier of 1.5×–8×, lowering the prune threshold and triggering earlier evasion. New debris scored immediately on ingest — no retrain wait. Live scores at `GET /api/ml/anomalies`.
-
-### ML-3 · Quadratic RLS Fuel Forecaster
-Online recursive least squares model `fuel(t) = w₀ + w₁·t + w₂·t²` with forgetting factor λ = 0.97. EMA burn-rate runs in parallel — when burn rate exceeds burst threshold, EMA EOL overrides the quadratic estimate for faster response. Prevents SK burns that would trigger immediate EOL. Forecast at `GET /api/ml/fuel_forecast`.
-
-### ML-4 · Kalman Conjunction Risk Tracker
-2-state Kalman filter `[miss_km, rate_kms]` per (satellite, debris) pair. Adaptive measurement noise R scales with miss distance. Skip gate fires only when trend > 0.04 km/s **and** rate uncertainty P[1,1] < 0.01 — prevents premature skipping on uncertain estimates. O(1) priority queue via `heapq`. Saves ~30% conjunction scan CPU. Trends at `GET /api/ml/risk_trends`.
 
 ---
 
@@ -133,62 +309,52 @@ Online recursive least squares model `fuel(t) = w₀ + w₁·t + w₂·t²` with
 
 ### [25%] Safety — Collision Avoidance
 
-**Chan 1997 Collision Probability**
-2D Gaussian approximation:
+**Chan Pc Collision Probability**
 ```
 Pc = (A_cb / 2π·σ²) · exp(−miss² / 2σ²)
-σ = max(0.05, miss_distance × 0.3)
+σ  = max(0.05, miss_distance × 0.3)
 ```
 
+**Physics-First Safety Gate**
+If `miss_distance_m ≤ combined_radius_m` the objects physically overlap — ML is overridden to `prediction=1, probability=1.0` unconditionally.
+
 **Parabolic TCA Refinement**
-3-point symmetric finite-difference parabolic fit for fast sub-second TCA accuracy — 3 propagations vs. ~480 for bisection, with equivalent precision on smooth approach geometries.
+3-point parabolic fit at the coarse TCA neighbourhood — achieves sub-second accuracy with 3 propagations instead of ~480 (bisection).
 
-**T-axis-first Optimal Evasion (ML-1 guided)**
-Prograde/retrograde probed first (cheapest, most effective). Radial/Normal axes probed only if the Kalman tracker shows uncertain approach geometry OR transverse miss < 5 km. `PC_TRANSVERSE_BIAS = 2×` prevents switching to expensive out-of-plane burns unless clearly superior.
+**T-axis-first Optimal Evasion**
+Prograde/retrograde tested first. Radial/Normal only if they yield `PC_TRANSVERSE_BIAS` (2×) improvement.
 
-**Pc Burn Pruning (ML-2 aware)**
-Burns skipped if `Pc < 1e-6`. Anomalous debris (ML-2 multiplier > 1) gets a proportionally lower prune threshold — high-risk debris always triggers evasion even at low raw Pc. Full CDM audit trail preserved with `pc_pruned=True`.
+**Pc Burn Pruning**
+Burns skipped when `Pc < 1e-6`. Full CDM audit trail preserved.
 
-**Blind Pre-upload — §5.4 Compliance**
-`compute_contact_windows()` propagates 4 hours forward to locate all ground station passes. The latest window before TCA blackout is selected (maximum up-to-date knowledge). Safety margin scales with ML-2 anomaly level: 120 s (normal) → 240 s (extreme anomaly debris).
+**Blind Pre-upload**
+`compute_contact_windows()` propagates 4 hours forward to find the last GS pass before TCA blackout. Burns uploaded before LOS is lost.
 
 ---
 
 ### [20%] Fuel Efficiency
 
-**ML-1 Thompson Sampling ΔV Selection**
-Optimal burn magnitude learned continuously from outcomes. Converges to minimum safe ΔV — typically 0.006–0.008 km/s — saving 20–40% fuel vs. a fixed 0.010 km/s default.
+**Optimal ΔV Selection** — 6-axis RTN probe per conjunction, best miss-distance improvement selected.
 
-**Pc Pruning**
-Unnecessary burns skipped — fleet ΔV budget preserved for critical avoidance.
+**Hohmann Graveyard Transfer (EOL)** — two-burn Hohmann sequence raising apogee to 2000 km then circularising.
 
-**Two-burn Hohmann Graveyard Transfer (EOL)**
-- Burn A: prograde impulse raises apogee to 2000 km graveyard altitude
-- Burn B: circularises at apogee (correct RTN frame computed at arrival state, not departure)
-- Fallback: single retrograde deorbit if fuel insufficient for full Hohmann
+**Hohmann Phasing Recovery** — post-evasion slot recovery using proper phasing orbit math.
 
-**Hohmann Phasing Recovery**
-Post-evasion slot recovery via phasing orbit sized to close the exact phase error in one revolution. Departure ΔV computed from actual current SMA (not nominal slot SMA). Arrival burn uses propagated state at apogee — avoids the ~180° RTN frame error present in naive implementations.
-
-**ML-3 Fuel-Aware Station-Keeping**
-SK ΔV magnitude scales with slot distance, fuel percentage, and EMA burn rate. Burns skipped when the forecaster predicts EOL within 3600 s or when the burn itself would drop fuel below the EOL threshold.
+**Pc Pruning** — unnecessary burns avoided, fleet ΔV budget preserved.
 
 ---
 
 ### [15%] Constellation Uptime
 
-Station-keeping box compliance tracked per satellite (10 km radius). Proactive correction triggered at 30% of box radius (3 km drift) before violation occurs. Uptime sampled every simulation step.
-
-**NSH 2026 scoring thresholds:**
+Station-keeping box compliance tracked per satellite (10 km radius). Proactive correction at 70% box radius.
 
 | Fleet Uptime | Grade | Points |
-|---|---|---|
+|-------------|-------|--------|
 | ≥ 99% | EXCELLENT | 15 |
 | ≥ 95% | GOOD | ~12 |
 | ≥ 90% | ACCEPTABLE | ~9 |
-| < 90% | POOR | — |
 
-Live score at `GET /api/fleet/uptime`.
+Live score: `GET /api/fleet/uptime`
 
 ---
 
@@ -197,84 +363,58 @@ Live score at `GET /api/fleet/uptime`.
 **Hybrid Spatial Index**
 
 | Mode | Algorithm | Complexity |
-|---|---|---|
-| Primary | scipy KD-Tree (O(log N) radius query) | O(log N) |
-| Fallback | 3D VoxelHash (10 km × 10° lat × 10° lon) | O(k) |
+|------|-----------|------------|
+| Primary | scipy KD-Tree | O(log N) |
+| Fallback | 3D VoxelHash | O(k) |
 
-KD-Tree rebuilt every 300 s (debounced). Thread-safe atomic swap — `_ids` and `_tree` replaced together under a lock so concurrent queries never see a mismatched pair.
+**Non-blocking event loop** — `sim.step()` runs in `ThreadPoolExecutor` via `run_in_executor`.
 
-**ML-4 Skip Gate**
-~30% of candidate pairs skipped per cycle when Kalman tracker is confident the pair is diverging.
+**ML LRU cache** — 512-entry LRU eliminates redundant XGBoost calls within each tick.
 
-**Per-satellite candidate cap**
-`MAX_CANDS = 80` hard cap per satellite after spatial query, preventing O(N²) worst-case on dense regions.
-
-**Non-blocking event loop**
-`sim.step_n()` runs in a `ThreadPoolExecutor` via `run_in_executor`. API endpoints stay responsive throughout.
-
-Step timing at `GET /api/metrics`:
-```json
-{
-  "step_ms_avg": 12.4,
-  "step_ms_max": 38.1,
-  "spatial_index": "kdtree"
-}
-```
+Step timing: `GET /api/metrics → step_ms_avg`
 
 ---
 
 ### [15%] Visualisation (UI/UX)
 
-**HTML Canvas Dashboard (port 80)**
-- Ground track world map — satellite markers, 90-min trailing paths, 90-min predicted trajectories, terminator line
+**HTML Dashboard (port 80)**
+- Ground track world map with orbital trails and terminator line
 - 3D orbit view — perspective projection, drag-to-rotate, day/night shading
-- RTN conjunction bullseye — RED/YELLOW/GREEN risk rings with approach vector
-- Maneuver Gantt timeline — evasion, recovery, graveyard, station-keep burns + 600 s cooldown blocks
-- ΔV efficiency graph — fuel consumed vs. collisions avoided
+- RTN conjunction bullseye — RED/YELLOW/GREEN risk rings
+- Maneuver Gantt timeline — evasion, recovery, graveyard, station-keep burns
+- ΔV efficiency graph — cost per collision avoided
 - Fleet uptime bars per satellite
-- Animated space-themed UI: custom cursor, scanline overlay, Orbitron/Share Tech Mono fonts
 
-**Streamlit Analytics Dashboard (port 8501)**
-- CDM Registry with Chan Pc history and anomaly multiplier column
-- Uptime Monitor with NSH rubric scoring display and per-satellite bars
-- Contact Schedule with blackout warnings and next GS windows
-- Maneuver History with burn-type breakdown charts and ML decision log
-- Ground Station network visibility
-- ML Intelligence tab: Bandit posterior charts, Isolation Forest anomaly scores, RLS fuel forecast, Kalman risk trends
+**Streamlit Dashboard (port 8501)**
+- CDM Registry with full Chan Pc history
+- Uptime Monitor with NSH rubric scoring
+- Contact Schedule with blackout warnings
+- Maneuver History with burn-type breakdown
+- **ML Predict tab** — interactive single conjunction risk predictor with SHAP images, conformal interval gauge, and probability bar
+- **SHAP Explainability** — Feature importance, beeswarm, and PR curve tabs
+- Model metadata card (ROC-AUC, Recall, AP, features)
 
 ---
 
 ### [10%] Code Quality & Logging
 
-**Structured JSON audit log (`acm.log`)**
-Every significant decision emits a structured JSON line:
+**Structured JSON audit log**
 ```json
-{
-  "ts": "2026-03-12T09:14:22",
-  "level": "WARNING",
-  "name": "acm",
-  "msg": "{\"event\": \"conjunction_alert\", \"satellite\": \"SAT-Alpha-07\",
-           \"debris_id\": \"DEB-03841\", \"miss_distance_m\": 47.3,
-           \"pc\": 2.14e-4, \"tca_iso\": \"2026-03-12T11:32:00.000Z\",
-           \"evasion_burn\": \"EVASION_SAT-Alpha-07_4582\",
-           \"contact_window\": \"GS-002\", \"pre_upload\": true}"
-}
+{"ts":"2026-03-26T13:14:22","level":"WARNING","name":"acm",
+ "msg":{"event":"conjunction_evasion_planned","satellite_id":"SAT-Alpha-07",
+        "debris_id":"DEB-03841","miss_distance_m":47.3,"pc":2.14e-4,
+        "tca_iso":"2026-03-26T15:32:00Z","evasion_burn":"EVASION_SAT-Alpha-07_4582",
+        "contact_window":"GS-002","pre_upload":true}}
 ```
-Viewable live at `GET /api/logs?limit=100`.
 
-**Other quality signals:**
-- Pydantic v2 request validation on all endpoints
-- JWT auth (`/api/auth/token`) with optional enforcement
-- Global FastAPI exception handler — structured error responses
-- Lifespan context manager (no deprecated `@app.on_event`)
-- Burn history bounded to 5000 entries; event log bounded to 3000 — no unbounded memory growth on long runs
+Live tail: `GET /api/logs?limit=100`
 
 ---
 
-## 📡 Ground Stations (NSH 2026 §5.5.1)
+## 📡 Ground Stations
 
-| ID | Name | Lat | Lon | Min Elevation |
-|---|---|---|---|---|
+| ID | Name | Lat | Lon | Min El |
+|----|------|-----|-----|--------|
 | GS-001 | ISTRAC Bengaluru | 13.033° | 77.517° | 5° |
 | GS-002 | Svalbard Satellite Station | 78.230° | 15.408° | 5° |
 | GS-003 | Goldstone Tracking | 35.427° | −116.890° | 10° |
@@ -286,110 +426,108 @@ Viewable live at `GET /api/logs?limit=100`.
 
 ## 🔌 API Reference
 
-All endpoints on **port 8000**. Full interactive docs at `/docs`.
+Full interactive docs at `http://localhost:8000/docs`.
 
 ### NSH Grader Endpoints
 
 | Method | Endpoint | Description |
-|---|---|---|
+|--------|----------|-------------|
 | `POST` | `/api/telemetry` | Ingest satellite/debris state vectors |
 | `POST` | `/api/maneuver/schedule` | Schedule a burn sequence |
 | `POST` | `/api/simulate/step` | Advance simulation by N seconds |
 | `GET` | `/api/visualization/snapshot` | Full fleet + debris snapshot |
 
+### ML Endpoints (New)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/ml/predict_risk` | Single conjunction risk — XGBoost + conformal PI |
+| `POST` | `/api/ml/predict_risk_batch` | Batch inference (up to 500 conjunctions) via ONNX/sklearn |
+
 ### Fleet Monitoring
 
 | Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/status` | Fleet health + spatial index mode |
-| `GET` | `/api/satellites` | Full per-satellite state + burn queue |
+|--------|----------|-------------|
+| `GET` | `/api/status` | Fleet health + spatial index + ML status |
+| `GET` | `/api/satellites` | Full per-satellite state |
 | `GET` | `/api/conjunctions` | Active conjunction list |
-| `GET` | `/api/fleet/uptime` | Constellation uptime score + grade |
+| `GET` | `/api/fleet/uptime` | Constellation uptime score |
 | `GET` | `/api/fleet/heatmap` | Per-satellite health grid |
 | `GET` | `/api/fleet/contact_summary` | Next GS windows fleet-wide |
-| `GET` | `/api/fleet/stats` | Aggregate counters |
 
 ### CDM & Maneuvers
 
 | Method | Endpoint | Description |
-|---|---|---|
+|--------|----------|-------------|
 | `GET` | `/api/cdm/registry` | All Conjunction Data Messages |
 | `GET` | `/api/maneuver/history` | Executed burn log |
 | `GET` | `/api/satellite/{id}/conjunction_detail` | RTN bullseye data |
-| `GET` | `/api/satellite/{id}/contact_schedule` | Next GS windows |
-
-### ML Intelligence
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/ml/bandit` | Thompson Sampling arm posteriors |
-| `GET` | `/api/ml/anomalies` | Isolation Forest debris scores |
-| `GET` | `/api/ml/fuel_forecast` | RLS + EMA fuel predictions |
-| `GET` | `/api/ml/risk_trends` | Kalman miss-distance state estimates |
-| `GET` | `/api/ml/summary` | Combined ML health snapshot |
+| `GET` | `/api/satellite/{id}/contact_schedule` | Next 3 GS windows |
 
 ### Diagnostics
 
 | Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/metrics` | Step timing, index mode, ML counters |
+|--------|----------|-------------|
+| `GET` | `/api/metrics` | Step timing, cache hits, retrain watcher status, A/B shadow |
 | `GET` | `/api/logs` | Structured JSON audit trail |
-| `GET` | `/api/ground_stations` | GS visibility + visible satellite list |
-| `GET` | `/api/terminator` | Sun terminator line points |
+| `GET` | `/api/ground_stations` | GS visibility |
+| `GET` | `/api/terminator` | Sun terminator line |
 
 ---
 
 ## 🐳 Docker
 
-Built on `ubuntu:22.04` — NSH 2026 hard requirement. Port 8000 binds to `0.0.0.0`.
+Built on `ubuntu:22.04` (NSH 2026 hard requirement). Process management via **supervisord** (nginx + uvicorn + streamlit — all auto-restart on crash).
 
 ```bash
-# Build
-docker compose build --no-cache
+# Build & run
+docker compose up --build
 
-# Run
-docker compose up
-
-# Logs
+# Logs per service
 docker compose logs -f
+# Or inside container:
+tail -f /var/log/supervisor/fastapi.log
+tail -f /var/log/supervisor/streamlit.log
+tail -f /var/log/supervisor/nginx.log
 
 # Health check
 curl http://localhost:8000/api/status
 ```
 
-**Exposed Ports:**
+**Ports:**
 
 | Port | Service |
-|---|---|
-| 80 | HTML Canvas Frontend (nginx) |
-| 8000 | FastAPI Backend (NSH grader required) |
-| 8501 | Streamlit Dashboard (nginx proxy → internal :8502) |
+|------|---------|
+| 80 | HTML Frontend (nginx) |
+| 8000 | FastAPI Backend (NSH grader) |
+| 8501 | Streamlit Dashboard (nginx proxy) |
 
 ---
 
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
-|---|---|
+|-------|-----------|
 | Physics engine | Python 3.11 — stdlib + numpy/scipy |
-| Web framework | FastAPI 0.115 + uvicorn |
+| Web framework | FastAPI + uvicorn |
+| ML model | XGBoost (DART) + scikit-learn (calibration) |
+| HPO | Optuna (TPE sampler, 60 trials) |
+| Explainability | SHAP (TreeExplainer) |
+| Uncertainty | Conformal prediction (split-conformal, pure numpy) |
 | Spatial index | scipy KDTree / custom 3D VoxelHash |
-| ML modules | Pure Python + NumPy (no sklearn/torch) |
+| Fast inference | ONNX Runtime (optional, 2–5× batch speedup) |
 | Frontend | Vanilla JS + Canvas 2D API |
 | Analytics | Streamlit + Altair + Pandas |
 | Reverse proxy | Nginx |
+| Process manager | Supervisord |
 | Container | Docker + Docker Compose |
-| Base image | `ubuntu:22.04` |
+| Base image | ubuntu:22.04 |
 
 ---
 
 ## 📊 Simulation Epoch
 
-`2026-03-12T08:00:00Z` — all timestamps ISO 8601 UTC.
-
----
-
-*Orbital Insight — NSH 2026 · Built by **Team BroCODE** for IIT Delhi National Space Hackathon*
+`2026-03-12T08:00:00Z` — all timestamps in ISO 8601 UTC.
 
 ---
 
