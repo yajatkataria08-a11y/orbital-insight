@@ -1,18 +1,32 @@
-# ── Orbital Insight ACM v7.0 — backend requirements ──────────────────────────
-# All stdlib: asyncio, math, random, logging, datetime, time, uuid,
-#             json, os, collections, dataclasses, typing, concurrent.futures
-# (no entry needed for those)
+# ── Core web framework ────────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.7.0
+httpx>=0.27.0
 
-# Web framework
-fastapi==0.115.6
-uvicorn[standard]==0.32.1
+# ── Numerics ──────────────────────────────────────────────────────────────────
+numpy>=1.26.0,<2.0.0
+scipy>=1.12.0
+pandas>=2.1.0
 
-# Data validation
-pydantic==2.10.3
+# ── ML core ───────────────────────────────────────────────────────────────────
+scikit-learn>=1.5.0
+xgboost>=2.1.0
+joblib>=1.4.0
 
-# Spatial index — optional but enables O(log N) KD-Tree vs pure-Python fallback
-numpy==2.2.1
-scipy==1.15.0
+# ── Imbalance handling (SMOTE) ────────────────────────────────────────────────
+imbalanced-learn>=0.12.0
 
-# HTTP client (used by start.sh healthcheck curl, not Python — included for completeness)
-httpx==0.28.1
+# ── Hyperparameter search ─────────────────────────────────────────────────────
+optuna>=3.5.0
+
+# ── Explainability (SHAP) ─────────────────────────────────────────────────────
+shap>=0.45.0
+
+# ── Plots ─────────────────────────────────────────────────────────────────────
+matplotlib>=3.8.0
+
+# ── ONNX export + fast inference (optional) ───────────────────────────────────
+# Commented out — not required for serving, avoids version conflicts at build time
+# skl2onnx>=1.17.0
+# onnxruntime>=1.18.0
