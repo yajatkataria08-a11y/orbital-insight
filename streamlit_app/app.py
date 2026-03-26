@@ -6,6 +6,7 @@ import time
 import os as _os
 from datetime import datetime
 
+
 st.set_page_config(
     page_title="Orbital Insight v7.4 — Analytics",
     page_icon="🛰️",
@@ -1883,8 +1884,8 @@ elif "ML Intelligence" in page:
     st.markdown('<div class="orbital-sub">ZERO EXTERNAL DEPENDENCIES · PURE NUMPY / PURE-PYTHON FALLBACKS</div>',
                 unsafe_allow_html=True)
 
-    tab1, tab2, tab3, tab4 = st.tabs([
-        "🎰 ΔV Bandit", "🔍 Anomaly Detector", "⛽ Fuel Forecast", "📉 Risk Trends"
+    tab1, tab2, tab3, tab4,tab5 = st.tabs([
+        "🎰 ΔV Bandit", "🔍 Anomaly Detector", "⛽ Fuel Forecast", "📉 Risk Trends","🎯 Risk Predictor"
     ])
 
     with tab1:
@@ -2076,6 +2077,173 @@ elif "ML Intelligence" in page:
                          } if has_unc else {})
         else:
             st.info("Risk trends accumulate after first conjunction assessment (~60s)")
+    with tab5:
+        st.markdown(ph("XGBOOST COLLISION RISK PREDICTOR + XAI", "v4.0 · 21 FEATURES", "badge-cyan"), unsafe_allow_html=True)
+        st.markdown('''<div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));
+          border:1px solid rgba(0,200,180,0.2);border-radius:4px;padding:12px 14px;margin:10px 0">
+          <div class="metric-label">HOW IT WORKS — v4.0 PHYSICS-INFORMED ML</div>
+          <div style="font-size:9px;color:var(--text2);line-height:1.75">
+            <b>21 features</b> including RTN velocity components, Chan Pc log-prior, orbital resonance ratio<br>
+            DART booster + Focal Loss + isotonic calibration + conformal prediction intervals<br>
+            SHAP explainability: shows <i>why</i> the model made each decision — Glass Box, not Black Box
+          </div></div>''', unsafe_allow_html=True)
+
+        # ── Input sliders ────────────────────────────────────────────────────
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            miss_distance     = st.slider("Miss Distance (m)",       10,   1000,  100)
+            relative_velocity = st.slider("Relative Velocity (m/s)", 100, 15000, 7500)
+            altitude_km       = st.slider("Altitude (km)",           300,   800,  550)
+        with c2:
+            inclination_diff  = st.slider("Inclination Diff (°)",      0,   180,   23)
+            time_to_tca       = st.slider("Time to TCA (s)",           0, 14400, 1800)
+            eccentricity      = st.slider("Debris Eccentricity",     0.0,  0.05, 0.02)
+        with c3:
+            combined_radius   = st.slider("Combined Radius (m)",     0.5,  20.0,  3.0)
+            dist_rate         = st.slider("Dist Rate (km/s)",        -10.0, 10.0, 1.0)
+            atm_density       = st.slider("Atm Density Multiplier",  0.5,   6.0,  1.0)
+
+        if st.button("🔍 PREDICT RISK", use_container_width=True):
+            try:
+                resp = requests.post(f"{API}/ml/predict_risk", json={
+                    "miss_distance_m":               miss_distance,
+                    "relative_velocity_ms":          relative_velocity,
+                    "altitude_km":                   altitude_km,
+                    "inclination_diff_deg":          inclination_diff,
+                    "time_to_closest_s":             time_to_tca,
+                    "debris_eccentricity":           eccentricity,
+                    "combined_radius_m":             combined_radius,
+                    "dist_rate_kms":                 dist_rate,
+                    "atmospheric_density_multiplier": atm_density,
+                }, timeout=5)
+                result = resp.json()
+
+                if "error" in result:
+                    st.warning(f"⚠ {result['error']}")
+                else:
+                    prob     = result.get("collision_probability", 0)
+                    chan_pc  = result.get("chan_pc", 0)
+                    model_id = result.get("model", "—")
+                    unc      = result.get("uncertainty", {})
+
+                    # ── Risk result card ──────────────────────────────────────
+                    risk_color = "#ff2244" if result["risk_level"] == "HIGH" else "#00ff88"
+                    risk_icon  = "🔴" if result["risk_level"] == "HIGH" else "🟢"
+                    st.markdown(f'''<div style="background:rgba(0,0,0,0.3);border:1px solid {risk_color};
+                      border-radius:4px;padding:14px 18px;margin:10px 0;text-align:center">
+                      <div style="font-family:var(--font-display);font-size:22px;
+                           font-weight:700;color:{risk_color};text-shadow:0 0 14px {risk_color}">
+                        {risk_icon} {result["risk_level"]} RISK
+                      </div>
+                      <div style="font-family:var(--font-mono);font-size:11px;color:var(--text2);margin-top:6px">
+                        ML Probability: <b style="color:{risk_color}">{prob*100:.2f}%</b>
+                        &nbsp;·&nbsp; Chan Pc: <b>{chan_pc:.2e}</b>
+                        &nbsp;·&nbsp; Model: <b>{model_id}</b>
+                      </div>
+                    </div>''', unsafe_allow_html=True)
+
+                    # ── Conformal uncertainty interval ────────────────────────
+                    if unc and unc.get("lower") is not None:
+                        lo = unc["lower"]; hi = unc["upper"]
+                        alert = unc.get("high_alert", False)
+                        unc_color = "#ff7b00" if alert else "#00c8b4"
+                        st.markdown(f'''<div style="font-family:var(--font-mono);font-size:9px;
+                          color:{unc_color};border:1px solid {unc_color}33;
+                          border-radius:3px;padding:6px 10px;margin:4px 0">
+                          {"⚠ HIGH UNCERTAINTY — Chan fallback active" if alert else "✓ CONFORMAL INTERVAL"}
+                          &nbsp; [{lo*100:.1f}% – {hi*100:.1f}%] &nbsp;·&nbsp;
+                          {unc.get("coverage", 0.9)*100:.0f}% coverage &nbsp;·&nbsp;
+                          calibration n={unc.get("calibration_n", 0)}
+                        </div>''', unsafe_allow_html=True)
+
+                    # ── Probability gauge bar ─────────────────────────────────
+                    bar_w = int(prob * 100)
+                    bar_col = "#ff2244" if prob > 0.7 else "#ffd700" if prob > 0.3 else "#00ff88"
+                    st.markdown(f'''<div style="margin:8px 0">
+                      <div style="font-family:var(--font-mono);font-size:8px;
+                           color:var(--text2);letter-spacing:0.1em;margin-bottom:4px">
+                        RISK PROBABILITY GAUGE
+                      </div>
+                      <div style="background:rgba(255,255,255,0.05);border-radius:2px;height:8px">
+                        <div style="width:{bar_w}%;height:100%;background:{bar_col};
+                             border-radius:2px;box-shadow:0 0 8px {bar_col};
+                             transition:width 0.8s ease"></div>
+                      </div>
+                    </div>''', unsafe_allow_html=True)
+
+                    # ── SHAP Feature Importance (static images from train_model.py) ──
+                    st.markdown(ph("XAI — SHAP EXPLAINABILITY", "GLASS BOX", "badge-purple"), unsafe_allow_html=True)
+                    _shap_tabs = st.tabs(["📊 Feature Importance", "🐝 Beeswarm", "📈 PR Curve"])
+
+                    with _shap_tabs[0]:
+                        import os as _os2
+                        if _os2.path.exists("importance.png"):
+                            st.image("importance.png", use_container_width=True,
+                                     caption="Mean |SHAP| — higher = more influence on collision risk predictions")
+                        else:
+                            st.info("Run train_model.py with shap installed to generate importance.png")
+                            st.markdown('''<div style="font-family:var(--font-mono);font-size:9px;
+                              color:var(--text2);line-height:1.8">
+                              <b>What SHAP shows:</b><br>
+                              Each bar = how much that feature changes the model output on average.<br>
+                              <b>miss_distance_m</b> and <b>vel_t_ms</b> (transverse velocity)
+                              are typically the dominant drivers — confirming the physics intuition
+                              that fast along-track approaches with small separation are most dangerous.
+                            </div>''', unsafe_allow_html=True)
+
+                    with _shap_tabs[1]:
+                        if _os2.path.exists("shap_beeswarm.png"):
+                            st.image("shap_beeswarm.png", use_container_width=True,
+                                     caption="SHAP Beeswarm — each dot is one sample. "
+                                             "Red = high feature value, Blue = low. "
+                                             "Right of centre = pushes toward HIGH RISK.")
+                        else:
+                            st.info("Run train_model.py with shap installed to generate shap_beeswarm.png")
+                            st.markdown('''<div style="font-family:var(--font-mono);font-size:9px;
+                              color:var(--text2);line-height:1.8">
+                              <b>How to read the beeswarm:</b><br>
+                              • Each dot = one conjunction event from the test set<br>
+                              • Horizontal position = SHAP value (impact on prediction)<br>
+                              • Colour = feature value (red=high, blue=low)<br>
+                              • A red dot far right for <b>miss_distance_m</b> = small miss distance
+                                strongly pushed the model toward HIGH RISK
+                            </div>''', unsafe_allow_html=True)
+
+                    with _shap_tabs[2]:
+                        if _os2.path.exists("model_report.png"):
+                            st.image("model_report.png", use_container_width=True,
+                                     caption="Left: XGBoost feature importance (gain). "
+                                             "Right: Precision-Recall curve with optimal threshold marked.")
+                        else:
+                            st.info("Run train_model.py to generate model_report.png")
+
+            except Exception as e:
+                st.error(f"Prediction failed: {e}")
+
+        # ── Model metadata card ───────────────────────────────────────────────
+        st.markdown("<hr>", unsafe_allow_html=True)
+        import os as _os3, json as _json3
+        if _os3.path.exists("model_meta.json"):
+            try:
+                with open("model_meta.json") as _mf:
+                    meta = _json3.load(_mf)
+                c1m, c2m, c3m, c4m = st.columns(4)
+                with c1m: st.metric("ROC-AUC",   f"{meta.get('test_roc_auc',0):.4f}")
+                with c2m: st.metric("Avg-Prec",  f"{meta.get('test_avg_precision',0):.4f}")
+                with c3m: st.metric("Recall",    f"{meta.get('test_recall_default',0):.4f}")
+                with c4m: st.metric("Features",  meta.get("n_features", "—"))
+                st.markdown(f'''<div style="font-family:var(--font-mono);font-size:8px;
+                  color:var(--text3);margin-top:4px">
+                  {meta.get("model_type","—")} ·
+                  booster={meta.get("booster","—")} ·
+                  focal_loss={meta.get("focal_loss","—")} ·
+                  cv={meta.get("cv_strategy","—")} ·
+                  hp_search={meta.get("hyperparameter_search","—")}
+                </div>''', unsafe_allow_html=True)
+            except Exception:
+                pass
+        else:
+            st.info("model_meta.json not found — run train_model.py to see metrics here")
 
 
 
