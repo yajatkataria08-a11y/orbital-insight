@@ -22,7 +22,6 @@ team = {
     "event":     "NSH 2026 — IIT Delhi Hackathon",
     "project":   "Orbital Insight — Autonomous Collision Management System",
     "version":   "ACM v7.0 + ML v4.0",
-    "built_in":  "48 hours (no sleep 😅)",
     "mission":   "Keep 55 satellites safe from 15,000 pieces of space junk",
     "motto":     "Ship fast, iterate faster. In space. 🚀"
 }
@@ -59,7 +58,7 @@ team = {
 >
 > *We built Orbital Insight to stop that from ever happening. It watches every satellite and every debris object every single second, predicts crashes using AI before they happen, and automatically fires thrusters to dodge. All by itself. No human needed.*
 >
-> *That's what we built in 48 hours. Here's how it works 👇"*
+> *That's what we built. Here's how it works 👇"*
 >
 > — **Team BroCODE, NSH 2026**
 
