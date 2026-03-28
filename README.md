@@ -8,7 +8,6 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=24&duration=2800&pause=1200&color=10B981&center=true&vCenter=true&multiline=false&repeat=true&width=820&height=50&lines=👋+Team+BroCODE+says+hello+from+IIT+Delhi!;🛰️+Tracking+55+satellites+in+real-time...;Conjunction+detected+at+47m+miss+distance!;🤖+AI+confidence%3A+99.96%25+%E2%86%92+scheduling+burn+maneuver...;🚀+Thruster+fired.+Collision+avoided.+All+systems+nominal.;🏆+NSH+2026+%E2%86%92+Built+during+midterms.+15+days.+4+sleepless+nights.+No+regrets.)](https://git.io/typing-svg)
 
-
 <br/>
 
 ![Satellites](https://img.shields.io/badge/🛰️_Satellites-55_Active-10B981?style=flat-square&labelColor=0A0F1E)
@@ -57,6 +56,7 @@ team = {
 ![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 ![Optuna](https://img.shields.io/badge/Optuna-HPO-8B5CF6?style=for-the-badge)
 ![SHAP](https://img.shields.io/badge/SHAP-Explainability-F59E0B?style=for-the-badge)
+![ONNX](https://img.shields.io/badge/ONNX-Runtime-005CED?style=for-the-badge)
 
 </div>
 
@@ -109,8 +109,8 @@ docker compose up --build
 
 | What You'll See | Link | Simple Description |
 |----------------|------|--------------------|
-| 🖥️ Live Space Map | http://localhost:80 | Satellites moving in real-time on a globe |
-| ⚙️ Backend Brain | http://localhost:8000 | The physics + AI engine doing all the work |
+| 🖥️ Live Space Map | http://localhost:80 | Satellites + 3D globe + fuel heatmap + Gantt |
+| ⚙️ Backend Brain | http://localhost:8000 | Physics + AI engine |
 | 📄 API Playground | http://localhost:8000/docs | Click-to-test every feature |
 | 📊 Analytics Board | http://localhost:8501 | Charts, graphs, AI predictions |
 | 📋 Live Logs | http://localhost:8000/api/logs | Every decision the system makes, in real-time |
@@ -132,7 +132,7 @@ V2/                              ← 🏠 Root folder — the whole project live
 │   ├── feature_names.json       ← 📋 Names of the 21 features the AI uses
 │   ├── generate_data.py         ← 🏭 Creates fake but realistic training examples (52 KB)
 │   ├── importance.png           ← 📊 Chart: which features matter most to the AI
-│   ├── main.py                  ← 🏆 THE big boss file — physics + AI + API (201 KB!)
+│   ├── main.py                  ← 🏆 THE big boss file — physics + AI + API (4500 lines!)
 │   ├── model_features.pkl       ← 📝 Saved list of feature names
 │   ├── model_meta.json          ← 🏷️ Report card — ROC-AUC, recall, training date
 │   ├── model_report.png         ← 📈 Visual performance report of the AI
@@ -140,11 +140,11 @@ V2/                              ← 🏠 Root folder — the whole project live
 │   ├── requirements.txt         ← 🛒 Shopping list of Python libraries needed
 │   ├── shap_beeswarm.png        ← 🐝 SHAP explainability chart (beeswarm plot)
 │   ├── test_long_sim.py         ← 🧪 Long simulation test script (25 KB)
-│   └── train_model.py           ← 🎓 Teaches the AI — XGBoost + Optuna (53 KB)
+│   └── train_model.py           ← 🎓 Teaches the AI — XGBoost + Optuna (1011 lines)
 │
 ├── 📁 frontend/                 ← 🖥️ The live visual space map
 │   ├── earth.jpg                ← 🌍 Earth texture for the 3D globe (1,428 KB)
-│   └── index.html               ← 🗺️ Single-file Canvas dashboard (518 KB — massive!)
+│   └── index.html               ← 🗺️ Single-file Canvas dashboard (3265 lines!)
 │
 ├── 📁 streamlit_app/            ← 📊 The detailed analytics dashboard
 │   └── app.py                   ← 📈 Streamlit app — charts, AI predictor, SHAP (119 KB)
@@ -153,12 +153,10 @@ V2/                              ← 🏠 Root folder — the whole project live
 ├── docker-compose.yml           ← 🎛️ Instructions to run all services together (2 KB)
 ├── Dockerfile                   ← 📦 Recipe to pack everything into one box (6 KB)
 ├── feature_names.json           ← 📋 Root-level feature names reference
-├── README.md                    ← 📖 This file you're reading! (18 KB)
+├── README.md                    ← 📖 This file you're reading!
 ├── start.sh                     ← ▶️ The "press play" startup script (2 KB)
 └── training_data.xlsx           ← 📊 Full training dataset in Excel (44,537 KB = 44 MB!)
 ```
-
-> 💡 **Fun fact:** The `index.html` is **518 KB** — that's a single HTML file with an entire 3D space simulator inside it. And `training_data.xlsx` is **44 MB** of satellite conjunction data used to train the AI!
 
 ---
 
@@ -175,8 +173,10 @@ V2/                              ← 🏠 Root folder — the whole project live
 │  │  Nginx :80  │    │       FastAPI :8000               │    │
 │  │  (Waiter —  │───▶│  (The Kitchen Chef —             │    │
 │  │  shows you  │    │   does the real physics + AI work)│    │
-│  │  the map)   │    │  RK4 + J2 + Chan Pc + XGBoost     │    │
-│  └─────────────┘    └──────────────────────────────────┘    │
+│  │  the map)   │    │  RK4 + J2 + Chan Pc + XGBoost    │    │
+│  └─────────────┘    │  + Thompson Sampling + Kalman     │    │
+│                     │  + Conformal Prediction + ONNX    │    │
+│                     └──────────────────────────────────┘    │
 │                                                              │
 │  ┌───────────────────────────────────────────────────────┐   │
 │  │     Streamlit :8501 — Analytics Dashboard             │   │
@@ -208,19 +208,20 @@ V2/                              ← 🏠 Root folder — the whole project live
 
 ---
 
-## 🤖 The AI Brain — How It Learns to Predict Crashes
+## 🤖 The AI Brain — ML v4.0 (What's New)
 
 > **Think of it like teaching a dog to recognize danger** — you show it thousands of examples until it gets smart.
 
-### Step 1 — Create Training Examples (`generate_data.py`)
-We create thousands of **fake but realistic** close-call situations. Each example has 21 facts about the situation (like: how close are they? how fast? what angle?) and a label: "crash" or "safe".
+### Feature Evolution — Now 21 Features across 4 Versions
 
-### Step 2 — Train the AI (`train_model.py`)
-We feed all those examples to **XGBoost** (a very powerful AI algorithm — think of it like a panel of 500 experts voting on each situation). It learns patterns like:
-- "When distance < 100m AND speed > 5km/s → DANGER 🔴"
-- "When debris is tiny AND orbit is tilted away → SAFE 🟢"
+| Version | Features Added | What They Capture |
+|---------|---------------|-------------------|
+| v1.0 base | `miss_distance`, `relative_velocity`, `altitude`, `inclination_diff`, `time_to_closest`, `debris_eccentricity`, `combined_radius`, `dist_rate` | Core physical measurements |
+| v2.0 | `kinetic_energy_proxy`, `log_miss_distance` | Energy of potential impact + log-scale distance |
+| v3.0 | `delta_miss_m_per_s`, `distance_acceleration`, `grav_potential`, `sin_inc_diff`, `cos_inc_diff`, `atmospheric_density_multiplier` | Trend curvature, gravitational potential, orbit geometry, solar drag |
+| **v4.0** ✨ | **`vel_r_ms`, `vel_t_ms`, `vel_n_ms`, `log_chan_pc`, `period_ratio`** | **Physics-informed RTN velocity components, Chan formula prior, orbital resonance** |
 
-**Special tricks we use while training:**
+### Training Tricks
 
 | Trick | What It Means in Simple Words |
 |-------|-------------------------------|
@@ -230,7 +231,7 @@ We feed all those examples to **XGBoost** (a very powerful AI algorithm — thin
 | **GroupKFold CV** | We make sure the AI isn't "cheating" by memorizing examples — it must generalize |
 | **Isotonic Calibration** | Makes the AI honest — if it says 70% danger, it really means 70%, not 90% |
 
-### Step 3 — The AI's Report Card
+### The AI's Report Card
 
 | Test Score | Result |
 |-----------|--------|
@@ -240,38 +241,115 @@ We feed all those examples to **XGBoost** (a very powerful AI algorithm — thin
 | F1 Score (balance of accuracy) | **99.96%** |
 | Time to train | ~37 minutes on a normal laptop |
 
-### What Are the 21 Things the AI Checks?
+---
 
-> **Like a doctor checking your vitals** — 21 measurements before making a diagnosis.
+## 🧠 The Four ML Sub-Systems (v4.0 Upgrades)
 
-| # | What It Checks | Why It Matters |
-|---|---------------|----------------|
-| 0 | How far apart are they? | Closer = more dangerous |
-| 1 | How fast are they moving relative to each other? | Faster = more deadly impact |
-| 2 | How high above Earth? | Thin atmosphere = debris lasts longer |
-| 3 | How different are their orbital angles? | Same angle = more likely to cross paths |
-| 4 | How many seconds until closest approach? | Less time = less time to react |
-| 5 | How oval-shaped is the debris orbit? | More oval = more unpredictable path |
-| 6 | Combined size of satellite + debris | Bigger objects = easier to hit |
-| 7 | Is the gap closing or widening? | Closing fast = danger |
-| 8 | Kinetic energy proxy | How explosive would a collision be? |
-| 9 | Log of miss distance | A math trick to handle huge number ranges |
-| 10 | Is miss distance changing? | Trend matters — getting closer or farther? |
-| 11 | How fast is that change accelerating? | Is the situation getting worse quickly? |
-| 12 | Gravitational pull strength at that height | Affects how orbits bend |
-| 13-14 | Sine & cosine of orbital angle difference | Math way of capturing orbit geometry |
-| 15 | Solar weather / atmosphere drag | Sun activity affects debris drag |
-| 16-18 | Velocity in 3 directions (R, T, N) | Full 3D picture of the approach |
-| 19 | Physics-based crash probability (log) | The classical formula's opinion |
-| 20 | Orbital period ratio | Are they in a resonant orbit? (keeps crossing paths) |
+> Beyond the main collision predictor, there are **4 specialized ML engines** running continuously inside the system.
+
+### ML-1 — DVBandit: Thompson Sampling ΔV Optimiser
+
+> **Like a casino slot machine — but instead of money, it's optimising thruster direction.**
+
+When it's time to dodge debris, the system needs to pick the best direction to fire the thruster. Instead of trying all 6 directions every time (wasteful), the **DVBandit** uses Thompson Sampling — a smart gambling algorithm — to choose:
+
+- Maintains a **Beta distribution** (confidence model) per direction arm
+- Draws a sample from each arm's distribution → picks the most promising direction
+- Uses **Kalman-estimated** miss-distance rate to decide which direction to try first
+- After the burn executes, updates the arm's confidence based on the achieved miss distance
+
+**Result:** Finds the best dodge direction 2-3× faster than brute-force testing.
 
 ---
 
-## 🔄 The Self-Improving AI — It Gets Smarter Over Time!
+### ML-2 — DebrisAnomalyDetector: 12-D Isolation Forest
+
+> **Like a doctor checking if a debris object is behaving strangely** — it might be tumbling, venting, or decaying faster than expected.
+
+Uses an **Isolation Forest** (an unsupervised ML algorithm) on a **12-dimensional** feature space per debris object. Updated online (incrementally) every 60 sim-minutes — no need to restart:
+
+| Dimension | What It Measures |
+|-----------|-----------------|
+| Radial, transverse, normal velocities | Full 3D orbital motion |
+| Speed anomaly ratio | Along-track vs cross-track speed ratio |
+| Altitude rate | Is it decaying or ascending? |
+| Specific energy anomaly | `(v²/2 − µ/r)` — orbital energy deviation |
+| Miss distance trend | Is it consistently getting closer to satellites? |
+| +4 more | Eccentricity, inclination drift, atmospheric interaction |
+
+Anomalous debris gets a risk **multiplier** applied to its conjunction probability — the system pays extra attention to debris that's acting weird.
+
+---
+
+### ML-3 — FuelForecaster: Quadratic RLS
+
+> **Like predicting when your car will run out of petrol** — but with orbital mechanics.
+
+Uses **Recursive Least Squares (RLS)** with a quadratic model (`w₀ + w₁·t + w₂·t²`) to predict fuel depletion:
+
+- Tracks each satellite's fuel burn history
+- Fits a quadratic curve in real-time (handles non-linear burn rates from station-keeping + evasions)
+- Estimates **time-to-empty** for each satellite
+- If EOL < 2 hours → triggers graveyard orbit planning automatically
+- Feeds the **DVBandit** to deprioritize fuel-heavy burns for low-fuel satellites
+
+---
+
+### ML-4 — ConjunctionRiskTracker: Kalman Filter
+
+> **Like tracking a moving car's position** — even when your sensors are noisy.
+
+A **Kalman filter** per `(satellite, debris)` pair that tracks `[miss_km, miss_rate_km/s]`:
+
+```
+State:   [miss_km, miss_rate_km/s]
+Predict: miss_km += miss_rate × dt
+Update:  Kalman gain from measurement noise R and process noise Q
+```
+
+- If the **Kalman-estimated rate > 0** (diverging) AND the filter is **confident** → skip this pair, it's safe
+- If the rate is **negative** (approaching) → flag for conjunction assessment
+- Decays stale pairs automatically — cleans up old encounters that have passed
+
+**Result:** Up to 40% fewer unnecessary ML inference calls per tick.
+
+---
+
+### ML-5 — Collision Risk Predictor + Batch Inference Engine
+
+> **The main brain. The one that actually decides: crash or safe?**
+
+The core supervised ML model — a **CalibratedClassifierCV wrapping XGBoost (DART booster)** — takes a raw conjunction event and outputs a true calibrated collision probability. It operates in two modes:
+
+**Single prediction** (`POST /api/ml/predict_risk`):
+- Validates all 8 raw input fields with physical-range checks (altitude 200–2000 km, eccentricity 0–1, etc.)
+- Always computes **Chan Pc** first as a physics ground truth
+- Builds the **21-feature vector** (v4.0 feature set including RTN velocities, log Chan Pc, period ratio)
+- Checks the **LRU cache** (512 entries) — identical encounters within the same tick are free
+- **Physics-First Safety Gate**: if objects physically overlap (`miss_m ≤ combined_radius_m`) → probability = 1.0, no ML needed
+- Wraps the prediction in a **conformal prediction interval** (calibrated from last 500 residuals)
+- If uncertainty band > 0.4 → `high_alert: true` → falls back to Chan formula automatically
+- False negatives auto-logged to `missed_cases.csv` to feed the retraining loop
+
+**Batch prediction** (`POST /api/ml/predict_risk_batch`, up to 500 conjunctions):
+- **Pass 1**: validates every item + computes Chan Pc for each — fully independent
+- **Pass 2**: stacks all valid feature vectors into one `(N, 21)` NumPy matrix → single ONNX/XGBoost dispatch
+- Throughput improvement: **10–40× faster** than N sequential API calls because one `predict()` amortises all Python/NumPy overhead across the batch and XGBoost's histogram engine processes rows in parallel
+
+| Metric | Score |
+|--------|-------|
+| ROC-AUC | **1.0000** 🏆 |
+| Average Precision | **1.0000** 🏆 |
+| Recall | **99.92%** |
+| F1 Score | **99.96%** |
+| Optimal threshold | **0.4655** |
+| Training samples | **100,000** |
+
+---
+
+## 🔄 Self-Improving AI — It Gets Smarter Over Time!
 
 > **Like a student who reviews their wrong answers after a test** — the AI learns from its mistakes automatically.
-
-Here's the magic loop:
 
 ```
 🛰️ Satellite approaches debris
@@ -280,110 +358,131 @@ Here's the magic loop:
          ↓
 😬 Disagreement detected! AI was WRONG.
          ↓
-📝 This mistake is saved to missed_cases.csv
+📝 This mistake saved to missed_cases.csv
          ↓
-📊 After 50 mistakes accumulate...
+📊 After 50 new mistakes → background watcher triggers retrain
          ↓
-🔁 System automatically retrains the AI (no human needed!)
+🔁 train_model.py runs automatically (no human needed!)
          ↓
-✅ New smarter AI replaces old one — WITHOUT restarting the server!
+✅ New smarter AI hot-swapped in WITHOUT restarting the server!
 ```
 
-### How It Weighs Mistakes
+### How It Weighs Mistakes (Temporal Decay + Difficulty Scaling)
 
-**Newer mistakes matter more** (like how yesterday's mistake teaches you more than last year's):
+**Newer mistakes matter more** (half-life = 200 rows from train_model.py):
 ```
-weight = e^(−0.00347 × how_old_the_mistake_is)
+decay_λ = ln(2) / 200
+weight  = e^(−λ × age_from_end)
 ```
-→ A mistake from today gets weight ~1.0
-→ A mistake from 200 examples ago gets weight ~0.5
-→ Ancient mistakes barely count
+→ Most recent mistake → weight 1.0. A mistake 200 rows ago → weight 0.5.
 
-**Harder mistakes matter more** (cases where the AI was most confidently wrong):
+**Harder mistakes matter more** (max scale = 8×):
 ```
-difficulty = 1 + 7 × (how_wrong_it_was / 0.5)
+confidence_gap = max(0, 0.5 − ml_probability)
+difficulty     = 1.0 + 7.0 × (confidence_gap / 0.5)
 ```
-→ If AI said 10% danger but physics said 100% → this example gets amplified 8x in training!
+→ AI said 0% danger but physics said 100% → amplified **8×** in training!
+→ AI said 49.9% (borderline) → weight **1.0×** (barely wrong, minimal boost)
 
-### The Safety Gate for New Models
-The new AI only replaces the old one if it's **provably better**. It must beat the old model's recall by at least 0.2%. Otherwise it's saved as a "candidate" for humans to review manually.
+**Combined weight** = `temporal_w × difficulty`, normalised so mean = 1.0
+
+### Hot-Swap Safety Gate
+
+The new model only **replaces** the incumbent if its recall beats the old one by ≥ **0.2 percentage points**. Otherwise it's saved as `collision_model_candidate.pkl` for manual inspection.
+
+If missed cases hit ≥ **100** → a **full Optuna re-search** (60 trials) is forced before the hot-swap decision — not just a quick retrain.
 
 ---
 
-## 🧪 A/B Testing — Trying New AI Without Risk
+## 🧪 A/B Shadow Mode — Trying New AI Without Risk
 
 > **Like test-driving a new car on a closed track** before putting it on the real road.
 
 When a new "candidate" AI is trained:
 - It runs **silently in the background** alongside the real AI
-- It sees every real situation and makes its own prediction
-- But its prediction **doesn't actually control anything** — it's just watching
-- After 100 real situations, we compare: did the candidate do better?
-- If yes → **promote it** to be the new real AI ✅
-- If no → keep the old one, discard the candidate ❌
+- After **100 real live events**, compare: did the candidate do better?
+- If yes → **auto-promote** to be the new real AI ✅
+- If no → discard the candidate ❌
 
-All comparisons are logged in `comparison.log`.
+All comparisons are logged to `comparison.log`.
 
 ---
 
-## 📊 Uncertainty — The AI Admits When It's Unsure
+## 📊 Conformal Prediction — The AI Admits When It's Unsure
 
-> **Like a weather forecaster saying "70% chance of rain" instead of just "yes" or "no"** — honesty about confidence.
+> **Like a weather forecaster saying "70% chance of rain"** — honesty about confidence.
 
-Every prediction comes with a confidence range. Example response:
+Every prediction comes with a calibrated uncertainty band:
 
 ```json
 "uncertainty": {
   "lower": 0.412,    ← "At minimum, there's 41.2% danger"
   "upper": 0.831,    ← "At maximum, there's 83.1% danger"
   "coverage": 0.90,  ← "We're 90% sure the true value is in this range"
-  "high_alert": true ← "The range is wide — we're not very sure — use physics formula instead!"
+  "high_alert": true ← "Wide band — fall back to Chan physics formula!"
 }
 ```
 
-**How it works:**
-- We keep a rolling list of the last 500 cases where we know the answer
-- We measure how wrong the AI typically is
-- We use that to build a confidence band around every new prediction
-- If the band is wider than 0.4 → `high_alert = true` → system automatically falls back to the classical Chan physics formula (safer!)
+- Keeps a rolling window of last 500 cases to calibrate the interval
+- If band width > 0.4 → `high_alert = true` → system falls back to the classical **Chan formula** (safer!)
 
 ---
 
-## 🔍 Drift Detection — Is Space Getting Different?
+## 🔍 KS Drift Detection — Is Space Getting Different?
 
-> **Like a doctor checking if a patient's normal readings have changed over time.**
+> **Like a doctor checking if a patient's baseline vitals have shifted.**
 
-The space environment changes! Solar activity goes up and down. New debris fields form after satellite explosions. The AI was trained on "normal" space — what if space gets weird?
+Regularly compares the distribution of **live data** vs **training data** using a **Kolmogorov-Smirnov test** on 4 key features: `altitude`, `miss_distance`, `relative_velocity`, `atmospheric_density`.
 
-**KS Test (Kolmogorov-Smirnov Test):**
-We regularly compare:
-- Distribution of recent real cases (what space looks like NOW)
-- Distribution of training data (what space looked like WHEN WE TRAINED)
-
-If they're too different (p-value < 0.05), we fire a **⚠️ DRIFT ALERT** and log it. This tells the team: "Hey, the AI might not be reliable anymore — retrain with new data!"
-
-Features we check: `altitude`, `miss_distance`, `relative_velocity`, `atmospheric_density`
+If they've drifted significantly (p-value < 0.05) → fires a **⚠️ DRIFT ALERT** in the logs. This means: "The AI might not be reliable anymore — retrain with new data!"
 
 ---
 
-## 🔭 The Physics Engine — Old-School Space Math
+## ⚡ ONNX Fast-Path Inference
+
+> **Like switching from a regular calculator to a scientific calculator** — same answer, much faster.
+
+When `collision_model.onnx` exists and `onnxruntime` is installed:
+- All **batch ML inference** (`/api/ml/predict_risk_batch`) routes through **ONNX Runtime** instead of the sklearn `.pkl` model
+- The internal `_assess_conjunctions` engine also uses the ONNX path for the vectorised batch pass
+- Falls back gracefully to the calibrated sklearn model if ONNX isn't available
+- Speed improvement: **2–5×** faster on large batches (500 conjunctions at once)
+
+---
+
+## 🔭 The Physics Engine
 
 > **Before we had AI, humans used physics equations to predict orbits.** We still use both!
 
-### How We Track Satellite Positions (RK4 + J2)
+### RK4 + J2 Orbit Propagation
 
-We update satellite positions using **4th-order Runge-Kutta** (RK4). Think of it like calculating where a ball will land when you throw it — but in 3D, with Earth's gravity pulling on it every millisecond.
-
-**Extra twist — J2 Effect:** Earth is not a perfect sphere. It's slightly squished at the poles (like a squished orange). This makes orbits slowly rotate over time. We account for this with the J2 correction:
+We update satellite positions using **4th-order Runge-Kutta** (RK4), accounting for Earth's slight polar flattening (J2 effect):
 
 ```
-Extra gravity in X = (3/2)·J2·μ·RE²/r⁵ · x · (5z²/r² − 1)
-Extra gravity in Y = (3/2)·J2·μ·RE²/r⁵ · y · (5z²/r² − 1)
-Extra gravity in Z = (3/2)·J2·μ·RE²/r⁵ · z · (5z²/r² − 3)
+J2 correction in X = (3/2)·J2·μ·RE²/r⁵ · x · (5z²/r² − 1)
+J2 correction in Y = (3/2)·J2·μ·RE²/r⁵ · y · (5z²/r² − 1)
+J2 correction in Z = (3/2)·J2·μ·RE²/r⁵ · z · (5z²/r² − 3)
 ```
-_(Don't worry about the math — the computer handles it. The point is: we're very precise!)_
 
-### Key Numbers (NSH 2026 Rules)
+### Two-Burn Hohmann Graveyard Transfer
+
+When a satellite is critically low on fuel (< 5%), the system plans a **two-burn Hohmann transfer** to a 2,000 km graveyard orbit:
+
+```
+Burn 1: Raise apogee from current orbit → phasing orbit
+Burn 2: Circularise at graveyard altitude
+```
+This is the mathematically optimal way to change orbit altitude with minimum fuel.
+
+### Adaptive Station-Keeping
+
+When a satellite drifts > 10 km from its assigned slot:
+- Calculates the **transverse component** of the slot-error vector (T-axis burn is most efficient)
+- Scales ΔV adaptively: more urgent = bigger burn
+- In **urgency mode** (active service outage): skips fuel forecast gate and burns immediately
+- In **normal mode**: checks fuel forecast to ensure the satellite can afford the burn
+
+### Key Physics Constants
 
 | Setting | Value | What It Means |
 |---------|-------|---------------|
@@ -395,6 +494,7 @@ _(Don't worry about the math — the computer handles it. The point is: we're ve
 | Cooldown between burns | 600 seconds | Thruster needs to cool down |
 | DANGER zone | < 100 meters | If debris gets this close, PANIC |
 | Station-keeping box | 10 km radius | Satellite must stay in this zone |
+| Safe standoff | 500 m | Target post-maneuver miss distance (5× danger zone) |
 | Fuel emergency | < 5% fuel left | Time to think about retirement |
 | Graveyard orbit | 2,000 km up | Where we park dead satellites safely |
 
@@ -402,35 +502,50 @@ _(Don't worry about the math — the computer handles it. The point is: we're ve
 
 ## 🚀 How the System Dodges Debris (Step by Step)
 
-> **Like a game of dodge-ball, but at 25,000 km/h.**
+### Step 1 — Spatial Pre-filter (O(log N))
+Uses a **KD-Tree** (falls back to **3D Voxel Hash** if KD-Tree fails) to find only debris within the conjunction screening radius — avoids checking all 15,000 objects every tick.
 
-### Step 1 — Predict the closest approach
-Instead of checking every millisecond (too slow!), we use a **parabolic fit** — we check 3 points near the expected closest approach and fit a curve to find the exact minimum. This gives sub-second accuracy using only 3 calculations instead of 480!
+### Step 2 — Kalman Gate (ML-4)
+The **ConjunctionRiskTracker** checks its Kalman state: if the pair is confidently diverging → skip immediately. This eliminates ~40% of pairs before any expensive computation.
 
-### Step 2 — Decide if it's dangerous
-**Physics check first (Chan formula):**
-```
-Pc = (A_cb / 2π·σ²) × exp(−miss_distance² / 2σ²)
-```
-_(Translation: The smaller the miss distance and the bigger the objects, the higher the probability of collision)_
+### Step 3 — Chan Pc Hard Short-Circuit
+If `Chan Pc < 0.000001` → skip AI inference entirely, it's not worth burning fuel. This saves 60-70% of ML inference calls.
 
-**Special override:** If objects are already physically overlapping → skip the math, probability = 100%, DODGE NOW.
+### Step 4 — Vectorised Batch ML Inference (ONNX)
+All remaining conjunction candidates are **batched into a single NumPy matrix** and sent to ONNX Runtime in one call. No Python loop overhead.
 
-**AI check second:**
-If `Pc < 0.000001` → don't bother burning fuel, it's safe enough.
-If `Pc ≥ threshold` → calculate the best burn.
+### Step 5 — Thompson Sampling Burn Direction (ML-1)
+The **DVBandit** picks the most promising burn direction based on its Thompson-sampled posteriors + Kalman rate estimates, then minimises ΔV magnitude along that direction.
 
-### Step 3 — Calculate the best dodge burn
-We try **6 different directions** (forward, backward, left, right, up, down in orbit space) and pick whichever one gives the most safety improvement per drop of fuel used.
-
-### Step 4 — Upload the burn command before losing signal
-We calculate the **last moment we'll have radio contact** with a Ground Station before the satellite goes into a "blackout zone." The burn command is uploaded to the satellite BEFORE that blackout — so it executes automatically even if we can't communicate.
+### Step 6 — Contact-Schedule-Aware Upload
+The burn command is uploaded before the satellite enters a **radio blackout zone** — calculated by finding the last moment any ground station has line-of-sight.
 
 ---
 
-## 📡 Ground Stations — Our Radio Towers in Space
+## 🖥️ Dashboard — What's on Screen
 
-> **Like cell towers, but for satellites.** You can only talk to a satellite when it's "above the horizon" from your ground station.
+### Ground Track View (Port 80)
+
+| Panel | What It Shows |
+|-------|--------------|
+| 🗺️ World Map | Satellite ground tracks + Earth's terminator (day/night line) |
+| 🌐 3D Globe | Drag to rotate · Scroll to zoom · Day/night shading |
+| 🎯 RTN Bullseye | How close debris is in red/yellow/green rings (right panel) |
+| 📡 Contact Schedule | Next ground station windows per satellite (right panel) |
+| 📈 Uptime Bars | Per-satellite slot-keeping performance (right panel) |
+| 🔥 Fuel Heatmap | Fleet-wide fuel levels in a colour-coded grid (bottom) |
+| 📅 Maneuver Gantt | All planned burns on a timeline (bottom) |
+
+### Streamlit Dashboard (Port 8501)
+
+- Full history of every close call (CDM Registry)
+- Interactive AI predictor — type in numbers, get a risk prediction + SHAP explanation
+- SHAP charts: "Which of the 21 features mattered most for THIS prediction?"
+- Model health card — shows ROC-AUC, Recall, etc.
+
+---
+
+## 📡 Ground Stations
 
 | Station | Location | Why It's There |
 |---------|----------|----------------|
@@ -445,21 +560,18 @@ We calculate the **last moment we'll have radio contact** with a Ground Station 
 
 ## 🎯 How We're Scored at NSH 2026
 
-The judges give points in 5 categories. Here's what each means:
+### 🛡️ [25 points] Safety
+- Chan formula collision probability calculation
+- AI correctly flags dangerous situations
+- Satellites successfully dodge debris
+- Fuel not wasted on unnecessary burns
 
-### 🛡️ [25 points] Safety — Does it avoid crashes?
-- Does our Chan formula correctly calculate crash probability?
-- Does the AI correctly flag dangerous situations?
-- Do satellites successfully dodge debris?
-- Is fuel not wasted on unnecessary burns?
+### ⛽ [20 points] Fuel Efficiency
+- Thompson Sampling picks optimal burn direction
+- Two-burn Hohmann for graveyard retirement
+- Chan Pc < 0.000001 → no burn triggered
 
-### ⛽ [20 points] Fuel Efficiency — Does it waste fuel?
-- Does it pick the most fuel-efficient dodge direction?
-- Does it properly retire satellites to graveyard orbit when fuel runs out?
-- Does it avoid burning when `Pc < 0.000001` (too low to matter)?
-
-### 🕐 [15 points] Uptime — Do satellites stay in their lanes?
-Each satellite must stay within a 10 km box around its assigned slot. If it drifts, it burns fuel to come back.
+### 🕐 [15 points] Uptime
 
 | Uptime | Score |
 |--------|-------|
@@ -469,29 +581,17 @@ Each satellite must stay within a 10 km box around its assigned slot. If it drif
 
 Live check: `GET /api/fleet/uptime`
 
-### ⚡ [15 points] Speed — How fast does it process?
-- Uses a **KD-Tree** (a clever data structure) to find nearby debris in O(log N) time instead of checking all 15,000 objects
-- Falls back to a **3D Voxel Hash** if KD-Tree fails
-- Runs simulation steps in background threads so the API stays responsive
-- 512-entry LRU cache means repeated calculations are instant
+### ⚡ [15 points] Speed
+- KD-Tree pre-filter → O(log N) debris lookup
+- Kalman gate → ~40% fewer ML calls
+- Vectorised ONNX batch inference
+- 512-entry LRU cache for repeated calculations
+- Async thread pool so API stays responsive during physics steps
 
-### 🖥️ [15 points] Visualisation — Does it look good?
+### 🖥️ [15 points] Visualisation
+Ground track · 3D globe · RTN bullseye · contact schedule · uptime bars · fuel heatmap · Gantt timeline
 
-**HTML Dashboard (Port 80):**
-- 🗺️ World map with satellite ground tracks + Earth's terminator (day/night line)
-- 🌐 3D globe view — you can drag to rotate, with day/night shading
-- 🎯 RTN "bullseye" diagram — shows how close debris is in red/yellow/green rings
-- 📅 Gantt timeline — shows all planned burns on a schedule
-- 📈 Fuel efficiency graph
-
-**Streamlit Dashboard (Port 8501):**
-- Full history of every close call (CDM Registry)
-- Interactive AI predictor — type in numbers, get a risk prediction + SHAP explanation
-- SHAP charts: "Which of the 21 features mattered most for THIS prediction?"
-- Model health card — shows ROC-AUC, Recall, etc.
-
-### 📝 [10 points] Code Quality — Is the code clean?
-Every decision the system makes gets logged in structured JSON format:
+### 📝 [10 points] Code Quality
 
 ```json
 {
@@ -507,13 +607,10 @@ Every decision the system makes gets logged in structured JSON format:
   "uploaded_before_blackout": true
 }
 ```
-_(Translation: "At 1:14 PM, satellite Alpha-07 was going to get within 47m of debris object 03841. Crash probability: 0.02%. Burn command uploaded to Svalbard station before signal blackout.")_
 
 ---
 
 ## 🔌 API Cheat Sheet
-
-> **Think of the API as a menu at a restaurant** — you place an order (HTTP request), you get food back (data).
 
 ### 🏆 Main NSH Grader Endpoints
 
@@ -528,10 +625,20 @@ _(Translation: "At 1:14 PM, satellite Alpha-07 was going to get within 47m of de
 
 | Request | Address | What You Get |
 |---------|---------|-------------|
-| `POST` | `/api/ml/predict_risk` | AI risk score for ONE conjunction |
-| `POST` | `/api/ml/predict_risk_batch` | AI risk scores for up to 500 at once |
+| `POST` | `/api/ml/predict_risk` | AI risk score + conformal uncertainty interval |
+| `POST` | `/api/ml/predict_risk_batch` | AI risk scores for up to 500 at once (ONNX) |
 
-### 📊 Monitoring Endpoints
+### 🧠 ML Intelligence Endpoints (New in v4.0)
+
+| Request | Address | What You Get |
+|---------|---------|-------------|
+| `GET` | `/api/ml/bandit` | Thompson Sampling arm stats per satellite |
+| `GET` | `/api/ml/anomalies` | Top anomalous debris objects (12-D IF scores) |
+| `GET` | `/api/ml/fuel_forecast` | Quadratic RLS fuel depletion predictions |
+| `GET` | `/api/ml/risk_trends` | Kalman-filtered conjunction risk trends |
+| `GET` | `/api/ml/summary` | Combined ML subsystem health dashboard |
+
+### 📊 Monitoring & Fleet Endpoints
 
 | Request | Address | What You Get |
 |---------|---------|-------------|
@@ -539,17 +646,27 @@ _(Translation: "At 1:14 PM, satellite Alpha-07 was going to get within 47m of de
 | `GET` | `/api/satellites` | Every satellite's current state |
 | `GET` | `/api/conjunctions` | All current close-approach warnings |
 | `GET` | `/api/fleet/uptime` | NSH uptime score |
+| `GET` | `/api/fleet/stats` | Fleet-wide aggregated statistics |
+| `GET` | `/api/fleet/heatmap` | Fuel heatmap data for all 55 satellites |
+| `GET` | `/api/fleet/contact_summary` | Ground station contact windows across fleet |
 | `GET` | `/api/metrics` | Speed stats, cache hits, AI status |
 | `GET` | `/api/logs` | Live event log |
 
+### 🛰️ Per-Satellite Endpoints
+
+| Request | Address | What You Get |
+|---------|---------|-------------|
+| `GET` | `/api/satellite/{id}/conjunction_detail` | Full CDM + Kalman state for one sat |
+| `GET` | `/api/satellite/{id}/contact_schedule` | Upcoming ground station windows |
+| `GET` | `/api/satellites/{id}/predicted_track` | 24-hour predicted orbital track |
+| `GET` | `/api/cdm/registry` | Full CDM history |
+
 ---
 
-## 🐳 Docker — The Magic Box
-
-> **Docker is like a shipping container.** It packages EVERYTHING needed to run the project — Python, libraries, settings — into one box. Works the same on any computer.
+## 🐳 Docker
 
 ```bash
-# Start everything (first time — downloads and builds, ~5 min)
+# Start everything (first time — builds, ~5 min)
 docker compose up --build
 
 # Start everything (after first time — fast!)
@@ -565,15 +682,11 @@ docker compose logs -f
 curl http://localhost:8000/api/status
 ```
 
-**What's running inside the container:**
-
 | Port | Service | What It Does |
 |------|---------|-------------|
-| 80 | Nginx + HTML Dashboard | Serves the live space map |
-| 8000 | FastAPI Backend | Physics engine + AI brain |
+| 80 | Nginx + HTML Dashboard | Live space map + 3D globe |
+| 8000 | FastAPI Backend | Physics engine + all 4 ML subsystems |
 | 8501 | Streamlit | Analytics dashboard |
-
-**Supervisord** manages all three processes — if any of them crash, it automatically restarts them. Like a babysitter for services.
 
 ---
 
@@ -583,14 +696,19 @@ curl http://localhost:8000/api/status
 |-------------|----------------|-------------------|
 | Physics math | Python 3.11 + NumPy + SciPy | The calculator |
 | API server | FastAPI + Uvicorn | The waiter taking orders |
-| AI model | XGBoost + Scikit-learn | The prediction brain |
-| AI tuning | Optuna | The robot that finds best settings |
+| AI model | XGBoost v4.0 + Scikit-learn | The collision prediction brain |
+| AI tuning | Optuna (60 trials) | The robot that finds best settings |
 | AI explainer | SHAP | "Why did the AI say that?" |
-| Uncertainty math | Pure NumPy (conformal prediction) | The AI's honesty module |
-| Fast debris search | SciPy KDTree + VoxelHash | Finding nearby junk quickly |
-| Faster AI inference | ONNX Runtime (optional) | 2-5x speed boost |
-| Space map UI | Vanilla JS + HTML Canvas | The pretty globe map |
-| Analytics UI | Streamlit + Altair + Pandas | The charts and graphs |
+| Fast inference | ONNX Runtime (optional) | 2-5× faster batch prediction |
+| Uncertainty | Conformal Prediction (NumPy) | The AI's honesty module |
+| ΔV optimiser | Thompson Sampling Bandit (ML-1) | Picks best thruster direction |
+| Anomaly detect | Isolation Forest 12-D (ML-2) | Spots weird debris behaviour |
+| Fuel forecast | Quadratic RLS (ML-3) | Predicts when fuel runs out |
+| Risk tracker | Kalman Filter (ML-4) | Tracks conjunction state over time |
+| Drift detection | KS Test | Detects when space environment changes |
+| Debris search | SciPy KDTree + VoxelHash | O(log N) nearest-neighbour lookup |
+| Space map UI | Vanilla JS + HTML Canvas | Ground track + 3D globe |
+| Analytics UI | Streamlit + Altair + Pandas | Charts and AI predictions |
 | Web server | Nginx | Serves the HTML to your browser |
 | Process manager | Supervisord | Keeps all services alive |
 | Container | Docker + Docker Compose | The shipping box |
@@ -598,11 +716,9 @@ curl http://localhost:8000/api/status
 
 ---
 
-## ⏰ One Last Thing — Time
+## ⏰ Simulation Time
 
-The simulation starts at: **`2026-03-12T08:00:00Z`** (March 12, 2026, 8:00 AM UTC)
-
-All timestamps in the system use **ISO 8601 UTC format** — a universal standard so there's no confusion between time zones.
+The simulation clock syncs to **real wall-clock UTC time** on every boot. The epoch anchor is `2026-03-12T08:00:00Z` — so `sim.t` is always the number of seconds elapsed since that date in real time. All timestamps use **ISO 8601 UTC format**.
 
 ---
 
