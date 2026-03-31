@@ -293,27 +293,10 @@ print(f"\n[INFO] Raw ratio={raw_spw:.2f}, recall-biased scale_pos_weight={spw:.3
 # a collision is smallest.  Alpha controls class imbalance; gamma controls focus.
 #   FL(p_t) = -alpha_t * (1 - p_t)^gamma * log(p_t)
 # Reference: Lin et al., "Focal Loss for Dense Object Detection", ICCV 2017.
-FOCAL_ALPHA = 0.25   # down-weight easy negatives
-FOCAL_GAMMA = 2.0    # focus strength (2.0 is standard)
-
-def focal_loss_objective(y_pred: np.ndarray, dtrain) -> tuple:
-    """XGBoost custom objective implementing Focal Loss for binary classification."""
-    y_true = dtrain.get_label()
-    # Convert raw score → probability
-    p      = 1.0 / (1.0 + np.exp(-y_pred))
-    p      = np.clip(p, 1e-7, 1.0 - 1e-7)
-    # Per-sample alpha weight
-    alpha_t = np.where(y_true == 1, FOCAL_ALPHA, 1.0 - FOCAL_ALPHA)
-    p_t     = np.where(y_true == 1, p, 1.0 - p)
-    # First derivative (gradient)
-    grad = alpha_t * (
-        -FOCAL_GAMMA * (1.0 - p_t) ** (FOCAL_GAMMA - 1) * np.log(p_t + 1e-9) * p * (1.0 - p)
-        + (1.0 - p_t) ** FOCAL_GAMMA * (p - y_true)
-    )
-    # Second derivative (hessian) — approximated as p(1-p) for stability
-    hess = alpha_t * (1.0 - p_t) ** FOCAL_GAMMA * p * (1.0 - p)
-    hess = np.maximum(hess, 1e-6)   # numerical floor
-    return grad, hess
+# Import from shared module so pickle stores a stable reference:
+#   focal_loss.focal_loss_objective   <- always resolvable
+# instead of __main__.focal_loss_objective (only valid in the training process).
+from focal_loss import focal_loss_objective, FOCAL_ALPHA, FOCAL_GAMMA  # noqa: F401
 
 print("[INFO] Focal Loss custom objective registered "
       f"(alpha={FOCAL_ALPHA}, gamma={FOCAL_GAMMA})")
