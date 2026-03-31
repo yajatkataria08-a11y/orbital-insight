@@ -1,141 +1,175 @@
-FROM ubuntu:22.04
+# ══════════════════════════════════════════════════════════════════════════════
+#  Orbital Insight ACM — Multi-stage Dockerfile
+#
+#  Base image: ubuntu:22.04  ← REQUIRED by NSH 2026 grading scripts
+#
+#  Stages:
+#    deps      → shared Python dependency layer (cached separately)
+#    backend   → FastAPI simulation + ML inference server  (port 8000)
+#    streamlit → Analytics dashboard                       (port 8501)
+#
+#  Build individual targets:
+#    docker build --target backend   -t acm-backend   .
+#    docker build --target streamlit -t acm-streamlit .
+#
+#  Or just use docker-compose (recommended):
+#    docker-compose up --build
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Stage 1: shared Python dependency builder ──────────────────────────────────
+# ubuntu:22.04 is the MANDATORY base image per NSH 2026 Section 8.
+# Ships Python 3.10 by default; we install 3.11 explicitly for consistency.
+FROM ubuntu:22.04 AS deps
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    TZ=UTC
 
-# ── System deps ────────────────────────────────────────────────────────────────
+# System packages: Python 3.11 + build tools for scipy / xgboost native extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.11 python3-pip python3.11-dev \
-    nginx curl supervisor \
+        software-properties-common \
+        ca-certificates \
+        curl \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-dev \
+        python3.11-distutils \
+        python3-pip \
+        build-essential \
+        gcc \
+        g++ \
+        libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
- && update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 1
+# Make python3.11 the default python / pip
+RUN update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 1 \
+ && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
+ && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 
-# ── Python deps ────────────────────────────────────────────────────────────────
-WORKDIR /app/backend
-COPY backend/requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
-RUN pip3 install --no-cache-dir streamlit altair requests
+WORKDIR /install
 
-# ── App source ─────────────────────────────────────────────────────────────────
-# backend/
-COPY backend/main.py          /app/backend/main.py
-COPY backend/train_model.py   /app/backend/train_model.py
-COPY backend/generate_data.py /app/backend/generate_data.py
+# Copy only requirements first — this layer is cached until requirements change
+COPY requirements.txt ./requirements.txt
 
-# frontend/
-COPY frontend/index.html      /var/www/html/index.html
-COPY frontend/earth.jpg       /var/www/html/earth.jpg
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt
 
-# streamlit_app/
-COPY streamlit_app/app.py     /app/streamlit_app/app.py
 
-# start.sh (root level)
-COPY start.sh                 /app/start.sh
-RUN chmod +x /app/start.sh
+# ── Stage 2: backend (FastAPI + XGBoost inference) ────────────────────────────
+FROM ubuntu:22.04 AS backend
 
-# Model artefacts — copy from backend/ if pre-trained, else volume-mount at runtime
-COPY backend/collision_model.pkl  /app/backend/collision_model.pkl
-COPY backend/model_features.pkl   /app/backend/model_features.pkl
-COPY backend/model_threshold.pkl  /app/backend/model_threshold.pkl
-COPY backend/model_meta.json      /app/backend/model_meta.json
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=UTC
 
-# ── Nginx config ───────────────────────────────────────────────────────────────
-RUN cat > /etc/nginx/sites-available/default << 'NGINXEOF'
-server {
-    listen 80;
-    server_name _;
+# Runtime system deps only (no build-essential needed at serve time)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        software-properties-common \
+        ca-certificates \
+        curl \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-distutils \
+        python3-pip \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
 
-    location / {
-        root /var/www/html;
-        index index.html;
-        try_files $uri /index.html;
-    }
-    location /api/ {
-        proxy_pass         http://127.0.0.1:8000/api/;
-        proxy_http_version 1.1;
-        proxy_set_header   Host $host;
-        proxy_read_timeout 300;
-        add_header Access-Control-Allow-Origin  *;
-        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
-        add_header Access-Control-Allow-Headers "Content-Type";
-    }
-    location /docs         { proxy_pass http://127.0.0.1:8000/docs; }
-    location /openapi.json { proxy_pass http://127.0.0.1:8000/openapi.json; }
-}
+RUN update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 1 \
+ && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
+ && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 
-server {
-    listen 8501;
-    server_name _;
-    location / {
-        proxy_pass         http://127.0.0.1:8502/;
-        proxy_http_version 1.1;
-        proxy_set_header   Upgrade    $http_upgrade;
-        proxy_set_header   Connection "upgrade";
-        proxy_set_header   Host       $host;
-        proxy_read_timeout 86400;
-    }
-}
-NGINXEOF
+# Reuse installed packages from builder — avoids re-downloading 800 MB of deps
+COPY --from=deps /usr/local/lib/python3.11/dist-packages \
+                 /usr/local/lib/python3.11/dist-packages
+COPY --from=deps /usr/local/bin /usr/local/bin
 
-# ── Supervisord config ─────────────────────────────────────────────────────────
-RUN mkdir -p /var/log/supervisor
+WORKDIR /app
 
-RUN cat > /etc/supervisor/conf.d/orbital.conf << 'SUPEOF'
-[supervisord]
-nodaemon=true
-logfile=/var/log/supervisor/supervisord.log
-pidfile=/var/run/supervisord.pid
-childlogdir=/var/log/supervisor
+# Copy the entire backend directory.
+# NOTE: training_data.csv (~44 MB) is excluded via .dockerignore — it is only
+# needed to retrain, not to serve.  Model .pkl files ARE included.
+COPY backend/ .
 
-[unix_http_server]
-file=/var/run/supervisor.sock
+# Runtime directory for logs, missed_cases.csv, candidate models.
+# Mount this as a named volume so artefacts survive container restarts.
+RUN mkdir -p /app/runtime \
+ && ln -sf /app/runtime/acm.log /app/acm.log
 
-[rpcinterface:supervisor]
-supervisor.rpcinterface_factory=supervisor.rpcinterface:make_main_rpcinterface
+# Non-root user for security
+RUN useradd --create-home --shell /bin/bash acm \
+ && chown -R acm:acm /app
+USER acm
 
-[supervisorctl]
-serverurl=unix:///var/run/supervisor.sock
+EXPOSE 8000
 
-; ── Nginx ──────────────────────────────────────────────────────────────────────
-[program:nginx]
-command=/usr/sbin/nginx -g "daemon off;"
-autostart=true
-autorestart=true
-priority=10
-stdout_logfile=/var/log/supervisor/nginx.log
-stderr_logfile=/var/log/supervisor/nginx_err.log
+ENV LOG_LEVEL=INFO \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
 
-; ── FastAPI backend ────────────────────────────────────────────────────────────
-[program:fastapi]
-command=python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --workers 1
-directory=/app/backend
-autostart=true
-autorestart=true
-priority=20
-startretries=5
-stdout_logfile=/var/log/supervisor/fastapi.log
-stderr_logfile=/var/log/supervisor/fastapi_err.log
-environment=PYTHONPATH="/app/backend",PYTHONUNBUFFERED="1"
+# Hits /api/ready — returns 200 once the sim warm-up completes
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=5 \
+    CMD python -c \
+        "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/ready')" \
+    || exit 1
 
-; ── Streamlit dashboard ────────────────────────────────────────────────────────
-[program:streamlit]
-command=python3 -m streamlit run /app/streamlit_app/app.py --server.port=8502 --server.address=127.0.0.1 --server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false --theme.base=dark --theme.backgroundColor="#010609" --theme.primaryColor="#00d2ff" --theme.textColor="#a8c8e0"
-directory=/app/backend
-autostart=true
-autorestart=true
-priority=30
-startretries=5
-stdout_logfile=/var/log/supervisor/streamlit.log
-stderr_logfile=/var/log/supervisor/streamlit_err.log
-environment=BACKEND_URL="http://localhost:8000/api",FRONTEND_URL="http://localhost:80",PYTHONPATH="/app/backend"
-SUPEOF
+CMD ["uvicorn", "main:app", \
+     "--host",       "0.0.0.0", \
+     "--port",       "8000", \
+     "--workers",    "1", \
+     "--log-level",  "info"]
 
-# Port 8000 : FastAPI  — grader / REST API
-# Port 80   : HTML frontend (Orbital Insight canvas)
-# Port 8501 : Streamlit dashboard (nginx -> 8502)
-EXPOSE 8000 80 8501
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+# ── Stage 3: Streamlit analytics dashboard ─────────────────────────────────────
+FROM ubuntu:22.04 AS streamlit
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        software-properties-common \
+        ca-certificates \
+        curl \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-distutils \
+        python3-pip \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 1 \
+ && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
+ && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+
+COPY --from=deps /usr/local/lib/python3.11/dist-packages \
+                 /usr/local/lib/python3.11/dist-packages
+COPY --from=deps /usr/local/bin /usr/local/bin
+
+# streamlit + altair are not in requirements.txt
+RUN pip install --no-cache-dir \
+        "streamlit>=1.35.0" \
+        "altair>=5.3.0"
+
+WORKDIR /app
+
+
+
+RUN useradd --create-home --shell /bin/bash acm_ui \
+ && chown -R acm_ui:acm_ui /app
+USER acm_ui
+
+EXPOSE 8501
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD python -c \
+        "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')" \
+    || exit 1
+
+CMD ["streamlit", "run", "app.py", \
+     "--server.port=8501", \
+     "--server.address=0.0.0.0", \
+     "--server.headless=true", \
+     "--browser.gatherUsageStats=false"]

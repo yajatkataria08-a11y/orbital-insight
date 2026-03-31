@@ -1,0 +1,31 @@
+# ── Python cache ─────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+
+# ── Large training artifacts — NOT needed at serve time ──────────────────────
+backend/training_data.csv
+backend/missed_cases.csv
+backend/collision_model_candidate.pkl
+backend/model_features_candidate.pkl
+backend/model_threshold_candidate.pkl
+
+# ── Dev / test files ──────────────────────────────────────────────────────────
+backend/test_long_sim.py
+backend/generate_data.py
+backend/train_model.py
+
+# ── Git ───────────────────────────────────────────────────────────────────────
+.git/
+.gitignore
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Logs and runtime state ───────────────────────────────────────────────────
+*.log
+comparison.log

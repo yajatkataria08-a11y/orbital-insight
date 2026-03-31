@@ -1,0 +1,1063 @@
+{"ts": "2026-03-27T18:31:28", "level": "WARNING", "name": "acm", "msg": "{'event': 'ml_load', 'status': 'missing', 'msg': 'collision_model.pkl not found \u2014 predict_risk uses Chan fallback'}"}
+{"ts": "2026-03-27T18:31:28", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_modules_loaded', 'version': 'v2', 'modules': {'ML-1': 'DVBandit (Thompson Sampling, contextual)', 'ML-2': 'DebrisAnomalyDetector (12-D IF, online scoring)', 'ML-3': 'FuelForecaster (quadratic RLS + EMA)', 'ML-4': 'ConjunctionRiskTracker (Kalman estimator)'}}"}
+{"ts": "2026-03-27T18:31:28", "level": "INFO", "name": "acm", "msg": "[SpatialIndex] mode=KD-Tree (scipy)"}
+{"ts": "2026-03-27T18:31:28", "level": "INFO", "name": "acm", "msg": "NSH 2026 ACM v7.0 initialising: 55 sats + 15000 debris"}
+{"ts": "2026-03-27T18:31:28", "level": "INFO", "name": "acm", "msg": "ACM ready: 55 satellites, 15000 debris"}
+{"ts": "2026-03-27T18:31:28", "level": "INFO", "name": "acm", "msg": "Background warm-up starting\u2026"}
+{"ts": "2026-03-27T18:31:29", "level": "INFO", "name": "acm", "msg": "Contact schedules ready."}
+{"ts": "2026-03-27T18:31:29", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 1, 'features': 12}"}
+{"ts": "2026-03-27T18:31:29", "level": "INFO", "name": "acm", "msg": "Anomaly detector ready \u2014 15000 debris scored."}
+{"ts": "2026-03-27T18:31:29", "level": "INFO", "name": "acm", "msg": "ACM fully initialised \u2014 all warm-up tasks complete."}
+{"ts": "2026-03-27T18:31:30", "level": "INFO", "name": "acm", "msg": "{'event': 'retrain_watcher_started', 'trigger': 50, 'script': 'train_model.py'}"}
+{"ts": "2026-03-27T18:31:30", "level": "INFO", "name": "acm", "msg": "{'event': 'startup', 'msg': 'ACM background loop started'}"}
+{"ts": "2026-03-27T18:31:37", "level": "INFO", "name": "acm", "msg": "{'event': 'shutdown', 'msg': 'ACM shutting down'}"}
+{"ts": "2026-03-28T18:33:29", "level": "WARNING", "name": "acm", "msg": "{'event': 'ml_load', 'status': 'missing', 'msg': 'collision_model.pkl not found \u2014 predict_risk uses Chan fallback'}"}
+{"ts": "2026-03-28T18:33:29", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_modules_loaded', 'version': 'v2', 'modules': {'ML-1': 'DVBandit (Thompson Sampling, contextual)', 'ML-2': 'DebrisAnomalyDetector (12-D IF, online scoring)', 'ML-3': 'FuelForecaster (quadratic RLS + EMA)', 'ML-4': 'ConjunctionRiskTracker (Kalman estimator)'}}"}
+{"ts": "2026-03-28T18:33:29", "level": "INFO", "name": "acm", "msg": "[SpatialIndex] mode=KD-Tree (scipy)"}
+{"ts": "2026-03-28T18:33:29", "level": "INFO", "name": "acm", "msg": "NSH 2026 ACM v7.0 initialising: 55 sats + 15000 debris"}
+{"ts": "2026-03-28T18:33:29", "level": "INFO", "name": "acm", "msg": "ACM ready: 55 satellites, 15000 debris"}
+{"ts": "2026-03-28T18:33:29", "level": "INFO", "name": "acm", "msg": "Background warm-up starting\u2026"}
+{"ts": "2026-03-28T18:33:29", "level": "INFO", "name": "acm", "msg": "Contact schedules ready."}
+{"ts": "2026-03-28T18:33:30", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 1, 'features': 12}"}
+{"ts": "2026-03-28T18:33:30", "level": "INFO", "name": "acm", "msg": "Anomaly detector ready \u2014 15000 debris scored."}
+{"ts": "2026-03-28T18:33:30", "level": "INFO", "name": "acm", "msg": "ACM fully initialised \u2014 all warm-up tasks complete."}
+{"ts": "2026-03-28T18:33:30", "level": "INFO", "name": "acm", "msg": "{'event': 'retrain_watcher_started', 'trigger': 50, 'script': 'train_model.py'}"}
+{"ts": "2026-03-28T18:33:30", "level": "INFO", "name": "acm", "msg": "{'event': 'startup', 'msg': 'ACM background loop started'}"}
+{"ts": "2026-03-28T18:35:10", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 2, 'features': 12}"}
+{"ts": "2026-03-28T18:36:57", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 3, 'features': 12}"}
+{"ts": "2026-03-28T18:38:39", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 4, 'features': 12}"}
+{"ts": "2026-03-28T18:40:35", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 5, 'features': 12}"}
+{"ts": "2026-03-28T18:42:42", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 6, 'features': 12}"}
+{"ts": "2026-03-28T18:44:43", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 7, 'features': 12}"}
+{"ts": "2026-03-28T18:46:59", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 8, 'features': 12}"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:48:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.00200km/s fuel=49.63kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.00191km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.00191km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.00192km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.00193km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.00193km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.00193km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.00193km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.00193km/s fuel=49.27kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.00193km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.00193km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.00194km/s fuel=49.26kg"}
+{"ts": "2026-03-28T18:49:13", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 9, 'features': 12}"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.00568km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.00568km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.00569km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.00569km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.00569km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.00569km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.00569km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.00569km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.00569km/s fuel=48.21kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.00571km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.00572km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.00573km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.00573km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.00573km/s fuel=48.20kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.00575km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.00575km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.00575km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.00574km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:25", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.00576km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:25", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.00576km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:25", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.00576km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:25", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.00576km/s fuel=48.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.00542km/s fuel=47.20kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.00542km/s fuel=47.20kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.00544km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.00544km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.00544km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.00544km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.00544km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.00544km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.00544km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.00546km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.00546km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.00546km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.00546km/s fuel=47.19kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.00546km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.00548km/s fuel=47.18kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.00550km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.00551km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.00551km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.00551km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.00551km/s fuel=47.17kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.00552km/s fuel=47.16kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.00552km/s fuel=47.16kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.00552km/s fuel=47.16kg"}
+{"ts": "2026-03-28T18:49:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.00552km/s fuel=47.16kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.00533km/s fuel=46.21kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.00533km/s fuel=46.21kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.00535km/s fuel=46.20kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.00535km/s fuel=46.20kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.00535km/s fuel=46.20kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.00535km/s fuel=46.20kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.00535km/s fuel=46.20kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.00535km/s fuel=46.20kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.00535km/s fuel=46.20kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.00537km/s fuel=46.19kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.00539km/s fuel=46.18kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.00540km/s fuel=46.17kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.00542km/s fuel=46.16kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.00542km/s fuel=46.16kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.00542km/s fuel=46.16kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.00542km/s fuel=46.16kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.00543km/s fuel=46.15kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.00543km/s fuel=46.15kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.00543km/s fuel=46.15kg"}
+{"ts": "2026-03-28T18:50:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.00543km/s fuel=46.15kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01307km/s fuel=43.79kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01308km/s fuel=43.79kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01309km/s fuel=43.77kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01307km/s fuel=43.78kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01314km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01313km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01309km/s fuel=43.77kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01314km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01311km/s fuel=43.77kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01314km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01310km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01314km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01314km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01312km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01313km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01313km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01298km/s fuel=43.78kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01298km/s fuel=43.78kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01296km/s fuel=43.79kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01299km/s fuel=43.78kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01303km/s fuel=43.77kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01316km/s fuel=43.74kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01317km/s fuel=43.74kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01312km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01313km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01296km/s fuel=43.78kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01300km/s fuel=43.77kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01305km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01305km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01303km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01302km/s fuel=43.77kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01300km/s fuel=43.77kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01319km/s fuel=43.73kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01320km/s fuel=43.72kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01306km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01302km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01302km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01303km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01307km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01302km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01302km/s fuel=43.76kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01304km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01304km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01305km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01306km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01307km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01306km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01302km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01304km/s fuel=43.75kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01306km/s fuel=43.74kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01310km/s fuel=43.73kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01305km/s fuel=43.74kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01308km/s fuel=43.73kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01313km/s fuel=43.72kg"}
+{"ts": "2026-03-28T18:50:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01313km/s fuel=43.72kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=41.02kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=41.02kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=41.01kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=41.01kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=41.01kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=41.02kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=41.02kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=41.02kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=41.02kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=41.01kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=40.97kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=40.97kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=41.01kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=41.01kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=41.00kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=40.96kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=40.96kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=40.99kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=40.98kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=40.97kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=40.97kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=40.97kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=40.97kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=40.96kg"}
+{"ts": "2026-03-28T18:50:45", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=40.95kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=38.27kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=38.27kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=38.26kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=38.26kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=38.26kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=38.27kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=38.27kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=38.27kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=38.26kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=38.26kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=38.22kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=38.22kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=38.26kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=38.25kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=38.21kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=38.21kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=38.24kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=38.23kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=38.22kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=38.22kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=38.22kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=38.21kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=38.20kg"}
+{"ts": "2026-03-28T18:51:07", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=38.20kg"}
+{"ts": "2026-03-28T18:51:18", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 10, 'features': 12}"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=35.53kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=35.53kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=35.52kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=35.52kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=35.52kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=35.53kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=35.53kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=35.53kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=35.53kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=35.52kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=35.48kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=35.48kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=35.52kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=35.52kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=35.51kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=35.47kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=35.47kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=35.50kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=35.49kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=35.48kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=35.48kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=35.48kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=35.47kg"}
+{"ts": "2026-03-28T18:51:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=35.47kg"}
+{"ts": "2026-03-28T18:51:51", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=32.81kg"}
+{"ts": "2026-03-28T18:51:51", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=32.81kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=32.80kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=32.80kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=32.80kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=32.81kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=32.81kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=32.81kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=32.80kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=32.80kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=32.76kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=32.76kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=32.80kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=32.79kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=32.75kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=32.75kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=32.78kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=32.77kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=32.76kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=32.76kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=32.76kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=32.75kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=32.74kg"}
+{"ts": "2026-03-28T18:51:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=32.74kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=30.10kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=30.10kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=30.09kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=30.09kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=30.09kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=30.10kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=30.10kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=30.10kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=30.09kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=30.09kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=30.05kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=30.05kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=30.09kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=30.08kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=30.04kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=30.04kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=30.07kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=30.06kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=30.05kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=30.05kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=30.05kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=30.04kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=30.03kg"}
+{"ts": "2026-03-28T18:52:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=30.03kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=27.40kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=27.40kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=27.40kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=27.40kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=27.40kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=27.40kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=27.36kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=27.36kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=27.36kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=27.36kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=27.39kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=27.34kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=27.34kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=27.38kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=27.36kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=27.37kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=27.36kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=27.36kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=27.35kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=27.35kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=27.35kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=27.34kg"}
+{"ts": "2026-03-28T18:52:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=27.34kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=24.72kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=24.72kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=24.71kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=24.71kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=24.71kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=24.72kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=24.72kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=24.72kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=24.72kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=24.71kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=24.67kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=24.67kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=24.71kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=24.71kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=24.70kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=24.66kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=24.66kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=24.69kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=24.68kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=24.67kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=24.67kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=24.67kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=24.66kg"}
+{"ts": "2026-03-28T18:52:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=24.66kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 stationkeep \u0394V=0.01500km/s fuel=22.05kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 stationkeep \u0394V=0.01500km/s fuel=22.05kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-10 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-11 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-09 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-15 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-29 stationkeep \u0394V=0.01500km/s fuel=22.05kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-30 stationkeep \u0394V=0.01500km/s fuel=22.05kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 stationkeep \u0394V=0.01500km/s fuel=22.05kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 stationkeep \u0394V=0.01500km/s fuel=22.05kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 stationkeep \u0394V=0.01500km/s fuel=22.01kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 stationkeep \u0394V=0.01500km/s fuel=22.01kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 stationkeep \u0394V=0.01500km/s fuel=22.01kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 stationkeep \u0394V=0.01500km/s fuel=22.01kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-24 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-28 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 stationkeep \u0394V=0.01500km/s fuel=22.04kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 stationkeep \u0394V=0.01500km/s fuel=21.99kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-19 stationkeep \u0394V=0.01500km/s fuel=21.99kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-22 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-31 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-32 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 stationkeep \u0394V=0.01500km/s fuel=22.03kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 stationkeep \u0394V=0.01500km/s fuel=22.01kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-53 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 stationkeep \u0394V=0.01500km/s fuel=22.02kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 stationkeep \u0394V=0.01500km/s fuel=22.01kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 stationkeep \u0394V=0.01500km/s fuel=22.01kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 stationkeep \u0394V=0.01500km/s fuel=22.00kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-23 stationkeep \u0394V=0.01500km/s fuel=22.00kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 stationkeep \u0394V=0.01500km/s fuel=22.00kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 stationkeep \u0394V=0.01500km/s fuel=21.99kg"}
+{"ts": "2026-03-28T18:53:14", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 stationkeep \u0394V=0.01500km/s fuel=21.99kg"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 11, 'features': 12}"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-00', 'fuel_kg': 22.05, 't_eol_s': 7125.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-00 fuel=22.05 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-01', 'fuel_kg': 22.01, 't_eol_s': 7117.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-01 fuel=22.01 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-02', 'fuel_kg': 22.02, 't_eol_s': 7119.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-02 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-03', 'fuel_kg': 21.99, 't_eol_s': 7117.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-03 fuel=21.99 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-04', 'fuel_kg': 22.04, 't_eol_s': 7124.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-04 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-05', 'fuel_kg': 22.03, 't_eol_s': 7122.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-05 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-06', 'fuel_kg': 22.01, 't_eol_s': 7117.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-06 fuel=22.01 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-07', 'fuel_kg': 22.01, 't_eol_s': 7122.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-07 fuel=22.01 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-08', 'fuel_kg': 22.02, 't_eol_s': 7119.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-08 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-09', 'fuel_kg': 22.02, 't_eol_s': 7119.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-09 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-10', 'fuel_kg': 22.04, 't_eol_s': 7125.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-10 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-11', 'fuel_kg': 22.03, 't_eol_s': 7118.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-11 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-12', 'fuel_kg': 22.05, 't_eol_s': 7124.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-12 fuel=22.05 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-13', 'fuel_kg': 22.03, 't_eol_s': 7119.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-13 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-14', 'fuel_kg': 22.02, 't_eol_s': 7121.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-14 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-15', 'fuel_kg': 22.02, 't_eol_s': 7120.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-15 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-16', 'fuel_kg': 22.04, 't_eol_s': 7123.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-16 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-17', 'fuel_kg': 22.01, 't_eol_s': 7122.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-17 fuel=22.01 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-18', 'fuel_kg': 22.02, 't_eol_s': 7120.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-18 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-19', 'fuel_kg': 21.99, 't_eol_s': 7116.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-19 fuel=21.99 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-20', 'fuel_kg': 22.03, 't_eol_s': 7118.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-20 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-21', 'fuel_kg': 22.04, 't_eol_s': 7121.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-21 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-22', 'fuel_kg': 22.02, 't_eol_s': 7129.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-22 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-23', 'fuel_kg': 22.0, 't_eol_s': 7136.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-23 fuel=22.00 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-24', 'fuel_kg': 22.04, 't_eol_s': 7139.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-24 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-25', 'fuel_kg': 22.03, 't_eol_s': 7135.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-25 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-26', 'fuel_kg': 22.02, 't_eol_s': 7134.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-26 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-27', 'fuel_kg': 22.02, 't_eol_s': 7137.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-27 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-28', 'fuel_kg': 22.04, 't_eol_s': 7135.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-28 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-29', 'fuel_kg': 22.05, 't_eol_s': 7136.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-29 fuel=22.05 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-30', 'fuel_kg': 22.05, 't_eol_s': 7136.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-30 fuel=22.05 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-31', 'fuel_kg': 22.02, 't_eol_s': 7133.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-31 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-32', 'fuel_kg': 22.02, 't_eol_s': 7129.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-32 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-33', 'fuel_kg': 22.02, 't_eol_s': 7134.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-33 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-34', 'fuel_kg': 22.0, 't_eol_s': 7133.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-34 fuel=22.00 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-35', 'fuel_kg': 22.03, 't_eol_s': 7135.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-35 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-36', 'fuel_kg': 22.02, 't_eol_s': 7132.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-36 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-37', 'fuel_kg': 22.05, 't_eol_s': 7138.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-37 fuel=22.05 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-38', 'fuel_kg': 22.02, 't_eol_s': 7132.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-38 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-39', 'fuel_kg': 22.02, 't_eol_s': 7131.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-39 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-40', 'fuel_kg': 22.03, 't_eol_s': 7129.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-40 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-41', 'fuel_kg': 22.02, 't_eol_s': 7130.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-41 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-42', 'fuel_kg': 21.99, 't_eol_s': 7127.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-42 fuel=21.99 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-43', 'fuel_kg': 22.05, 't_eol_s': 7134.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-43 fuel=22.05 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-44', 'fuel_kg': 21.99, 't_eol_s': 7127.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-44 fuel=21.99 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.80 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-45', 'fuel_kg': 22.04, 't_eol_s': 7130.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-45 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-46', 'fuel_kg': 22.01, 't_eol_s': 7134.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-46 fuel=22.01 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-47', 'fuel_kg': 22.01, 't_eol_s': 7131.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-47 fuel=22.01 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-48', 'fuel_kg': 22.03, 't_eol_s': 7130.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-48 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-49', 'fuel_kg': 22.03, 't_eol_s': 7130.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-49 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-50', 'fuel_kg': 22.03, 't_eol_s': 7132.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-50 fuel=22.03 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-51', 'fuel_kg': 22.0, 't_eol_s': 7128.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-51 fuel=22.00 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-52', 'fuel_kg': 22.01, 't_eol_s': 7128.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-52 fuel=22.01 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-53', 'fuel_kg': 22.02, 't_eol_s': 7129.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-53 fuel=22.02 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:24", "level": "INFO", "name": "acm", "msg": "{'event': 'ml_early_eol_warning', 'sat': 'SAT-Alpha-54', 'fuel_kg': 22.04, 't_eol_s': 7134.0}"}
+{"ts": "2026-03-28T18:53:24", "level": "WARNING", "name": "acm", "msg": "[EOL] SAT-Alpha-54 fuel=22.04 kg \u2192 Hohmann graveyard 2000.0 km \u0394V=15.0+15.0 m/s  T_trans=1.81 h"}
+{"ts": "2026-03-28T18:53:27", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:27", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 graveyard \u0394V=0.01500km/s fuel=19.39kg"}
+{"ts": "2026-03-28T18:53:27", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 graveyard \u0394V=0.01500km/s fuel=19.35kg"}
+{"ts": "2026-03-28T18:53:27", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:27", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 graveyard \u0394V=0.01500km/s fuel=19.36kg"}
+{"ts": "2026-03-28T18:53:27", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 graveyard \u0394V=0.01500km/s fuel=19.33kg"}
+{"ts": "2026-03-28T18:53:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 graveyard \u0394V=0.01500km/s fuel=19.35kg"}
+{"ts": "2026-03-28T18:53:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 graveyard \u0394V=0.01500km/s fuel=19.36kg"}
+{"ts": "2026-03-28T18:53:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 graveyard \u0394V=0.01500km/s fuel=19.38kg"}
+{"ts": "2026-03-28T18:53:30", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 graveyard \u0394V=0.01500km/s fuel=19.40kg"}
+{"ts": "2026-03-28T18:53:31", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:31", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:31", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:32", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 graveyard \u0394V=0.01500km/s fuel=19.40kg"}
+{"ts": "2026-03-28T18:53:32", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:32", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 graveyard \u0394V=0.01500km/s fuel=19.35kg"}
+{"ts": "2026-03-28T18:53:32", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:32", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 graveyard \u0394V=0.01500km/s fuel=19.35kg"}
+{"ts": "2026-03-28T18:53:34", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 graveyard \u0394V=0.01500km/s fuel=19.38kg"}
+{"ts": "2026-03-28T18:53:34", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:35", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 graveyard \u0394V=0.01500km/s fuel=19.34kg"}
+{"ts": "2026-03-28T18:53:35", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 graveyard \u0394V=0.01500km/s fuel=19.36kg"}
+{"ts": "2026-03-28T18:53:36", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 graveyard \u0394V=0.01500km/s fuel=19.38kg"}
+{"ts": "2026-03-28T18:53:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 graveyard \u0394V=0.01500km/s fuel=19.33kg"}
+{"ts": "2026-03-28T18:53:40", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 graveyard \u0394V=0.01500km/s fuel=19.39kg"}
+{"ts": "2026-03-28T18:53:40", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 graveyard \u0394V=0.01500km/s fuel=19.38kg"}
+{"ts": "2026-03-28T18:53:41", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 graveyard \u0394V=0.01500km/s fuel=19.34kg"}
+{"ts": "2026-03-28T18:53:44", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 graveyard \u0394V=0.01500km/s fuel=19.36kg"}
+{"ts": "2026-03-28T18:53:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 graveyard \u0394V=0.01500km/s fuel=19.40kg"}
+{"ts": "2026-03-28T18:53:46", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 graveyard \u0394V=0.01500km/s fuel=19.38kg"}
+{"ts": "2026-03-28T18:53:47", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 graveyard \u0394V=0.01500km/s fuel=19.36kg"}
+{"ts": "2026-03-28T18:53:48", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 12, 'features': 12}"}
+{"ts": "2026-03-28T18:53:50", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-26 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:53:50", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-35 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:53:50", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-45 graveyard \u0394V=0.01500km/s fuel=16.74kg"}
+{"ts": "2026-03-28T18:53:50", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-46 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:53:50", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-37 graveyard \u0394V=0.01500km/s fuel=16.76kg"}
+{"ts": "2026-03-28T18:53:51", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 graveyard \u0394V=0.01500km/s fuel=19.36kg"}
+{"ts": "2026-03-28T18:53:51", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-40 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:53:51", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-47 graveyard \u0394V=0.01500km/s fuel=16.71kg"}
+{"ts": "2026-03-28T18:53:51", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-43 graveyard \u0394V=0.01500km/s fuel=16.75kg"}
+{"ts": "2026-03-28T18:53:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-25 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:53:52", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-38 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:53:54", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-36 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:53:54", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-34 graveyard \u0394V=0.01500km/s fuel=16.70kg"}
+{"ts": "2026-03-28T18:53:55", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-04 graveyard \u0394V=0.01500km/s fuel=16.74kg"}
+{"ts": "2026-03-28T18:53:55", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-05 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:53:55", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 graveyard \u0394V=0.01500km/s fuel=19.36kg"}
+{"ts": "2026-03-28T18:53:56", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-33 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:53:57", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-03 graveyard \u0394V=0.01500km/s fuel=16.70kg"}
+{"ts": "2026-03-28T18:53:57", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:53:57", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-39 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:53:58", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-42 graveyard \u0394V=0.01500km/s fuel=16.69kg"}
+{"ts": "2026-03-28T18:53:58", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-44 graveyard \u0394V=0.01500km/s fuel=16.69kg"}
+{"ts": "2026-03-28T18:53:59", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 graveyard \u0394V=0.01500km/s fuel=19.38kg"}
+{"ts": "2026-03-28T18:54:00", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 graveyard \u0394V=0.01500km/s fuel=19.38kg"}
+{"ts": "2026-03-28T18:54:02", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-01 graveyard \u0394V=0.01500km/s fuel=16.71kg"}
+{"ts": "2026-03-28T18:54:03", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-02 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:54:05", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-41 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:54:06", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-06 graveyard \u0394V=0.01500km/s fuel=16.71kg"}
+{"ts": "2026-03-28T18:54:08", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-54 graveyard \u0394V=0.01500km/s fuel=16.74kg"}
+{"ts": "2026-03-28T18:54:08", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-00 graveyard \u0394V=0.01500km/s fuel=16.76kg"}
+{"ts": "2026-03-28T18:54:09", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-49 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:54:10", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-51 graveyard \u0394V=0.01500km/s fuel=16.71kg"}
+{"ts": "2026-03-28T18:54:14", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 13, 'features': 12}"}
+{"ts": "2026-03-28T18:54:16", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-48 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:54:17", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-21 graveyard \u0394V=0.01500km/s fuel=16.74kg"}
+{"ts": "2026-03-28T18:54:19", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-50 graveyard \u0394V=0.01500km/s fuel=16.74kg"}
+{"ts": "2026-03-28T18:54:23", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-27 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:54:24", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T18:54:26", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-12 graveyard \u0394V=0.01500km/s fuel=16.76kg"}
+{"ts": "2026-03-28T18:54:26", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-13 graveyard \u0394V=0.01500km/s fuel=16.74kg"}
+{"ts": "2026-03-28T18:54:26", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-07 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:54:29", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-17 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:54:34", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-52 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T18:54:36", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-18 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:54:38", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-20 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:54:39", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-16 graveyard \u0394V=0.01500km/s fuel=16.74kg"}
+{"ts": "2026-03-28T18:54:40", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 14, 'features': 12}"}
+{"ts": "2026-03-28T18:55:03", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-14 graveyard \u0394V=0.01500km/s fuel=16.73kg"}
+{"ts": "2026-03-28T18:55:07", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 15, 'features': 12}"}
+{"ts": "2026-03-28T18:55:33", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 16, 'features': 12}"}
+{"ts": "2026-03-28T18:56:00", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 17, 'features': 12}"}
+{"ts": "2026-03-28T18:56:26", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 18, 'features': 12}"}
+{"ts": "2026-03-28T18:56:52", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 19, 'features': 12}"}
+{"ts": "2026-03-28T18:57:18", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 20, 'features': 12}"}
+{"ts": "2026-03-28T18:57:45", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 21, 'features': 12}"}
+{"ts": "2026-03-28T18:58:11", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 22, 'features': 12}"}
+{"ts": "2026-03-28T18:58:38", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 23, 'features': 12}"}
+{"ts": "2026-03-28T18:59:04", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 24, 'features': 12}"}
+{"ts": "2026-03-28T18:59:31", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 25, 'features': 12}"}
+{"ts": "2026-03-28T18:59:58", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 26, 'features': 12}"}
+{"ts": "2026-03-28T19:00:24", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 27, 'features': 12}"}
+{"ts": "2026-03-28T19:00:51", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 28, 'features': 12}"}
+{"ts": "2026-03-28T19:01:18", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 29, 'features': 12}"}
+{"ts": "2026-03-28T19:01:44", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 30, 'features': 12}"}
+{"ts": "2026-03-28T19:02:11", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 31, 'features': 12}"}
+{"ts": "2026-03-28T19:02:38", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 32, 'features': 12}"}
+{"ts": "2026-03-28T19:03:04", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 33, 'features': 12}"}
+{"ts": "2026-03-28T19:03:31", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 34, 'features': 12}"}
+{"ts": "2026-03-28T19:03:57", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 35, 'features': 12}"}
+{"ts": "2026-03-28T19:04:24", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 36, 'features': 12}"}
+{"ts": "2026-03-28T19:04:50", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 37, 'features': 12}"}
+{"ts": "2026-03-28T19:05:17", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 38, 'features': 12}"}
+{"ts": "2026-03-28T19:05:43", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 39, 'features': 12}"}
+{"ts": "2026-03-28T19:06:10", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 40, 'features': 12}"}
+{"ts": "2026-03-28T19:06:36", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 41, 'features': 12}"}
+{"ts": "2026-03-28T19:07:03", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 42, 'features': 12}"}
+{"ts": "2026-03-28T19:07:29", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 43, 'features': 12}"}
+{"ts": "2026-03-28T19:07:55", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 44, 'features': 12}"}
+{"ts": "2026-03-28T19:08:21", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 45, 'features': 12}"}
+{"ts": "2026-03-28T19:08:48", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 46, 'features': 12}"}
+{"ts": "2026-03-28T19:09:14", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 47, 'features': 12}"}
+{"ts": "2026-03-28T19:09:41", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 48, 'features': 12}"}
+{"ts": "2026-03-28T19:10:07", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 49, 'features': 12}"}
+{"ts": "2026-03-28T19:10:32", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 50, 'features': 12}"}
+{"ts": "2026-03-28T19:10:58", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 51, 'features': 12}"}
+{"ts": "2026-03-28T19:11:24", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 52, 'features': 12}"}
+{"ts": "2026-03-28T19:11:51", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 53, 'features': 12}"}
+{"ts": "2026-03-28T19:12:17", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 54, 'features': 12}"}
+{"ts": "2026-03-28T19:12:43", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 55, 'features': 12}"}
+{"ts": "2026-03-28T19:13:10", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 56, 'features': 12}"}
+{"ts": "2026-03-28T19:13:37", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 57, 'features': 12}"}
+{"ts": "2026-03-28T19:14:04", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 58, 'features': 12}"}
+{"ts": "2026-03-28T19:14:31", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 59, 'features': 12}"}
+{"ts": "2026-03-28T19:14:57", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 60, 'features': 12}"}
+{"ts": "2026-03-28T19:15:24", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 61, 'features': 12}"}
+{"ts": "2026-03-28T19:15:50", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 62, 'features': 12}"}
+{"ts": "2026-03-28T19:16:17", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 63, 'features': 12}"}
+{"ts": "2026-03-28T19:16:42", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 64, 'features': 12}"}
+{"ts": "2026-03-28T19:17:09", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 65, 'features': 12}"}
+{"ts": "2026-03-28T19:17:35", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 66, 'features': 12}"}
+{"ts": "2026-03-28T19:18:02", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 67, 'features': 12}"}
+{"ts": "2026-03-28T19:18:28", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 68, 'features': 12}"}
+{"ts": "2026-03-28T19:18:55", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 69, 'features': 12}"}
+{"ts": "2026-03-28T19:19:20", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 70, 'features': 12}"}
+{"ts": "2026-03-28T19:19:47", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 71, 'features': 12}"}
+{"ts": "2026-03-28T19:20:13", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 72, 'features': 12}"}
+{"ts": "2026-03-28T19:20:40", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 73, 'features': 12}"}
+{"ts": "2026-03-28T19:21:06", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 74, 'features': 12}"}
+{"ts": "2026-03-28T19:21:11", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 graveyard \u0394V=0.01500km/s fuel=19.37kg"}
+{"ts": "2026-03-28T19:21:33", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 75, 'features': 12}"}
+{"ts": "2026-03-28T19:21:51", "level": "INFO", "name": "acm", "msg": "[BURN] SAT-Alpha-08 graveyard \u0394V=0.01500km/s fuel=16.72kg"}
+{"ts": "2026-03-28T19:22:00", "level": "INFO", "name": "acm", "msg": "{'event': 'anomaly_detector_trained', 'debris_scored': 15000, 'trees': 16, 'train_count': 76, 'features': 12}"}
+{"ts": "2026-03-28T19:22:18", "level": "INFO", "name": "acm", "msg": "{'event': 'shutdown', 'msg': 'ACM shutting down'}"}

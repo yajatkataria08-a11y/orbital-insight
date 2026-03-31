@@ -1,0 +1,23 @@
+[
+  "miss_distance_m",
+  "relative_velocity_ms",
+  "altitude_km",
+  "inclination_diff_deg",
+  "time_to_closest_s",
+  "debris_eccentricity",
+  "combined_radius_m",
+  "dist_rate_kms",
+  "kinetic_energy_proxy",
+  "log_miss_distance_m",
+  "delta_miss_m_per_s",
+  "distance_acceleration",
+  "grav_potential",
+  "sin_inc_diff",
+  "cos_inc_diff",
+  "atmospheric_density_multiplier",
+  "vel_r_ms",
+  "vel_t_ms",
+  "vel_n_ms",
+  "log_chan_pc",
+  "period_ratio"
+]
