@@ -1,8 +1,7 @@
 FROM nginx:1.27-alpine
 
-COPY frontend/ /usr/share/nginx/html/
+COPY . /usr/share/nginx/html/
 
-# Write nginx config inline — no external nginx.conf file needed
 RUN printf 'server {\n\
     listen 80;\n\
     root /usr/share/nginx/html;\n\
