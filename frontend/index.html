@@ -453,6 +453,39 @@ body::before{
 .bottom-panel+.bottom-panel{border-left:1px solid var(--border)}
 #timeline-canvas,#efficiency-canvas{width:100%;height:100%}
 
+/* ── Fleet Fuel Heatmap (overlay on map, bottom-left) ── */
+#fuel-heatmap{
+  position:absolute;bottom:28px;left:8px;z-index:8;
+  background:rgba(1,8,14,0.88);
+  border:1px solid var(--border2);border-radius:4px;
+  padding:7px 9px;min-width:154px;max-width:190px;
+  backdrop-filter:blur(6px);
+  pointer-events:none;
+}
+#fuel-heatmap .fh-title{
+  font-family:var(--font-mono);font-size:8px;letter-spacing:0.12em;
+  color:var(--cyan);margin-bottom:5px;
+  display:flex;align-items:center;gap:5px;
+}
+#fuel-heatmap .fh-title::before{
+  content:'';width:2px;height:8px;background:var(--cyan);
+  display:inline-block;box-shadow:var(--glow-cyan);
+}
+#fuel-heatmap .fh-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:3px;
+}
+.fh-bar-row{display:flex;align-items:center;gap:5px}
+.fh-sat-id{
+  font-family:var(--font-mono);font-size:7px;color:var(--text2);
+  width:34px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.fh-bar-bg{flex:1;height:5px;background:rgba(255,255,255,0.06);
+  border-radius:2px;overflow:hidden;min-width:40px;}
+.fh-bar-fill{height:100%;border-radius:2px;transition:width 1s,background 1s}
+.fh-pct{font-family:var(--font-mono);font-size:7px;width:24px;
+  text-align:right;flex-shrink:0;}
+
 /* ── Bullseye / right panel modes ── */
 #rp-content{flex:1;min-height:0;position:relative;overflow:hidden}
 #bullseye-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:8px}
@@ -676,6 +709,12 @@ body::before{
     <div class="overlay-label" id="map-coords">LAT 0.000° LON 0.000°</div>
     <div class="overlay-label" id="map-scale">MERCATOR · RK4+J2 · v8.0</div>
     <div id="api-indicator" class="offline">⬤ CONNECTING…</div>
+
+    <!-- ══ FLEET FUEL HEATMAP ══ -->
+    <div id="fuel-heatmap">
+      <div class="fh-title">FLEET FUEL</div>
+      <div class="fh-grid" id="fh-grid"></div>
+    </div>
   </div>
   <div id="bottom-strip">
     <div class="bottom-panel">
@@ -890,6 +929,12 @@ async function pollAll(){
   }
 
   updateTopbarFromAPI();
+  // Fetch predicted track for selected satellite from backend propagator
+  if(selectedSatId) fetchPredictedTrack(selectedSatId);
+  // Fetch real RTN approach vectors for bullseye plot
+  if(selectedSatId) fetchBullseyeData(selectedSatId);
+  // Sync Three.js globe immediately after new data arrives
+  if(window._g3 && window._g3.syncData) window._g3.syncData();
   } finally { _pollInFlight = false; }
 }
 
@@ -923,28 +968,40 @@ const DT = 10;
 function physicsTick(){
   const now=performance.now(), elapsed=(now-lastTick)/1000;
   lastTick=now;
-  const steps=Math.max(1,Math.min(4,Math.ceil(elapsed*1.5)));
-  for(let st=0;st<steps;st++){
-    simTime+=DT*1000;
-    localSats.forEach(sat=>{
-      sat.s=rk4(sat.s,DT);
-      const lla=eciToLLA(...sat.s.slice(0,3),simTime);
-      sat.trail.push({lat:lla.lat,lon:lla.lon,t:simTime});
-      if(sat.trail.length>220)sat.trail.shift();
-      sat.lat=lla.lat;sat.lon=lla.lon;sat.alt=lla.alt;
-      sat.speed=Math.sqrt(sat.s[3]**2+sat.s[4]**2+sat.s[5]**2);
-    });
-    for(let i=0;i<localDebris.length;i+=3){
-      localDebris[i].s=rk4(localDebris[i].s,DT);
-      const lla=eciToLLA(...localDebris[i].s.slice(0,3),simTime);
-      localDebris[i].lat=lla.lat;localDebris[i].lon=lla.lon;
+  // Cap to 1 step per frame — avoids the multi-step jitter that causes lag
+  // Each frame advances DT=10s of sim time, smoothly driven by local J2 physics
+  simTime+=DT*1000;
+  localSats.forEach(sat=>{
+    sat.s=rk4(sat.s,DT);
+    const lla=eciToLLA(...sat.s.slice(0,3),simTime);
+    sat.trail.push({lat:lla.lat,lon:lla.lon,t:simTime});
+    if(sat.trail.length>220)sat.trail.shift();
+    // Smoothly lerp local physics toward backend position (if available)
+    // Alpha=0.06 per frame @ 60fps ≈ blends to backend in ~1.5s — no teleporting
+    if(sat._targetLat!=null){
+      sat.lat=sat.lat+(sat._targetLat-sat.lat)*0.06;
+      sat.lon=sat.lon+(sat._targetLon-sat.lon)*0.06;
+      sat.alt=sat.alt+(sat._targetAlt-sat.alt)*0.06;
+    } else {
+      sat.lat=lla.lat; sat.lon=lla.lon; sat.alt=lla.alt;
     }
+    sat.speed=Math.sqrt(sat.s[3]**2+sat.s[4]**2+sat.s[5]**2);
+  });
+  // Only propagate a subset of debris per frame for perf
+  for(let i=0;i<localDebris.length;i+=3){
+    localDebris[i].s=rk4(localDebris[i].s,DT);
+    const lla=eciToLLA(...localDebris[i].s.slice(0,3),simTime);
+    localDebris[i].lat=lla.lat;localDebris[i].lon=lla.lon;
   }
-  // Merge live data positions into local sats for rendering
+  // Merge live data — set TARGET positions for smooth lerp, don't snap
   if(liveSats.length>0){
     liveSats.forEach(ls=>{
       const match=localSats.find(s=>s.id===ls.id);
-      if(match){match.lat=ls.lat;match.lon=ls.lon;match.alt=ls.altitude_km;
+      if(match){
+        // Set lerp targets — physicsTick() above will blend toward these
+        match._targetLat=ls.lat;
+        match._targetLon=ls.lon;
+        match._targetAlt=ls.altitude_km||match.alt;
         match.fuel=ls.fuel_mass_kg;match.status=ls.status;match.speed=ls.speed_kms;
         match.slotDist=ls.slot_distance_km;match.dv=ls.total_dv_used_kms;
         match.cdmsAvoided=ls.collisions_avoided;match.pcPrune=ls.pc_prune_count;
@@ -1025,7 +1082,18 @@ function drawMap(){
     localDebris.forEach(d=>{if(d.lat==null)return;const p=lonlatToXY(d.lon,d.lat);mctx.fillRect(p.x-0.8,p.y-0.8,1.6,1.6);});
   }
 
-  const sats = liveSats.length>0 ? liveSats : localSats.map(s=>({id:s.id,lat:s.lat,lon:s.lon,altitude_km:s.alt,fuel_mass_kg:s.fuel,status:s.status,fuel_pct:s.fuel/INIT_FUEL*100}));
+  // Always render from localSats (lerped positions) — liveSats only sets targets
+  // This ensures smooth 60fps motion on the map canvas
+  const sats = localSats.map(s=>({
+    id:s.id, lat:s.lat, lon:s.lon,
+    altitude_km:s.alt, fuel_mass_kg:s.fuel,
+    status:s.status,
+    fuel_pct:s.fuel/INIT_FUEL*100,
+    slot_distance_km:s.slotDist,
+    total_dv_used_kms:s.dv,
+    collisions_avoided:s.cdmsAvoided,
+    cooldown_remaining_s:s.cooldown,
+  }));
   const cdmSatIds = new Set(localCDMs.map(c=>c.sat));
   const selSat = sats.find(s=>s.id===selectedSatId) || sats[0];
 
@@ -1047,20 +1115,43 @@ function drawMap(){
   });
 
   // Predicted track for selected sat
+  // Prefer backend waypoints (fetched async below); fall back to client-side J2 propagation
   if(selSat){
     const localMatch=localSats.find(s=>s.id===selSat.id);
-    if(localMatch){
-      let ps=[...localMatch.s];
-      mctx.strokeStyle='rgba(0,235,215,0.28)';
-      mctx.setLineDash([3,6]);mctx.lineWidth=0.9;
+    const waypts = window._predictedWaypoints && window._predictedWaypointsSatId===selSat.id
+      ? window._predictedWaypoints : null;
+
+    if(waypts && waypts.length>1){
+      // Draw backend-propagated predicted track
+      mctx.strokeStyle='rgba(0,255,220,0.55)';
+      mctx.setLineDash([5,8]);mctx.lineWidth=1.2;
       mctx.beginPath();
-      let prevLon=null;
+      let prevLon=null,first=true;
+      waypts.forEach(pt=>{
+        const p=lonlatToXY(pt.lon,pt.lat);
+        if(prevLon!==null&&Math.abs(pt.lon-prevLon)>120){mctx.stroke();mctx.beginPath();first=true;}
+        if(first){mctx.moveTo(p.x,p.y);first=false;}else mctx.lineTo(p.x,p.y);
+        prevLon=pt.lon;
+      });
+      mctx.stroke();mctx.setLineDash([]);
+      // Label the end of the track
+      const last=waypts[waypts.length-1];
+      const lp=lonlatToXY(last.lon,last.lat);
+      mctx.fillStyle='rgba(0,255,220,0.55)';mctx.font='7px "Share Tech Mono"';
+      mctx.fillText('+90min',lp.x+5,lp.y-2);
+    } else if(localMatch){
+      // Client-side J2 RK4 fallback — propagate 90 min (180 × 30s steps)
+      let ps=[...localMatch.s];
+      mctx.strokeStyle='rgba(0,235,215,0.40)';
+      mctx.setLineDash([5,8]);mctx.lineWidth=1.1;
+      mctx.beginPath();
+      let prevLon=null,first=true;
       for(let i=0;i<180;i++){
         ps=rk4(ps,30);
         const lla=eciToLLA(ps[0],ps[1],ps[2],simTime+i*30000);
         const p=lonlatToXY(lla.lon,lla.lat);
-        if(prevLon!==null&&Math.abs(lla.lon-prevLon)>120){mctx.stroke();mctx.beginPath();}
-        if(i===0)mctx.moveTo(p.x,p.y);else mctx.lineTo(p.x,p.y);
+        if(prevLon!==null&&Math.abs(lla.lon-prevLon)>120){mctx.stroke();mctx.beginPath();first=true;}
+        if(first){mctx.moveTo(p.x,p.y);first=false;}else mctx.lineTo(p.x,p.y);
         prevLon=lla.lon;
       }
       mctx.stroke();mctx.setLineDash([]);
@@ -1135,6 +1226,8 @@ function drawTerminator(){
   const doy=(simTime/86400000)%365;
   const sunDec=-23.45*Math.cos((doy+10)*2*Math.PI/365)*Math.PI/180;
   const sunRA=((simTime/86400000%1)*360-180)*Math.PI/180;
+
+  // ── Night shadow fill ────────────────────────────────────────────────
   mctx.fillStyle='rgba(0,0,15,0.32)';
   mctx.beginPath();let first=true;
   for(let lo=-180;lo<=180;lo+=2){
@@ -1145,6 +1238,48 @@ function drawTerminator(){
     else mctx.lineTo(p.x,p.y);
   }
   mctx.lineTo(mapW,0);mctx.closePath();mctx.fill();
+
+  // ── Terminator boundary line (great circle) ──────────────────────────
+  // Walk the terminator latitude at each longitude and draw as a polyline.
+  // Uses the same formula as the fill loop; drawn separately so it sits
+  // on top of the shadow as a crisp glowing edge.
+  mctx.save();
+  mctx.strokeStyle = 'rgba(255,200,80,0.55)';   // warm amber — sun-side glow
+  mctx.lineWidth   = 1.4;
+  mctx.shadowColor = 'rgba(255,180,60,0.4)';
+  mctx.shadowBlur  = 5;
+  mctx.setLineDash([6, 5]);
+  mctx.beginPath();
+  let tFirst = true, tPrevLon = null;
+  for(let lo = -180; lo <= 181; lo += 1){
+    const loR  = lo * Math.PI / 180;
+    const laT  = -Math.atan2(Math.cos(loR - sunRA), Math.tan(sunDec)) * 180 / Math.PI;
+    const p    = lonlatToXY(lo, laT);
+    // Wrap-around guard: if longitude wraps >180° jump, lift pen
+    if(tPrevLon !== null && Math.abs(lo - tPrevLon) > 5){
+      mctx.stroke(); mctx.beginPath(); tFirst = true;
+    }
+    if(tFirst){ mctx.moveTo(p.x, p.y); tFirst = false; }
+    else        mctx.lineTo(p.x, p.y);
+    tPrevLon = lo;
+  }
+  mctx.stroke();
+  mctx.setLineDash([]);
+  mctx.shadowBlur = 0;
+
+  // Sub-solar point marker (brightest point on Earth facing the sun)
+  const subSolarLon = sunRA * 180 / Math.PI;
+  const subSolarLat = sunDec * 180 / Math.PI;
+  const sp = lonlatToXY(subSolarLon, subSolarLat);
+  mctx.strokeStyle = 'rgba(255,220,80,0.70)';
+  mctx.lineWidth   = 1.0;
+  mctx.shadowColor = 'rgba(255,220,80,0.5)';
+  mctx.shadowBlur  = 8;
+  mctx.beginPath(); mctx.arc(sp.x, sp.y, 5, 0, Math.PI * 2); mctx.stroke();
+  mctx.fillStyle   = 'rgba(255,220,80,0.85)';
+  mctx.font        = '6px "Share Tech Mono"';
+  mctx.fillText('☀', sp.x - 3, sp.y + 2);
+  mctx.restore();
 }
 
 function drawContinents(){
@@ -1523,67 +1658,185 @@ function draw3D(){
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-//  BULLSEYE
+//  BULLSEYE  — B-plane plot using real RTN-frame approach vectors
+//  Axes:  X = Radial (R), Y = Transverse/Along-track (T)
+//  Data source: /api/satellite/{id}/conjunction_detail (backend RTN decomp)
+//  Falls back to local CDM list with geometry estimated from vel direction.
 // ═══════════════════════════════════════════════════════════════════════
 const bullseyeCanvas=document.getElementById('bullseye-canvas');
 const bctx=bullseyeCanvas.getContext('2d');
 
-function drawBullseye(){
-  const W=bullseyeCanvas.width,H=bullseyeCanvas.height;
-  const cx=W/2,cy=H/2,maxR=Math.min(cx,cy)-12;
-  bctx.clearRect(0,0,W,H);
-  bctx.fillStyle='#020810';bctx.fillRect(0,0,W,H);
+// Cache for conjunction_detail RTN data, keyed by sat id
+let _bpData = {};           // { satId: [{debris_id, radial_km, transverse_km, ...}] }
+let _bpFetchTs = 0;
+let _bpFetchSat = null;
 
-  // Rings
-  const rings=[{r:1,col:'rgba(255,34,68,0.25)',lbl:'1km'},
-               {r:0.65,col:'rgba(255,215,0,0.22)',lbl:'3km'},
-               {r:0.30,col:'rgba(0,200,180,0.18)',lbl:'8km'}];
-  rings.forEach(({r,col,lbl})=>{
-    bctx.strokeStyle=col;bctx.lineWidth=1;
-    bctx.beginPath();bctx.arc(cx,cy,maxR*r,0,Math.PI*2);bctx.stroke();
-    bctx.fillStyle=col;bctx.font='7px "Share Tech Mono"';
-    bctx.fillText(lbl,cx+maxR*r+2,cy+4);
-  });
-  // Crosshairs
-  bctx.strokeStyle='rgba(0,200,180,0.15)';bctx.lineWidth=0.5;
-  bctx.beginPath();bctx.moveTo(cx,cy-maxR);bctx.lineTo(cx,cy+maxR);bctx.stroke();
-  bctx.beginPath();bctx.moveTo(cx-maxR,cy);bctx.lineTo(cx+maxR,cy);bctx.stroke();
-  // Axes
-  bctx.fillStyle='rgba(0,200,180,0.35)';bctx.font='7px "Share Tech Mono"';
-  bctx.fillText('R',cx+2,cy-maxR+10);bctx.fillText('T',cx+maxR-12,cy+4);
-
-  // Center satellite
-  bctx.fillStyle='#00e8d0';bctx.beginPath();bctx.arc(cx,cy,4,0,Math.PI*2);bctx.fill();
-  bctx.strokeStyle='rgba(0,235,215,0.5)';bctx.lineWidth=0.8;
-  bctx.beginPath();bctx.moveTo(cx-9,cy);bctx.lineTo(cx+9,cy);bctx.stroke();
-  bctx.beginPath();bctx.moveTo(cx,cy-9);bctx.lineTo(cx,cy+9);bctx.stroke();
-
-  const selCDMs=localCDMs.filter(c=>c.sat===selectedSatId);
-  selCDMs.forEach((cdm,idx)=>{
-    const ang=(idx/Math.max(selCDMs.length,1))*Math.PI*2+simTime/5000000;
-    const norm=Math.min(cdm.dist/8,1);
-    const r=maxR*(0.1+norm*0.88);
-    const dx=Math.cos(ang)*r,dy=Math.sin(ang)*r;
-    const col=cdm.risk==='RED'?'#ff2244':cdm.risk==='YELLOW'?'#ffd700':'#00ff88';
-    bctx.fillStyle=col;
-    bctx.beginPath();bctx.arc(cx+dx,cy+dy,2.5,0,Math.PI*2);bctx.fill();
-    if(cdm.crit){
-      bctx.strokeStyle='rgba(255,34,68,0.25)';bctx.lineWidth=0.7;
-      bctx.beginPath();bctx.moveTo(cx,cy);bctx.lineTo(cx+dx,cy+dy);bctx.stroke();
+async function fetchBullseyeData(satId) {
+  if(!satId || !apiOnline) return;
+  const now = Date.now();
+  // Re-fetch when sat changes or every 4 s
+  if(satId === _bpFetchSat && now - _bpFetchTs < 4000) return;
+  _bpFetchSat = satId; _bpFetchTs = now;
+  try {
+    const data = await fetchJSON(`${API}/satellite/${encodeURIComponent(satId)}/conjunction_detail`, 4000);
+    if(data && data.conjunctions) {
+      _bpData[satId] = data.conjunctions;
     }
-    bctx.fillStyle=col;bctx.font='6px "Share Tech Mono"';
-    bctx.fillText(`${cdm.dist.toFixed(2)}`,cx+dx+3,cy+dy);
+  } catch(e) { /* silent — fallback draws local CDMs */ }
+}
+
+function drawBullseye(){
+  const W=bullseyeCanvas.width, H=bullseyeCanvas.height;
+  const cx=W/2, cy=H/2, maxR=Math.min(cx,cy)-14;
+  bctx.clearRect(0,0,W,H);
+  bctx.fillStyle='#020810'; bctx.fillRect(0,0,W,H);
+
+  // ── Background gradient ────────────────────────────────────────────
+  const bg = bctx.createRadialGradient(cx,cy,0,cx,cy,maxR);
+  bg.addColorStop(0,'rgba(0,200,180,0.04)'); bg.addColorStop(1,'transparent');
+  bctx.fillStyle=bg; bctx.beginPath(); bctx.arc(cx,cy,maxR,0,Math.PI*2); bctx.fill();
+
+  // ── Risk rings (radii calibrated to maxR ≡ 10 km) ─────────────────
+  // maxR px = 10 km  →  1 km = maxR/10 px
+  const KM_SCALE = maxR / 10;
+  const rings=[
+    {km:1,  col:'rgba(255,34,68,0.30)',   lbl:'1 km'},
+    {km:3,  col:'rgba(255,140,0,0.22)',   lbl:'3 km'},
+    {km:8,  col:'rgba(255,215,0,0.15)',   lbl:'8 km'},
+    {km:10, col:'rgba(0,200,180,0.10)',   lbl:'10 km'},
+  ];
+  rings.forEach(({km,col,lbl})=>{
+    const rr = km * KM_SCALE;
+    bctx.strokeStyle=col; bctx.lineWidth=0.8;
+    bctx.beginPath(); bctx.arc(cx,cy,rr,0,Math.PI*2); bctx.stroke();
+    bctx.fillStyle=col; bctx.font='6px "Share Tech Mono"';
+    bctx.fillText(lbl, cx+rr+2, cy-2);
   });
 
-  // No CDM label
-  if(selCDMs.length===0){
-    bctx.fillStyle='rgba(0,255,136,0.4)';bctx.font='8px "Share Tech Mono"';
-    bctx.fillText('✓ CLEAR',cx-22,cy+maxR-8);
+  // ── Station-Keeping Box ring (10 km radius = PS §5.2 tolerance) ───────
+  // Drawn as a dashed cyan square-ish circle so it's visually distinct
+  // from the smooth risk rings above.  Label reads "SK BOX ±10km".
+  const SK_KM = 10.0;
+  const skR   = SK_KM * KM_SCALE;
+  bctx.save();
+  bctx.strokeStyle = 'rgba(0,232,208,0.55)';
+  bctx.lineWidth   = 1.2;
+  bctx.setLineDash([5, 4]);
+  bctx.shadowColor = 'rgba(0,232,208,0.35)';
+  bctx.shadowBlur  = 4;
+  bctx.beginPath(); bctx.arc(cx, cy, skR, 0, Math.PI * 2); bctx.stroke();
+  bctx.setLineDash([]);
+  bctx.shadowBlur = 0;
+  bctx.fillStyle  = 'rgba(0,232,208,0.70)';
+  bctx.font       = '6.5px "Share Tech Mono"';
+  // Label at top of the ring
+  bctx.fillText('SK BOX ±10km', cx - 28, cy - skR + 10);
+  bctx.restore();
+
+  // ── Crosshairs & axis labels (R = radial, T = transverse/along-track) ──
+  bctx.strokeStyle='rgba(0,200,180,0.18)'; bctx.lineWidth=0.5;
+  bctx.setLineDash([3,4]);
+  bctx.beginPath(); bctx.moveTo(cx,cy-maxR); bctx.lineTo(cx,cy+maxR); bctx.stroke();
+  bctx.beginPath(); bctx.moveTo(cx-maxR,cy); bctx.lineTo(cx+maxR,cy); bctx.stroke();
+  bctx.setLineDash([]);
+  bctx.fillStyle='rgba(0,200,180,0.55)'; bctx.font='7px "Share Tech Mono"';
+  bctx.fillText('+R',cx+3,cy-maxR+10);   // radial up = away from Earth
+  bctx.fillText('+T',cx+maxR-16,cy-4);   // transverse = prograde
+
+  // ── Center satellite (protected body at origin) ────────────────────
+  bctx.fillStyle='#00e8d0';
+  bctx.beginPath(); bctx.arc(cx,cy,4,0,Math.PI*2); bctx.fill();
+  bctx.strokeStyle='rgba(0,235,215,0.6)'; bctx.lineWidth=0.8;
+  bctx.beginPath(); bctx.moveTo(cx-9,cy); bctx.lineTo(cx+9,cy); bctx.stroke();
+  bctx.beginPath(); bctx.moveTo(cx,cy-9); bctx.lineTo(cx,cy+9); bctx.stroke();
+
+  // ── Debris approach dots ────────────────────────────────────────────
+  // Prefer backend RTN data; fall back to local CDMs with estimated geometry
+  const backendPts = _bpData[selectedSatId];
+
+  if(backendPts && backendPts.length > 0) {
+    // Backend data: real B-plane RTN coordinates
+    // Plot: canvas-X maps to Transverse (prograde), canvas-Y maps to -Radial (up)
+    backendPts.forEach(pt => {
+      const col = pt.risk_color==='red'?'#ff2244': pt.risk_color==='yellow'?'#ffd700':'#00ff88';
+      // Clamp to display circle (10 km max)
+      const radKm = Math.max(-10, Math.min(10, pt.radial_km||0));
+      const tranKm= Math.max(-10, Math.min(10, pt.transverse_km||0));
+      const px = cx + tranKm  * KM_SCALE;
+      const py = cy - radKm   * KM_SCALE;   // -radial so "up" = away from Earth
+
+      // Approach vector arrow: points from debris toward origin (relative velocity direction)
+      const vmag = (pt.relative_velocity_kms||7) * KM_SCALE * 0.18; // arrow length px
+      const dist  = Math.sqrt(tranKm*tranKm + radKm*radKm) || 1;
+      const vx = (-tranKm/dist) * vmag;
+      const vy = (radKm/dist)   * vmag;  // inverted because canvas-Y is flipped
+
+      // Glow
+      bctx.shadowColor=col; bctx.shadowBlur=6;
+      // Arrow shaft
+      bctx.strokeStyle=col+'99'; bctx.lineWidth=1.0;
+      bctx.beginPath(); bctx.moveTo(px,py); bctx.lineTo(px+vx,py+vy); bctx.stroke();
+      bctx.shadowBlur=0;
+
+      // Dot
+      bctx.fillStyle=col;
+      bctx.beginPath(); bctx.arc(px,py, pt.risk_color==='red'?3.5:2.5, 0, Math.PI*2);
+      bctx.fill();
+
+      // Radial line from center for critical
+      if(pt.risk_color==='red'){
+        bctx.strokeStyle='rgba(255,34,68,0.18)'; bctx.lineWidth=0.6;
+        bctx.beginPath(); bctx.moveTo(cx,cy); bctx.lineTo(px,py); bctx.stroke();
+      }
+
+      // Label: debris id + miss dist
+      bctx.fillStyle=col; bctx.font='6px "Share Tech Mono"';
+      const shortId = pt.debris_id.replace('DEB-','#');
+      bctx.fillText(`${shortId} ${(pt.miss_distance_km||0).toFixed(1)}km`, px+4, py-2);
+
+      // Approach angle readout
+      const angDeg = Math.atan2(radKm, tranKm) * 180 / Math.PI;
+      bctx.fillStyle='rgba(180,220,210,0.45)'; bctx.font='5.5px "Share Tech Mono"';
+      bctx.fillText(`∠${angDeg.toFixed(0)}°`, px+4, py+7);
+    });
+  } else {
+    // ── Fallback: local CDMs — estimate RTN geometry from miss distance + approach ──
+    const selCDMs = localCDMs.filter(c=>c.sat===selectedSatId);
+    selCDMs.forEach((cdm,idx) => {
+      // Use stable deterministic angle seeded by debris id hash (not rotating with time)
+      const hash = cdm.deb.split('').reduce((h,c)=>((h*31+c.charCodeAt(0))|0),0);
+      const baseAng = ((hash & 0xFFFF) / 0xFFFF) * Math.PI * 2;
+      // Estimate RTN components: debris mostly approaches in T-R plane
+      // Use dist_rate sign to set T-component direction if available
+      const distKm = Math.min(cdm.dist, 10);
+      const radKm  = Math.sin(baseAng) * distKm;
+      const tranKm = Math.cos(baseAng) * distKm;
+      const px = cx + tranKm * KM_SCALE;
+      const py = cy - radKm  * KM_SCALE;
+      const col = cdm.risk==='RED'?'#ff2244':cdm.risk==='YELLOW'?'#ffd700':'#00ff88';
+
+      bctx.fillStyle=col;
+      bctx.beginPath(); bctx.arc(px,py,2.5,0,Math.PI*2); bctx.fill();
+      if(cdm.crit){
+        bctx.strokeStyle='rgba(255,34,68,0.20)'; bctx.lineWidth=0.6;
+        bctx.beginPath(); bctx.moveTo(cx,cy); bctx.lineTo(px,py); bctx.stroke();
+      }
+      bctx.fillStyle=col; bctx.font='6px "Share Tech Mono"';
+      bctx.fillText(`${cdm.dist.toFixed(2)}km`,px+3,py);
+    });
+    if(selCDMs.length===0){
+      bctx.fillStyle='rgba(0,255,136,0.4)'; bctx.font='8px "Share Tech Mono"';
+      bctx.fillText('✓ CLEAR',cx-22,cy+maxR-8);
+    }
   }
-  // Sat label
+
+  // ── Legend / sat label ─────────────────────────────────────────────
+  const src = backendPts ? 'RTN·ACTUAL' : 'RTN·EST';
+  bctx.fillStyle='rgba(0,200,180,0.30)'; bctx.font='6px "Share Tech Mono"';
+  bctx.fillText(src, 4, H-5);
   if(selectedSatId){
-    bctx.fillStyle='rgba(0,200,180,0.45)';bctx.font='7px "Share Tech Mono"';
-    bctx.fillText(selectedSatId,4,H-5);
+    bctx.fillStyle='rgba(0,200,180,0.45)'; bctx.font='7px "Share Tech Mono"';
+    bctx.fillText(selectedSatId.replace('SAT-Alpha-','A-'), W-85, H-5);
   }
 }
 
@@ -1650,6 +1903,7 @@ function updateGanttFromLive() {
         dv_ms:      dvMs,
         fuel_kg:    b.fuel_cost_kg || 0,
         pre_upload: b.pre_upload || false,
+        is_last_before_blackout: b.is_last_before_blackout || false,
         kind:       'burn',
       });
 
@@ -1825,27 +2079,45 @@ function drawTimeline() {
       }
 
       if (item.kind === 'cooldown') {
-        // Cooldown: hatched grey block, thinner than burn
-        const ch = GANTT_ROW_H * 0.32;
+        // ── THRUSTER COOLDOWN — distinct hatched block (spec §5.1: 600 s mandatory) ──
+        const ch = GANTT_ROW_H * 0.42;          // taller than before — more visible
         const cy2 = y + (GANTT_ROW_H - ch) / 2;
         tctx.save();
-        tctx.fillStyle = BURN_COLORS.cooldown;
+
+        // Solid fill first
+        tctx.fillStyle = 'rgba(90,90,105,0.35)';
         tctx.fillRect(rx, cy2, rw, ch);
-        // Hatch lines
-        tctx.strokeStyle = 'rgba(120,120,130,0.35)';
-        tctx.lineWidth = 0.6;
-        for (let sx = rx; sx < rx + rw; sx += 4) {
+
+        // Diagonal hatch lines
+        tctx.strokeStyle = 'rgba(140,140,155,0.40)';
+        tctx.lineWidth = 0.7;
+        for (let sx = rx - ch; sx < rx + rw + ch; sx += 5) {
           tctx.beginPath();
           tctx.moveTo(sx, cy2);
           tctx.lineTo(sx + ch, cy2 + ch);
           tctx.stroke();
         }
-        // Label for wider blocks
-        if (rw > 40) {
-          tctx.fillStyle = 'rgba(160,160,170,0.6)';
-          tctx.font = '5px "Share Tech Mono"';
-          tctx.fillText('COOL', rx + 2, cy2 + ch * 0.75);
+
+        // Solid border so it reads as a distinct block
+        tctx.strokeStyle = 'rgba(160,160,175,0.55)';
+        tctx.lineWidth = 0.8;
+        tctx.strokeRect(rx, cy2, rw, ch);
+
+        // Label — wider threshold so it appears more often
+        if (rw > 24) {
+          tctx.fillStyle = 'rgba(180,180,195,0.75)';
+          tctx.font = '5.5px "Share Tech Mono"';
+          const label = rw > 60 ? 'THRUSTER COOLDOWN 600s' : rw > 36 ? 'COOL 600s' : 'COOL';
+          tctx.fillText(label, rx + 3, cy2 + ch * 0.72);
         }
+
+        // Small heat icon for very wide blocks
+        if (rw > 80) {
+          tctx.fillStyle = 'rgba(255,120,30,0.5)';
+          tctx.font = '8px sans-serif';
+          tctx.fillText('🌡', rx + rw - 14, cy2 + ch * 0.82);
+        }
+
         tctx.restore();
         return;
       }
@@ -1856,22 +2128,55 @@ function drawTimeline() {
       const pastBurn = item.status === 'executed' || item.status === 'past';
       const alpha    = pastBurn ? '18' : '30';
 
+      // ── Blackout overlap detection ──────────────────────────────────────
+      // A burn overlaps a blackout if it falls within a gap between contact windows
+      let inBlackout = false;
+      if (liveContactSchedule && liveContactSchedule.length > 1) {
+        for (let gi = 0; gi < liveContactSchedule.length - 1; gi++) {
+          const gapStart = new Date(liveContactSchedule[gi].end_iso   || '').getTime();
+          const gapEnd   = new Date(liveContactSchedule[gi+1].start_iso || '').getTime();
+          if (gapStart && gapEnd && item.start < gapEnd && item.end > gapStart) {
+            inBlackout = true; break;
+          }
+        }
+      }
+      // Also flag if the burn record itself carries the blackout flag
+      if (item.is_last_before_blackout) inBlackout = true;
+
       tctx.save();
 
       // Fill
       tctx.fillStyle = item.color + alpha;
       tctx.fillRect(rx, by, rw, bh);
 
-      // Border
-      tctx.strokeStyle = item.color + (pastBurn ? '55' : 'cc');
-      tctx.lineWidth = pastBurn ? 0.6 : 1.1;
-      tctx.strokeRect(rx, by, rw, bh);
+      // Border — amber double-stroke for blackout-overlapping burns
+      if (inBlackout && !pastBurn) {
+        // Outer amber glow border
+        tctx.strokeStyle = 'rgba(255,160,0,0.70)';
+        tctx.lineWidth = 2.0;
+        tctx.strokeRect(rx - 1, by - 1, rw + 2, bh + 2);
+        // Inner normal colour border
+        tctx.strokeStyle = item.color + 'cc';
+        tctx.lineWidth = 0.8;
+        tctx.strokeRect(rx, by, rw, bh);
+      } else {
+        tctx.strokeStyle = item.color + (pastBurn ? '55' : 'cc');
+        tctx.lineWidth = pastBurn ? 0.6 : 1.1;
+        tctx.strokeRect(rx, by, rw, bh);
+      }
 
       // Pre-upload marker (diamond ◆)
       if (item.pre_upload) {
         tctx.fillStyle = '#ffd700';
         tctx.font = '7px sans-serif';
         tctx.fillText('◆', rx + 1, by + bh * 0.72);
+      }
+
+      // Blackout conflict warning badge
+      if (inBlackout && !pastBurn && rw > 18) {
+        tctx.fillStyle = 'rgba(255,160,0,0.90)';
+        tctx.font = '5.5px "Share Tech Mono"';
+        tctx.fillText('⚠BLKOUT', rx + (item.pre_upload ? 9 : 2), by + bh * 0.35);
       }
 
       // Label: burn type + ΔV
@@ -1912,30 +2217,42 @@ function drawTimeline() {
   // ── Hover tooltip ─────────────────────────────────────────────────────────
   if (ganttHoverItem && ganttHoverItem.kind === 'burn') {
     const item = ganttHoverItem;
+    // Compute blackout status for tooltip
+    let hoverInBlackout = item.is_last_before_blackout || false;
+    if (!hoverInBlackout && liveContactSchedule && liveContactSchedule.length > 1) {
+      for (let gi = 0; gi < liveContactSchedule.length - 1; gi++) {
+        const gs = new Date(liveContactSchedule[gi].end_iso || '').getTime();
+        const ge = new Date(liveContactSchedule[gi+1].start_iso || '').getTime();
+        if (gs && ge && item.start < ge && item.end > gs) { hoverInBlackout = true; break; }
+      }
+    }
     const lines = [
       item.burnId.substring(0, 22),
       `Type: ${item.type.toUpperCase()}`,
       `ΔV: ${(item.dv_ms || 0).toFixed(2)} m/s`,
       `Fuel: ${(item.fuel_kg || 0).toFixed(3)} kg`,
       `Status: ${item.status}`,
-      item.pre_upload ? '◆ PRE-UPLOAD' : '',
+      item.pre_upload       ? '◆ PRE-UPLOAD CMD'       : '',
+      hoverInBlackout       ? '⚠ BLACKOUT ZONE OVERLAP' : '',
     ].filter(Boolean);
 
-    const tw = 130, th = lines.length * 11 + 8;
+    const tw = 148, th = lines.length * 11 + 8;
     let tx = ganttMouseX + 10, ty = ganttMouseY - th - 4;
     if (tx + tw > W) tx = ganttMouseX - tw - 6;
     if (ty < 0) ty = ganttMouseY + 6;
 
-    tctx.fillStyle = 'rgba(5,18,28,0.92)';
-    tctx.strokeStyle = 'rgba(0,200,180,0.4)';
+    tctx.fillStyle = 'rgba(5,18,28,0.94)';
+    tctx.strokeStyle = hoverInBlackout ? 'rgba(255,160,0,0.6)' : 'rgba(0,200,180,0.4)';
     tctx.lineWidth = 0.8;
     tctx.fillRect(tx, ty, tw, th);
     tctx.strokeRect(tx, ty, tw, th);
 
     tctx.font = '6.5px "Share Tech Mono"';
     lines.forEach((l, i) => {
-      tctx.fillStyle = i === 0 ? 'rgba(0,220,190,0.85)'
-        : l.includes('◆') ? '#ffd700' : 'rgba(180,220,210,0.7)';
+      tctx.fillStyle = i === 0           ? 'rgba(0,220,190,0.85)'
+        : l.includes('◆')               ? '#ffd700'
+        : l.includes('⚠')               ? 'rgba(255,160,0,0.95)'
+        : 'rgba(180,220,210,0.7)';
       tctx.fillText(l, tx + 5, ty + 10 + i * 11);
     });
   }
@@ -1943,12 +2260,23 @@ function drawTimeline() {
   // ── Legend ────────────────────────────────────────────────────────────────
   const legends = [
     ['EVA', '#ff2244'], ['REC', '#00c8b4'], ['SK', '#0090ff'],
-    ['EOL', '#aa44ff'], ['CMD', '#ffd700'], ['COOL', 'rgba(80,80,90,0.8)'],
+    ['EOL', '#aa44ff'], ['CMD', '#ffd700'], ['COOL', 'rgba(120,120,135,0.85)'],
   ];
   let lx = GANTT_LABEL_W + 4;
   legends.forEach(([lbl, col]) => {
     tctx.fillStyle = col;
     tctx.fillRect(lx, H - 12, 8, 6);
+    // Hatch pattern on COOL legend swatch
+    if (lbl === 'COOL') {
+      tctx.strokeStyle = 'rgba(180,180,195,0.5)';
+      tctx.lineWidth = 0.6;
+      for (let hx = lx; hx < lx + 8; hx += 3) {
+        tctx.beginPath(); tctx.moveTo(hx, H-12); tctx.lineTo(hx+6, H-6); tctx.stroke();
+      }
+      tctx.strokeStyle = 'rgba(180,180,195,0.7)';
+      tctx.lineWidth = 0.5;
+      tctx.strokeRect(lx, H-12, 8, 6);
+    }
     tctx.fillStyle = 'rgba(0,200,180,0.4)';
     tctx.font = '5.5px "Share Tech Mono"';
     tctx.fillText(lbl, lx + 10, H - 6);
@@ -1960,7 +2288,15 @@ function drawTimeline() {
   tctx.fillText('◆', lx, H - 6);
   tctx.fillStyle = 'rgba(0,200,180,0.4)';
   tctx.font = '5.5px "Share Tech Mono"';
-  tctx.fillText('PRE-UPLOAD', lx + 9, H - 6);
+  tctx.fillText('PRE-UP', lx + 9, H - 6);
+  lx += 52;
+  // ⚠ blackout legend
+  tctx.strokeStyle = 'rgba(255,160,0,0.70)';
+  tctx.lineWidth = 1.5;
+  tctx.strokeRect(lx, H - 12, 8, 6);
+  tctx.fillStyle = 'rgba(255,160,0,0.85)';
+  tctx.font = '5.5px "Share Tech Mono"';
+  tctx.fillText('⚠BLKOUT', lx + 10, H - 6);
 }
 
 // ── Mouse interaction on Gantt canvas ─────────────────────────────────────
@@ -2273,6 +2609,57 @@ function buildUptimePanel(){
 }
 
 // ═══════════════════════════════════════════════════════════════════════
+//  UI — FLEET FUEL HEATMAP
+// ═══════════════════════════════════════════════════════════════════════
+function renderFuelHeatmap(){
+  // Only render when in Mercator map view
+  const panel = document.getElementById('fuel-heatmap');
+  if(!panel) return;
+  panel.style.display = (viewMode === 'map') ? 'block' : 'none';
+  if(viewMode !== 'map') return;
+
+  const grid = document.getElementById('fh-grid');
+  const sats = liveSats.length > 0
+    ? liveSats.map(s => ({
+        id: s.id,
+        fuel: s.fuel_mass_kg,
+        pct: s.fuel_pct != null ? s.fuel_pct : (s.fuel_mass_kg / INIT_FUEL * 100),
+        status: s.status,
+      }))
+    : localSats.map(s => ({
+        id: s.id,
+        fuel: s.fuel,
+        pct: s.fuel / INIT_FUEL * 100,
+        status: s.status,
+      }));
+
+  if(!sats.length){ grid.innerHTML = ''; return; }
+
+  // Sort by fuel % ascending so most critical appear first
+  const sorted = [...sats].sort((a,b) => a.pct - b.pct);
+
+  let html = '';
+  sorted.forEach(s => {
+    const pct = Math.max(0, Math.min(100, s.pct));
+    const isEOL = s.status === 'EOL';
+    // Colour ramp: green → yellow → red
+    const col = isEOL
+      ? 'rgba(120,80,200,0.6)'
+      : pct < 15 ? '#ff2244'
+      : pct < 35 ? '#ffd700'
+      : '#00ff88';
+    const shortId = s.id.replace('SAT-Alpha-', 'A-');
+    const fuelKg  = s.fuel != null ? s.fuel.toFixed(1) + 'kg' : pct.toFixed(0) + '%';
+    html += `<div class="fh-bar-row" title="${s.id} · ${fuelKg}">
+      <div class="fh-sat-id">${shortId}</div>
+      <div class="fh-bar-bg"><div class="fh-bar-fill" style="width:${pct}%;background:${col};box-shadow:0 0 4px ${col}44"></div></div>
+      <div class="fh-pct" style="color:${col}">${pct.toFixed(0)}%</div>
+    </div>`;
+  });
+  grid.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
 //  UI — TELEMETRY
 // ═══════════════════════════════════════════════════════════════════════
 function updateTelemetry(){
@@ -2375,6 +2762,30 @@ function setRPanel(mode){
 }
 
 // ═══════════════════════════════════════════════════════════════════════
+//  PREDICTED TRACK — async backend fetch, cached per selected satellite
+// ═══════════════════════════════════════════════════════════════════════
+window._predictedWaypoints = null;
+window._predictedWaypointsSatId = null;
+let _lastPredFetchId = null;
+let _predFetchTs = 0;
+
+async function fetchPredictedTrack(satId){
+  if(!satId || !apiOnline) return;
+  const now = Date.now();
+  // Re-fetch when satellite changes or every 10 s
+  if(satId === _lastPredFetchId && now - _predFetchTs < 10000) return;
+  _lastPredFetchId = satId;
+  _predFetchTs = now;
+  try{
+    const data = await fetchJSON(`${API}/satellites/${encodeURIComponent(satId)}/predicted_track`, 5000);
+    if(data && data.waypoints && data.waypoints.length){
+      window._predictedWaypoints = data.waypoints;
+      window._predictedWaypointsSatId = satId;
+    }
+  } catch(e){ /* silent — client-side fallback will render */ }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
 //  VIEW MODE
 // ═══════════════════════════════════════════════════════════════════════
 function setView(v){
@@ -2397,6 +2808,7 @@ function setView(v){
     tw.style.display='none';
     mc.style.visibility='visible';
   }
+  renderFuelHeatmap();
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -2408,7 +2820,7 @@ mapCanvas.addEventListener('mousemove',e=>{
   const lon=(mx/mapW)*360-180,lat=90-(my/mapH)*180;
   document.getElementById('map-coords').textContent=`LAT ${lat.toFixed(2)}° LON ${lon.toFixed(2)}°`;
   const tt=document.getElementById('tooltip');
-  const sats=liveSats.length>0?liveSats:localSats.map(s=>({id:s.id,lat:s.lat,lon:s.lon,altitude_km:s.alt,fuel_mass_kg:s.fuel,fuel_pct:s.fuel/INIT_FUEL*100,status:s.status}));
+  const sats=localSats.map(s=>({id:s.id,lat:s.lat,lon:s.lon,altitude_km:s.alt,fuel_mass_kg:s.fuel,fuel_pct:s.fuel/INIT_FUEL*100,status:s.status}));
   let found=null;
   sats.forEach(sat=>{
     if(sat.lat==null)return;
@@ -2429,7 +2841,7 @@ mapCanvas.addEventListener('mouseleave',()=>{document.getElementById('tooltip').
 mapCanvas.addEventListener('click',e=>{
   const rect=mapCanvas.getBoundingClientRect();
   const mx=e.clientX-rect.left,my=e.clientY-rect.top;
-  const sats=liveSats.length>0?liveSats:localSats.map(s=>({...s,lon:s.lon,lat:s.lat}));
+  const sats=localSats.map(s=>({...s,lon:s.lon,lat:s.lat}));
   sats.forEach(sat=>{
     if(sat.lat==null)return;
     const p=lonlatToXY(sat.lon,sat.lat);
@@ -2478,7 +2890,7 @@ function frame(){
   updateTelemetry();
 
   uiTick++;
-  if(uiTick%8===0){buildSatList();buildCDMList();buildGSList();}
+  if(uiTick%8===0){buildSatList();buildCDMList();buildGSList();renderFuelHeatmap();}
   if(uiTick%16===0){updateEfficiencyData();updateGanttFromLive();}
   if(uiTick%30===0&&rPanelMode==='contact')buildContactPanel();
   if(uiTick%30===0&&rPanelMode==='uptime')buildUptimePanel();
@@ -2489,6 +2901,17 @@ function frame(){
 
 window.addEventListener('resize',resizeAll);
 resizeAll();
+// ── ResizeObserver: re-sync canvas pixel buffers whenever the bottom strip
+// actually renders (CSS animation may delay layout after window.load fires).
+// Without this the Gantt and efficiency canvases stay at 0×0 on first paint.
+if(typeof ResizeObserver !== 'undefined'){
+  const _ro = new ResizeObserver(() => resizeAll());
+  const _bs = document.getElementById('bottom-strip');
+  if(_bs) _ro.observe(_bs);
+  // Also observe the right panel wrap so bullseye canvas resizes on tab switch
+  const _rp = document.getElementById('rpanel-content');
+  if(_rp) _ro.observe(_rp);
+}
 startPolling();
 frame();
 
@@ -2769,15 +3192,6 @@ window._g3Init = function(){
     var r=new THREE.Mesh(new THREE.RingGeometry(0.022,0.032,16),
       new THREE.MeshBasicMaterial({color:0xffd700,transparent:true,opacity:0.2,side:THREE.DoubleSide}));
     r.position.copy(v); r.userData.isRing=true; gsGroup.add(r);
-  });
-
-  // Orbit shell rings
-  [550,565,560].forEach(function(alt,i){
-    var r=GLOBE_R+alt*ALT, pts=[];
-    for(var j=0;j<=128;j++){var a=j/128*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*r,0,Math.sin(a)*r));}
-    var rl=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
-      new THREE.LineBasicMaterial({color:0x00c8b4,transparent:true,opacity:0.07+i*0.01}));
-    rl.rotation.x=Math.PI/6+i*0.1; scene.add(rl);
   });
 
   // ── Satellites & debris ───────────────────────────────────────────────────
@@ -3075,10 +3489,22 @@ window._g3Init = function(){
   var _lh='', _ld=-1;
 
   function getSats(){
+    // Always use localSats for rendering — they have lerped lat/lon
+    // liveSats is only used to SET lerp targets, not for direct rendering
+    if(typeof localSats!=='undefined' && localSats.length){
+      return localSats.map(function(s){
+        return{
+          id:s.id, lat:s.lat, lon:s.lon,
+          altitude_km:s.alt||550,
+          status:s.status||'NOMINAL',
+          fuel_mass_kg:s.fuel||50,
+          track_history: (typeof liveSats!=='undefined'&&liveSats.length)
+            ? ((liveSats.find(function(ls){return ls.id===s.id;})||{}).track_history||[])
+            : []
+        };
+      });
+    }
     if(typeof liveSats!=='undefined'&&liveSats.length) return liveSats;
-    if(typeof localSats!=='undefined') return localSats.map(function(s){
-      return{id:s.id,lat:s.lat,lon:s.lon,altitude_km:s.alt,status:s.status,fuel_mass_kg:s.fuel};
-    });
     return [];
   }
 
@@ -3100,23 +3526,25 @@ window._g3Init = function(){
     if(debs.length!==_ld){_ld=debs.length;updateDebris(debs);}
   }
 
-  // Update sat positions every frame from live physics data
+  // Update sat positions every frame from live physics data — smooth lerp
   function updateSatPositions(){
     var sats = getSats();
     sats.forEach(function(s){
       if(!satMeshMap[s.id]) return;
       var lat = s.lat, lon = s.lon||0;
       if(lat==null||isNaN(lat)) return;
-      var pos = ll2v(lat, lon, GLOBE_R+(s.altitude_km||550)*ALT);
-      // Snap position directly — physics already smooths it
-      satMeshMap[s.id].position.copy(pos);
-      orientSat(satMeshMap[s.id], pos);
+      var targetPos = ll2v(lat, lon, GLOBE_R+(s.altitude_km||550)*ALT);
+      var mesh = satMeshMap[s.id];
+      // Smooth lerp: alpha=0.08 per frame @ 60fps → visually continuous motion
+      // No teleporting even when backend position updates every 2s
+      mesh.position.lerp(targetPos, 0.08);
+      orientSat(mesh, mesh.position);
     });
   }
 
   // Initial build after short delay to let physics tick populate lat/lon
+  // NOTE: syncData is called by pollAll every 2s — no separate setInterval needed
   setTimeout(function(){ syncData(); }, 500);
-  setInterval(syncData, 2000);
   window._g3.syncData = syncData;
   window._g3.updateSatPositions = updateSatPositions;
 };
