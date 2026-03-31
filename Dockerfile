@@ -38,8 +38,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 COPY --from=py_bin /usr/local /usr/local
 
 # System packages: build tools for scipy / xgboost native extensions
+# NOTE: software-properties-common omitted — only needed for add-apt-repository
+#       (deadsnakes PPA), which is no longer used.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        software-properties-common \
         ca-certificates \
         curl \
         build-essential \
@@ -72,8 +73,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 COPY --from=py_bin /usr/local /usr/local
 
 # Runtime system deps only (no build-essential needed at serve time)
+# NOTE: software-properties-common omitted — only needed for add-apt-repository
+#       (deadsnakes PPA), which is no longer used.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        software-properties-common \
         ca-certificates \
         curl \
         libgomp1 \
@@ -84,8 +86,9 @@ RUN update-alternatives --install /usr/bin/python  python  /usr/local/bin/python
  && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
 
 # Reuse installed packages from builder — avoids re-downloading 800 MB of deps
-COPY --from=deps /usr/local/lib/python3.11/dist-packages \
-                 /usr/local/lib/python3.11/dist-packages
+# FIX: python:3.11-slim installs into site-packages, not dist-packages.
+COPY --from=deps /usr/local/lib/python3.11/site-packages \
+                 /usr/local/lib/python3.11/site-packages
 COPY --from=deps /usr/local/bin /usr/local/bin
 
 WORKDIR /app
@@ -133,8 +136,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Borrow Python 3.11 binaries from the donor — replaces the deadsnakes PPA block
 COPY --from=py_bin /usr/local /usr/local
 
+# NOTE: software-properties-common omitted — only needed for add-apt-repository
+#       (deadsnakes PPA), which is no longer used.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        software-properties-common \
         ca-certificates \
         curl \
         libgomp1 \
@@ -144,8 +148,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN update-alternatives --install /usr/bin/python  python  /usr/local/bin/python3.11 1 \
  && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
 
-COPY --from=deps /usr/local/lib/python3.11/dist-packages \
-                 /usr/local/lib/python3.11/dist-packages
+# FIX: python:3.11-slim installs into site-packages, not dist-packages.
+COPY --from=deps /usr/local/lib/python3.11/site-packages \
+                 /usr/local/lib/python3.11/site-packages
 COPY --from=deps /usr/local/bin /usr/local/bin
 
 # streamlit + altair are not in requirements.txt
@@ -176,7 +181,6 @@ CMD ["streamlit", "run", "app.py", \
      "--server.address=0.0.0.0", \
      "--server.headless=true", \
      "--browser.gatherUsageStats=false"]
-CMD ["streamlit", "run", "app.py", \
      "--server.port=8501", \
      "--server.address=0.0.0.0", \
      "--server.headless=true", \
