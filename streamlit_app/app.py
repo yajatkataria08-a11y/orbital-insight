@@ -14,6 +14,67 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# ── Hide Streamlit chrome + inject matching topbar ────────────────────────────
+st.markdown("""<style>
+#MainMenu,header,footer,[data-testid="stToolbar"],
+[data-testid="stDecoration"],[data-testid="stStatusWidget"],
+[data-testid="collapsedControl"]{display:none!important}
+
+/* ── Topbar matching index.html exactly ── */
+.oi-topbar {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  height:38px;
+  background:rgba(1,5,8,0.97);
+  border-bottom:1px solid rgba(0,210,180,0.22);
+  display:flex; align-items:center; gap:16px;
+  padding:0 16px;
+  font-family:'Share Tech Mono',monospace;
+  backdrop-filter:blur(8px);
+}
+.oi-topbar::after {
+  content:''; position:absolute; bottom:-1px; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,210,180,0.5),transparent);
+}
+.oi-logo {
+  font-family:'Orbitron',sans-serif; font-size:13px; font-weight:900;
+  color:#00e8d0; letter-spacing:0.14em;
+  text-shadow:0 0 12px rgba(0,210,180,0.5);
+  white-space:nowrap;
+}
+.oi-logo span { color:rgba(0,220,190,0.35); font-weight:400; }
+.oi-tb-divider {
+  width:1px; height:18px;
+  background:rgba(0,210,180,0.15);
+  flex-shrink:0;
+}
+.oi-tb-item {
+  display:flex; flex-direction:column;
+  font-size:7px; letter-spacing:0.12em;
+  color:rgba(180,230,220,0.5); line-height:1.2;
+  white-space:nowrap;
+}
+.oi-tb-item .val {
+  font-size:11px; color:rgba(220,255,248,0.88);
+  letter-spacing:0.06em;
+}
+.oi-tb-item .val.green  { color:#00ff88; text-shadow:0 0 8px rgba(0,255,136,0.4); }
+.oi-tb-item .val.red    { color:#ff2244; text-shadow:0 0 8px rgba(255,34,68,0.4); }
+.oi-tb-item .val.yellow { color:#ffd700; }
+.oi-tb-item .val.cyan   { color:#00e8d0; text-shadow:0 0 8px rgba(0,210,180,0.4); }
+.oi-tb-item .val.purple { color:#aa44ff; }
+.oi-tb-spacer { flex:1; }
+.oi-live-dot {
+  display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:#00ff88; box-shadow:0 0 6px #00ff88;
+  animation:liveDotPulse 1.8s ease-in-out infinite;
+  margin-right:5px;
+}
+
+/* Push main content below topbar */
+.main .block-container { padding-top:52px !important; }
+[data-testid="stSidebar"] { top:38px !important; height:calc(100vh - 38px) !important; }
+</style>""", unsafe_allow_html=True)
+
 API = _os.environ.get("BACKEND_URL", "http://localhost:8000/api")
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -49,27 +110,32 @@ html,body,[class*="css"],.stApp {
   color:var(--text) !important;
 }
 .stApp { background:var(--bg) !important; }
-.main .block-container { padding-top:0.75rem !important; max-width:100% !important; position:relative; z-index:1; }
+.main .block-container {
+  padding-top:0.75rem !important; max-width:100% !important;
+  position:relative; z-index:1;
+}
 
-/* scanlines */
+/* scanlines overlay */
 .stApp::before {
   content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
   background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.025) 3px,rgba(0,0,0,0.025) 4px);
 }
-/* top vignette */
+/* top cyan vignette */
 .stApp::after {
   content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background:radial-gradient(ellipse at 50% 0%,rgba(0,180,160,0.04) 0%,transparent 70%);
+  background:radial-gradient(ellipse at 50% 0%,rgba(0,180,160,0.06) 0%,transparent 65%);
 }
 
 /* ── Sidebar ── */
 [data-testid="stSidebar"] {
-  background:var(--bg2) !important;
+  background:rgba(3,11,16,0.96) !important;
   border-right:1px solid var(--border2) !important;
+  backdrop-filter:blur(12px);
 }
 [data-testid="stSidebar"]::before {
   content:''; position:absolute; top:0; left:0; right:0; height:2px;
   background:linear-gradient(90deg,transparent,var(--cyan2),transparent);
+  box-shadow:0 0 8px rgba(0,232,208,0.3);
 }
 [data-testid="stSidebar"] > div { padding-top:0.75rem; }
 [data-testid="stSidebar"] .stRadio > div { gap:1px !important; }
@@ -77,13 +143,15 @@ html,body,[class*="css"],.stApp {
   font-family:var(--font-mono) !important;
   background:transparent !important; border:1px solid transparent !important;
   border-radius:3px !important; padding:7px 10px !important; margin:1px 0 !important;
-  cursor:pointer !important; transition:all 0.12s !important;
+  cursor:pointer !important; transition:all 0.15s !important;
   color:var(--text2) !important; font-size:10px !important; letter-spacing:0.08em !important;
   display:block !important; width:100% !important; position:relative !important; overflow:hidden !important;
 }
 [data-testid="stSidebar"] .stRadio label:hover {
-  background:rgba(0,200,180,0.04) !important; border-color:var(--border) !important;
-  color:var(--cyan2) !important; padding-left:14px !important; text-shadow:var(--glow-cyan) !important;
+  background:rgba(0,200,180,0.06) !important; border-color:var(--border2) !important;
+  color:var(--cyan2) !important; padding-left:14px !important;
+  text-shadow:var(--glow-cyan) !important;
+  box-shadow:0 0 10px rgba(0,200,180,0.06) inset !important;
 }
 [data-testid="stSidebar"] .stRadio div[role="radiogroup"] > label > div:first-child { display:none !important; }
 
@@ -95,16 +163,12 @@ html,body,[class*="css"],.stApp {
   border-radius:3px !important; transition:all 0.15s !important; text-transform:uppercase !important;
   position:relative !important; overflow:hidden !important;
 }
-.stButton > button::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(135deg,var(--cyan),var(--cyan2));
-  opacity:0; transition:opacity 0.15s;
-}
 .stButton > button:hover {
   background:rgba(0,200,180,0.12) !important; border-color:var(--border3) !important;
-  box-shadow:0 0 18px rgba(0,200,180,0.2) !important; transform:translateY(-1px) !important;
+  box-shadow:0 0 24px rgba(0,200,180,0.28), 0 4px 16px rgba(0,0,0,0.4) !important;
+  transform:translateY(-2px) !important;
 }
-.stButton > button:active { transform:translateY(1px) !important; box-shadow:0 0 8px rgba(0,200,180,0.3) !important; }
+.stButton > button:active { transform:translateY(1px) !important; box-shadow:0 0 12px rgba(0,200,180,0.4) !important; }
 
 /* ── Inputs & selects ── */
 .stSelectbox div[data-baseweb="select"] > div {
@@ -113,18 +177,30 @@ html,body,[class*="css"],.stApp {
   transition:border-color 0.15s,box-shadow 0.15s !important;
 }
 .stSelectbox div[data-baseweb="select"]:focus-within > div {
-  border-color:var(--cyan2) !important; box-shadow:0 0 10px rgba(0,200,180,0.15) !important;
+  border-color:var(--cyan2) !important; box-shadow:0 0 12px rgba(0,200,180,0.18) !important;
 }
 [data-baseweb="popover"] { background:var(--bg3) !important; border:1px solid var(--border2) !important; }
 [data-baseweb="menu"] li { color:var(--text2) !important; font-family:var(--font-mono) !important; font-size:10px !important; transition:all 0.1s !important; }
 [data-baseweb="menu"] li:hover { background:rgba(0,200,180,0.08) !important; color:var(--cyan2) !important; }
-.stSlider [data-baseweb="slider"] div[role="slider"] { background:var(--cyan2) !important; box-shadow:0 0 8px var(--cyan2) !important; will-change:box-shadow; }
+.stSlider [data-baseweb="slider"] div[role="slider"] {
+  background:var(--cyan2) !important;
+  box-shadow:0 0 10px var(--cyan2) !important;
+  transition:box-shadow 0.15s !important; will-change:box-shadow;
+}
+.stSlider [data-baseweb="slider"] div[role="slider"]:hover {
+  box-shadow:0 0 18px var(--cyan2), 0 0 4px var(--cyan2) !important;
+}
 .stCheckbox label { color:var(--text2) !important; font-family:var(--font-mono) !important; font-size:10px !important; letter-spacing:0.1em !important; transition:color 0.15s !important; }
 .stCheckbox label:hover { color:var(--cyan2) !important; }
 
-/* ── DataFrames ── */
+/* ── DataFrames — aggressive dark override ── */
 .stDataFrame,[data-testid="stDataFrame"] {
   background:var(--bg3) !important; border:1px solid var(--border) !important; border-radius:3px !important;
+}
+/* The iframe that contains the actual table */
+[data-testid="stDataFrame"] iframe {
+  filter: invert(1) hue-rotate(175deg) brightness(0.85) saturate(1.2) !important;
+  border-radius:3px !important;
 }
 [data-testid="stDataFrame"] th {
   background:rgba(0,200,180,0.06) !important; color:var(--cyan) !important;
@@ -135,8 +211,12 @@ html,body,[class*="css"],.stApp {
 [data-testid="stDataFrame"] td {
   color:var(--text) !important; font-family:var(--font-mono) !important;
   font-size:10px !important; border-bottom:1px solid var(--border) !important;
+  transition:color .15s, background .15s !important;
 }
-[data-testid="stDataFrame"] tr:hover td { background:rgba(0,200,180,0.04) !important; }
+[data-testid="stDataFrame"] tr:hover td {
+  background:rgba(0,200,180,0.06) !important;
+  color:var(--cyan2) !important;
+}
 
 /* ── Alerts ── */
 .stSuccess { background:rgba(0,255,136,0.07) !important; border:1px solid rgba(0,255,136,0.25) !important; color:var(--green) !important; font-family:var(--font-mono) !important; font-size:10px !important; border-radius:3px !important; }
@@ -149,7 +229,7 @@ hr { border:none !important; border-top:1px solid var(--border) !important; marg
   display:flex; align-items:center; justify-content:space-between;
   padding:7px 11px; border-bottom:1px solid var(--border);
   background:rgba(0,0,0,0.15); margin-bottom:10px; margin-top:16px;
-  transition:background 0.2s;
+  transition:background 0.2s; position:relative; overflow:hidden;
 }
 .panel-hdr:hover { background:rgba(0,200,180,0.04); }
 .panel-title {
@@ -178,7 +258,9 @@ hr { border:none !important; border-top:1px solid var(--border) !important; marg
 .metric-card {
   background:rgba(0,0,0,0.28); border:1px solid var(--border); border-radius:3px;
   padding:12px 14px; position:relative; overflow:hidden;
-  transition:border-color 0.18s, background 0.18s, transform 0.15s; cursor:default;
+  transition:border-color .22s ease, background .22s ease,
+             transform .18s cubic-bezier(0.34,1.56,0.64,1),
+             box-shadow .22s ease; cursor:default;
 }
 .metric-card::before {
   content:''; position:absolute; top:0; left:0; right:0; height:1px;
@@ -190,8 +272,11 @@ hr { border:none !important; border-top:1px solid var(--border) !important; marg
   transition:none; pointer-events:none;
 }
 .metric-card:hover {
-  border-color:var(--border2); background:rgba(0,200,180,0.05);
-  box-shadow:0 0 14px rgba(0,200,180,0.08) inset; transform:translateY(-1px);
+  border-color:var(--border3); background:rgba(0,200,180,0.07);
+  box-shadow:0 0 20px rgba(0,200,180,0.12) inset,
+             0 4px 24px rgba(0,0,0,0.4),
+             0 0 0 1px rgba(0,210,180,0.08);
+  transform:translateY(-3px);
 }
 .metric-card:hover::after { animation:scan-sweep 0.5s ease-out forwards; }
 @keyframes scan-sweep { from{left:-100%} to{left:100%} }
@@ -206,16 +291,19 @@ hr { border:none !important; border-top:1px solid var(--border) !important; marg
 .metric-value.orange { color:var(--orange); }
 .metric-delta { font-family:var(--font-mono); font-size:8px; margin-top:4px; color:var(--text2); letter-spacing:0.06em; }
 
-/* ── CDM items (exact index.html .cdm-item) ── */
+/* ── CDM items ── */
 .cdm-item {
   padding:7px 9px; border-left:2px solid; margin-bottom:4px;
   cursor:pointer; background:rgba(0,0,0,0.18); transition:all 0.12s;
   border-radius:0 3px 3px 0;
 }
-.cdm-item:hover { background:rgba(0,200,180,0.05); transform:translateX(2px); box-shadow:0 0 10px rgba(0,200,180,0.06) inset; }
+.cdm-item:hover { background:rgba(0,200,180,0.05); transform:translateX(2px); }
 .cdm-item.safe { border-left-color:var(--green); }
+.cdm-item.safe:hover { box-shadow:0 0 14px rgba(0,255,136,0.08) inset; }
 .cdm-item.warn { border-left-color:var(--yellow); }
-.cdm-item.crit { border-left-color:var(--red); animation:cdmpulse 1.5s infinite; }
+.cdm-item.warn:hover { box-shadow:0 0 14px rgba(255,215,0,0.1) inset; }
+.cdm-item.crit { border-left-color:var(--red); animation:cdmpulse 1.5s infinite; box-shadow:0 0 14px rgba(255,34,68,0.08) inset; }
+.cdm-item.crit:hover { box-shadow:0 0 20px rgba(255,34,68,0.15) inset !important; border-left-color:var(--red2) !important; }
 @keyframes cdmpulse { 0%,100%{background:rgba(255,34,68,0.04)} 50%{background:rgba(255,34,68,0.10)} }
 .cdm-ids  { font-family:var(--font-mono); font-size:8px; color:var(--text2); margin-bottom:2px; }
 .cdm-dist { font-family:var(--font-mono); font-size:11px; font-weight:700; }
@@ -224,227 +312,226 @@ hr { border:none !important; border-top:1px solid var(--border) !important; marg
 .cdm-tca  { font-family:var(--font-mono); font-size:8px; color:var(--text3); }
 .cdm-pruned { font-family:var(--font-mono); font-size:7px; color:var(--purple); margin-top:1px; }
 
-/* ── Contact window (exact index.html .contact-win) ── */
+/* ── Contact window ── */
 .contact-win {
   padding:8px 10px; border:1px solid var(--border); border-radius:3px;
-  margin-bottom:5px; background:rgba(0,0,0,0.2); transition:all 0.15s;
+  margin-bottom:5px; background:rgba(0,0,0,0.2);
+  transition:all 0.18s cubic-bezier(0.34,1.56,0.64,1);
 }
-.contact-win:hover { border-color:var(--border2); background:rgba(0,200,180,0.04); transform:translateY(-1px); box-shadow:0 0 12px rgba(0,200,180,0.08); }
+.contact-win:hover {
+  border-color:var(--border2); background:rgba(0,200,180,0.04);
+  transform:translateY(-2px);
+  box-shadow:0 6px 24px rgba(0,0,0,0.4), 0 0 14px rgba(0,200,180,0.1);
+}
 .contact-win.blackout { border-color:rgba(255,123,0,0.3); }
-.contact-win.blackout:hover { border-color:rgba(255,123,0,0.55); box-shadow:0 0 12px rgba(255,123,0,0.1); }
+.contact-win.blackout:hover {
+  border-color:rgba(255,123,0,0.55);
+  box-shadow:0 6px 24px rgba(0,0,0,0.4), 0 0 14px rgba(255,123,0,0.12);
+}
 .cw-gs   { font-family:var(--font-mono); font-size:9px; color:var(--cyan); margin-bottom:3px; display:flex; align-items:center; gap:6px; }
 .cw-time { font-family:var(--font-mono); font-size:8px; color:var(--text2); }
 .cw-dur  { font-family:var(--font-mono); font-size:9px; color:var(--green); }
 .cw-el   { font-family:var(--font-mono); font-size:8px; color:var(--text2); }
 .cw-blackout-tag { font-family:var(--font-mono); font-size:7px; color:var(--orange); margin-top:3px; padding:2px 5px; border:1px solid rgba(255,123,0,0.3); border-radius:2px; display:inline-block; }
 
-/* ── Uptime bars (exact index.html) ── */
-.uptime-bar-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; transition:opacity 0.15s; }
-.uptime-bar-row:hover { opacity:0.85; }
+/* ── Uptime bars ── */
+.uptime-bar-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; transition:transform 0.15s; }
+.uptime-bar-row:hover { transform:translateX(4px); }
 .uptime-sat-id { font-family:var(--font-mono); font-size:8px; color:var(--text2); width:72px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; }
 .uptime-bar-bg { flex:1; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
-.uptime-bar-fill { height:100%; border-radius:2px; transition:width 1s,box-shadow 0.2s; }
-.uptime-bar-row:hover .uptime-bar-fill { box-shadow:0 0 6px currentColor; }
+.uptime-bar-fill { height:100%; border-radius:2px; transition:width 1s, box-shadow 0.2s; }
+.uptime-bar-row:hover .uptime-bar-fill { box-shadow:0 0 8px currentColor; filter:brightness(1.15); }
 .uptime-pct { font-family:var(--font-mono); font-size:8px; width:36px; text-align:right; flex-shrink:0; }
 .uptime-fleet-card { background:rgba(0,200,180,0.06); border:1px solid var(--border2); border-radius:4px; padding:12px; margin-bottom:10px; text-align:center; }
-.uptime-fleet-num { font-family:var(--font-display); font-size:24px; font-weight:700; color:var(--cyan2); }
+.uptime-fleet-num { font-family:var(--font-display); font-size:24px; font-weight:700; color:var(--cyan2); text-shadow:var(--glow-cyan); }
 .uptime-grade { font-family:var(--font-mono); font-size:9px; margin-top:3px; }
 .grade-EXCELLENT { color:var(--green);  } .grade-GOOD { color:var(--cyan); }
 .grade-ACCEPTABLE { color:var(--yellow); } .grade-POOR { color:var(--red); }
 
 /* ── Telem grid ── */
 .telem-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:6px; }
-.telem-val  { background:rgba(0,0,0,0.28); border:1px solid var(--border); border-radius:3px; padding:5px 8px; transition:border-color 0.15s; }
-.telem-val:hover { border-color:var(--border2); }
+.telem-val  { background:rgba(0,0,0,0.28); border:1px solid var(--border); border-radius:3px; padding:5px 8px; transition:border-color .18s, background .18s; position:relative; overflow:hidden; }
+.telem-val::after {
+  content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,210,180,0.07),transparent);
+  pointer-events:none;
+}
+.telem-val:hover { border-color:var(--border2); background:rgba(0,200,180,0.05); }
+.telem-val:hover::after { animation:telemscani .5s ease-out forwards; }
+.telem-val:hover .telem-num { text-shadow:var(--glow-cyan); }
+@keyframes telemscani { from{left:-100%} to{left:100%} }
 .telem-label { font-family:var(--font-mono); font-size:7px; color:var(--text2); letter-spacing:0.08em; margin-bottom:2px; text-transform:uppercase; }
 .telem-num   { font-family:var(--font-mono); font-size:12px; color:var(--cyan2); }
 .telem-num.warn   { color:var(--yellow); } .telem-num.crit { color:var(--red); text-shadow:var(--glow-red); }
 .telem-num.green  { color:var(--green);  } .telem-num.purple { color:var(--purple); }
 
-/* ── GS items ── */
-.gs-item { padding:6px 10px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,200,180,0.04); transition:background 0.1s; }
-.gs-item:hover { background:rgba(0,200,180,0.04); }
-.gs-card { background:linear-gradient(135deg,var(--bg3),var(--bg2)); border:1px solid var(--border); border-radius:3px; padding:12px 14px; margin-bottom:8px; position:relative; overflow:hidden; transition:border-color 0.18s,box-shadow 0.18s,transform 0.15s; cursor:default; }
-.gs-card:hover { border-color:var(--border2); box-shadow:0 0 14px rgba(0,200,180,0.1); transform:translateY(-1px); }
+/* ── GS items & cards ── */
+.gs-item { padding:6px 10px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,200,180,0.04); transition:background 0.1s, padding-left 0.15s; }
+.gs-item:hover { background:rgba(0,200,180,0.04); padding-left:14px; }
+.gs-item:hover .gs-name { color:var(--cyan); }
+.gs-card {
+  background:linear-gradient(135deg,var(--bg3),var(--bg2)); border:1px solid var(--border);
+  border-radius:3px; padding:12px 14px; margin-bottom:8px;
+  position:relative; overflow:hidden;
+  transition:border-color .18s, box-shadow .18s, transform .18s cubic-bezier(0.34,1.56,0.64,1); cursor:default;
+}
+.gs-card:hover {
+  border-color:var(--border2);
+  box-shadow:0 0 22px rgba(0,200,180,0.14), 0 4px 20px rgba(0,0,0,0.4);
+  transform:translateY(-2px);
+}
 .gs-card.active::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--green),transparent); }
 
 /* ── Rubric boxes ── */
-.rubric-box { text-align:center; padding:10px 8px; border-radius:3px; border:1px solid transparent; transition:border-color 0.2s,box-shadow 0.2s,transform 0.15s; cursor:default; }
-.rubric-box:hover { transform:translateY(-2px); }
+.rubric-box { text-align:center; padding:10px 8px; border-radius:3px; border:1px solid transparent; transition:border-color .2s, box-shadow .2s, transform .18s cubic-bezier(0.34,1.56,0.64,1); cursor:default; }
+.rubric-box:hover { transform:translateY(-3px); }
 .rubric-excellent { background:rgba(0,255,136,0.05); border-color:rgba(0,255,136,0.12); }
-.rubric-excellent:hover { border-color:rgba(0,255,136,0.4); box-shadow:0 4px 16px rgba(0,255,136,0.1); }
+.rubric-excellent:hover { border-color:rgba(0,255,136,0.4); box-shadow:0 4px 20px rgba(0,255,136,0.15); }
 .rubric-good  { background:rgba(0,200,180,0.05); border-color:rgba(0,200,180,0.12); }
-.rubric-good:hover  { border-color:rgba(0,200,180,0.4); box-shadow:0 4px 16px rgba(0,200,180,0.1); }
+.rubric-good:hover  { border-color:rgba(0,200,180,0.4); box-shadow:0 4px 20px rgba(0,200,180,0.15); }
 .rubric-ok    { background:rgba(255,215,0,0.05);  border-color:rgba(255,215,0,0.12); }
-.rubric-ok:hover    { border-color:rgba(255,215,0,0.4);  box-shadow:0 4px 16px rgba(255,215,0,0.1); }
+.rubric-ok:hover    { border-color:rgba(255,215,0,0.4);  box-shadow:0 4px 20px rgba(255,215,0,0.12); }
 .rubric-poor  { background:rgba(255,34,68,0.05);  border-color:rgba(255,34,68,0.12); }
-.rubric-poor:hover  { border-color:rgba(255,34,68,0.4);  box-shadow:0 4px 16px rgba(255,34,68,0.1); }
+.rubric-poor:hover  { border-color:rgba(255,34,68,0.4);  box-shadow:0 4px 20px rgba(255,34,68,0.12); }
 
 /* ── Sidebar logo ── */
-.tb-logo { font-family:var(--font-display); font-size:20px; font-weight:900; color:var(--cyan2); letter-spacing:0.15em; text-shadow:var(--glow-cyan); margin-bottom:2px; }
+.tb-logo {
+  font-family:var(--font-display); font-size:20px; font-weight:900;
+  color:var(--cyan2); letter-spacing:0.15em;
+  text-shadow:var(--glow-cyan); margin-bottom:2px;
+  animation:logoPulse 4s ease-in-out infinite alternate;
+}
+@keyframes logoPulse {
+  from { text-shadow:0 0 10px rgba(0,232,208,0.4); }
+  to   { text-shadow:0 0 22px rgba(0,232,208,0.8), 0 0 40px rgba(0,232,208,0.2); }
+}
 .tb-sub  { font-family:var(--font-mono); font-size:9px; color:var(--text2); letter-spacing:0.2em; margin-bottom:14px; }
-.sidebar-uptime { background:rgba(0,200,180,0.06); border:1px solid var(--border2); border-radius:3px; padding:10px 12px; margin-bottom:8px; transition:border-color 0.2s; }
-.sidebar-uptime:hover { border-color:var(--border3); }
+.sidebar-uptime {
+  background:rgba(0,200,180,0.06); border:1px solid var(--border2); border-radius:3px;
+  padding:10px 12px; margin-bottom:8px;
+  transition:border-color .2s, box-shadow .2s;
+}
+.sidebar-uptime:hover {
+  border-color:var(--border3);
+  box-shadow:0 0 16px rgba(0,200,180,0.18);
+}
 
 /* ── Animations ── */
 @keyframes blink   { 0%,100%{opacity:1} 50%{opacity:0.3} }
 @keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.35} }
-.live-dot { animation:pulse 1.8s ease-in-out infinite; }
+.live-dot { animation:liveDotPulse 1.8s ease-in-out infinite; }
+@keyframes liveDotPulse {
+  0%,100% { opacity:1; text-shadow:0 0 4px rgba(0,255,136,0.6); }
+  50%     { opacity:0.3; text-shadow:none; }
+}
 .crit-blink { animation:blink 0.8s infinite; }
 
-/* ── Smooth hover transitions — global ── */
-*, *::before, *::after {
-  -webkit-font-smoothing: antialiased;
-}
-/* Sidebar nav items */
-[data-testid="stSidebar"] .stRadio label {
-  transition: all 0.18s cubic-bezier(0.4,0,0.2,1) !important;
-}
-/* All buttons */
-.stButton > button {
-  transition: all 0.18s cubic-bezier(0.4,0,0.2,1) !important;
-}
-/* Metric cards */
-.metric-card {
-  transition: border-color 0.22s ease, background 0.22s ease,
-              transform 0.18s cubic-bezier(0.34,1.56,0.64,1),
-              box-shadow 0.22s ease !important;
-}
-/* CDM items */
-.cdm-item {
-  transition: background 0.15s ease, transform 0.15s cubic-bezier(0.34,1.56,0.64,1),
-              box-shadow 0.15s ease !important;
-}
-/* Contact windows */
-.contact-win {
-  transition: all 0.2s cubic-bezier(0.4,0,0.2,1) !important;
-}
-/* GS cards */
-.gs-card {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease,
-              transform 0.18s cubic-bezier(0.34,1.56,0.64,1) !important;
-}
-/* Rubric boxes */
-.rubric-box {
-  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1) !important;
-}
-/* Panel badges */
-.panel-badge {
-  transition: box-shadow 0.15s ease, letter-spacing 0.15s ease !important;
-}
-.panel-badge:hover {
-  box-shadow: 0 0 8px currentColor !important;
-  letter-spacing: 0.08em !important;
-}
-/* Uptime bars — smooth fill on load */
-.uptime-bar-fill {
-  transition: width 1.2s cubic-bezier(0.4,0,0.2,1),
-              box-shadow 0.2s ease !important;
-}
-/* Dataframe rows */
-[data-testid="stDataFrame"] tr {
-  transition: background 0.12s ease !important;
-}
-/* Slider thumb — glow only, no transform (transform causes Streamlit rerender) */
-.stSlider [data-baseweb="slider"] div[role="slider"] {
-  transition: box-shadow 0.15s ease !important;
-  will-change: box-shadow;
-}
-.stSlider [data-baseweb="slider"] div[role="slider"]:hover {
-  box-shadow: 0 0 16px var(--cyan2), 0 0 4px var(--cyan2) !important;
-}
-/* Telem vals */
-.telem-val {
-  transition: border-color 0.18s ease, background 0.18s ease !important;
-}
-/* Progress bars in dataframes */
-[data-testid="stDataFrame"] [data-progress] {
-  transition: width 0.8s ease !important;
-}
-/* Sidebar uptime card */
-.sidebar-uptime {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
-}
-.sidebar-uptime:hover {
-  box-shadow: 0 0 12px rgba(0,200,180,0.15) !important;
-}
-/* ── stMetric dark theme — used in ML Intelligence tabs ── */
-/* Streamlit 1.28+ uses data-testid="metric-container" at the outer div */
+/* ── stMetric dark theme ── */
 div[data-testid="metric-container"],
 div[data-testid="stMetric"] {
-  background:var(--bg3) !important;
-  border:1px solid var(--border) !important;
-  border-radius:3px !important;
-  padding:10px 12px !important;
-  transition:border-color 0.2s !important;
+  background:var(--bg3) !important; border:1px solid var(--border) !important;
+  border-radius:3px !important; padding:10px 12px !important;
+  transition:border-color .2s, box-shadow .2s, transform .18s !important;
 }
 div[data-testid="metric-container"]:hover,
 div[data-testid="stMetric"]:hover {
-  border-color:var(--border2) !important;
+  border-color:var(--border3) !important;
+  box-shadow:0 0 14px rgba(0,210,180,0.1) inset !important;
+  transform:translateY(-1px);
 }
-/* Label: Streamlit 1.30+ wraps in <label> not <p> — target both */
 div[data-testid="stMetricLabel"] > div,
 div[data-testid="stMetricLabel"] p,
 div[data-testid="stMetricLabel"] label {
-  font-family:var(--font-mono) !important;
-  font-size:8px !important;
-  letter-spacing:0.12em !important;
-  color:var(--text2) !important;
-  text-transform:uppercase !important;
+  font-family:var(--font-mono) !important; font-size:8px !important;
+  letter-spacing:0.12em !important; color:var(--text2) !important; text-transform:uppercase !important;
 }
-/* Value */
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] > div {
-  font-family:var(--font-display) !important;
-  color:var(--cyan2) !important;
-  font-size:20px !important;
+  font-family:var(--font-display) !important; color:var(--cyan2) !important; font-size:20px !important;
 }
-/* Delta — hide the default green/red arrow colour */
 div[data-testid="stMetricDelta"] svg { display:none !important; }
 div[data-testid="stMetricDelta"] > div {
-  color:var(--text2) !important;
-  font-family:var(--font-mono) !important;
-  font-size:8px !important;
+  color:var(--text2) !important; font-family:var(--font-mono) !important; font-size:8px !important;
 }
 
 /* ── stTabs dark theme ── */
 div[data-testid="stTabs"] button[role="tab"] {
-  font-family:var(--font-mono) !important;
-  font-size:9px !important;
-  letter-spacing:0.12em !important;
-  color:var(--text2) !important;
-  background:transparent !important;
-  border:none !important;
-  border-bottom:2px solid transparent !important;
-  border-radius:0 !important;
+  font-family:var(--font-mono) !important; font-size:9px !important;
+  letter-spacing:0.12em !important; color:var(--text2) !important;
+  background:transparent !important; border:none !important;
+  border-bottom:2px solid transparent !important; border-radius:0 !important;
   padding:6px 14px !important;
-  transition:color 0.15s, border-color 0.15s !important;
+  transition:color 0.15s, border-color 0.15s, text-shadow 0.15s !important;
   text-transform:uppercase !important;
 }
 div[data-testid="stTabs"] button[role="tab"]:hover {
-  color:var(--cyan2) !important;
-  border-bottom-color:var(--border2) !important;
+  color:var(--cyan2) !important; border-bottom-color:var(--border2) !important;
 }
 div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
-  color:var(--cyan2) !important;
-  border-bottom:2px solid var(--cyan2) !important;
+  color:var(--cyan2) !important; border-bottom:2px solid var(--cyan2) !important;
   text-shadow:var(--glow-cyan) !important;
 }
-/* Tab panel container */
 div[data-testid="stTabs"] > div[role="tabpanel"] {
-  border-top:1px solid var(--border) !important;
-  background:transparent !important;
-  padding-top:12px !important;
+  border-top:1px solid var(--border) !important; background:transparent !important; padding-top:12px !important;
 }
-/* Tab list bar background */
 div[data-testid="stTabs"] > div[role="tablist"] {
-  background:var(--bg2) !important;
-  border-bottom:1px solid var(--border) !important;
-  gap:0 !important;
+  background:var(--bg2) !important; border-bottom:1px solid var(--border) !important; gap:0 !important;
 }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background:var(--bg2); }
+::-webkit-scrollbar-thumb { background:rgba(0,210,180,0.25); border-radius:2px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(0,210,180,0.5); }
+
+/* ── Hide ALL Streamlit loading/running indicators ── */
+[data-testid="stSpinner"],
+[data-testid="stSpinner"] > div,
+.stSpinner, .stSpinner > div,
+div[data-testid="stSpinner"],
+/* Running circle top-left */
+[data-testid="stStatusWidget"],
+.stStatusWidget,
+/* Page running indicator (the grey circle) */
+[data-testid="stApp"] > div:first-child > div:first-child > div[style*="position: fixed"],
+iframe[title="st_connection_status"],
+/* Streamlit running animation overlay */
+.stApp > div > div[data-testid="stDecoration"],
+[class*="StatusWidget"],
+[class*="stSpinner"] {
+  display:none !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+/* Nuclear option: hide any fixed-position circles in top-left */
+body > div[style*="position: fixed"][style*="top: 0"],
+.main > div > div > div[style*="position: fixed"] {
+  display:none !important;
+}
+
+/* ── Progress bar — match theme ── */
+[data-testid="stProgress"] > div {
+  background:rgba(0,210,180,0.08) !important;
+  border-radius:2px !important;
+}
+[data-testid="stProgress"] > div > div {
+  background:linear-gradient(90deg,var(--cyan),var(--cyan2)) !important;
+  border-radius:2px !important;
+  box-shadow:0 0 8px rgba(0,210,180,0.4) !important;
+  transition:width 0.4s ease !important;
+}
+
+/* ── Altair / Vega chart dark theme ── */
+.vega-embed {
+  background:transparent !important;
+}
+.vega-embed summary { display:none !important; }
+canvas.marks { background:transparent !important; }
+
+/* ── Global smoothing ── */
+*, *::before, *::after { -webkit-font-smoothing:antialiased; }
 </style>
 """, unsafe_allow_html=True)
-
 # ═══════════════════════════════════════════════════════════════════════════════
 #  LOGIN — Animated card via components.html + postMessage to session_state
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1060,26 +1147,473 @@ iframe{position:fixed!important;inset:0!important;
     _components.html(_login_html, height=900, scrolling=False)
     st.stop()
 
-# ── Cursor ring + tooltip (shown after login) ─────────────────────────────────
+# ── Star background canvas + cursor ring + tooltip (shown after login) ────────
 st.markdown("""
+<!-- ═══ ANIMATED STAR BACKGROUND (identical to login page) ═══ -->
+<canvas id="oi-stars" style="
+  position:fixed;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;opacity:0.55;
+"></canvas>
+
+<!-- ═══ CURSOR RING ═══ -->
 <div id="oi-cur"></div>
 <div id="oi-tip"></div>
+
+<!-- ═══ AMBIENT PULSE RINGS (corner decoration) ═══ -->
+<div style="
+  position:fixed;bottom:40px;right:40px;
+  width:180px;height:180px;border-radius:50%;
+  border:1px solid rgba(0,210,180,0.06);
+  animation:ambientSpin 28s linear infinite;
+  pointer-events:none;z-index:0;
+">
+  <div style="
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:110px;height:110px;border-radius:50%;
+    border:1px solid rgba(0,210,180,0.04);
+    animation:ambientSpin 16s linear infinite reverse;
+  "></div>
+</div>
+
+<style>
+/* ── Star canvas z-ordering ── */
+.stApp { isolation:isolate; }
+.main .block-container { position:relative; z-index:1; }
+[data-testid="stSidebar"] { z-index:10 !important; }
+
+/* ── Ambient ring spin ── */
+@keyframes ambientSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* ════════════════════════════════════════════════════════
+   PAGE ENTRY ANIMATION — content fades up on nav change
+════════════════════════════════════════════════════════ */
+.main .block-container {
+  animation:pageEnter 0.35s ease-out both;
+}
+@keyframes pageEnter {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ════════════════════════════════════════════════════════
+   SIDEBAR SCAN LINE — horizontal sweep every 6s
+════════════════════════════════════════════════════════ */
+.sidebar-scan {
+  position:absolute; left:0; right:0; height:1px; pointer-events:none;
+  background:linear-gradient(90deg,
+    transparent 0%, rgba(0,210,180,0.5) 40%,
+    rgba(0,232,208,0.9) 50%, rgba(0,210,180,0.5) 60%, transparent 100%);
+  box-shadow:0 0 6px rgba(0,210,180,0.4);
+  animation:sidebarScan 6s linear infinite;
+}
+@keyframes sidebarScan {
+  0%   { top:-2px; opacity:0; }
+  3%   { opacity:1; }
+  97%  { opacity:1; }
+  100% { top:100%; opacity:0; }
+}
+
+/* ════════════════════════════════════════════════════════
+   TOP AREA GLOW BAR — cyan line under the topmost element
+════════════════════════════════════════════════════════ */
+.main .block-container::before {
+  content:''; display:block; height:1px; width:100%;
+  background:linear-gradient(90deg,
+    transparent 0%, rgba(0,210,180,0.15) 20%,
+    rgba(0,210,180,0.5) 50%, rgba(0,210,180,0.15) 80%, transparent 100%);
+  margin-bottom:8px;
+  box-shadow:0 0 8px rgba(0,210,180,0.15);
+}
+
+/* ── Cursor ring — identical to index.html ── */
+#oi-cur {
+  position:fixed; pointer-events:none; z-index:99999;
+  width:24px; height:24px; border-radius:50%;
+  border:1px solid rgba(0,210,180,0.5);
+  transform:translate(-50%,-50%);
+  transition:width .18s ease,height .18s ease,border-color .18s ease,
+             top .18s ease,left .18s ease,opacity .18s ease,
+             background .15s ease;
+  mix-blend-mode:screen;
+}
+#oi-cur.h {
+  width:38px; height:38px;
+  border-color:var(--cyan2);
+  box-shadow:0 0 12px rgba(0,210,180,0.35);
+  background:rgba(0,210,180,0.04);
+}
+#oi-cur.c {
+  width:16px; height:16px;
+  background:rgba(0,210,180,0.15);
+  border-color:var(--cyan3);
+  box-shadow:0 0 18px rgba(0,210,180,0.5);
+}
+
+/* ── Tooltip ── */
+#oi-tip {
+  position:fixed; pointer-events:none; z-index:99998;
+  font-family:var(--font-mono); font-size:9px;
+  color:var(--cyan2); background:rgba(3,11,16,0.95);
+  border:1px solid var(--border2); border-radius:3px;
+  padding:5px 9px; letter-spacing:0.06em; line-height:1.6;
+  opacity:0; transition:opacity .15s; max-width:240px;
+  white-space:pre-line;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5),0 0 10px rgba(0,210,180,0.08);
+}
+
+/* ════════════════════════════════════════════════════════
+   ENHANCED METRIC CARDS — glow sweep + lift
+════════════════════════════════════════════════════════ */
+.metric-card {
+  transition:
+    border-color .22s ease,
+    background   .22s ease,
+    transform    .18s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow   .22s ease !important;
+}
+.metric-card:hover {
+  border-color:var(--border3) !important;
+  background:rgba(0,200,180,0.07) !important;
+  box-shadow:
+    0 0 20px rgba(0,200,180,0.12) inset,
+    0 4px 24px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(0,210,180,0.08) !important;
+  transform:translateY(-3px) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   CDM ITEMS — stronger glow on crit pulse
+════════════════════════════════════════════════════════ */
+.cdm-item.crit {
+  animation:cdmpulse 1.5s infinite;
+  box-shadow:0 0 14px rgba(255,34,68,0.08) inset;
+}
+.cdm-item.crit:hover {
+  box-shadow:0 0 20px rgba(255,34,68,0.15) inset !important;
+  border-left-color:var(--red2) !important;
+}
+.cdm-item.warn:hover {
+  box-shadow:0 0 14px rgba(255,215,0,0.1) inset !important;
+}
+.cdm-item.safe:hover {
+  box-shadow:0 0 14px rgba(0,255,136,0.08) inset !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   PANEL HEADERS — animated left-edge sweep on hover
+════════════════════════════════════════════════════════ */
+.panel-hdr {
+  position:relative; overflow:hidden;
+}
+.panel-hdr::after {
+  content:''; position:absolute; left:-100%; top:0; bottom:0; width:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,210,180,0.04),transparent);
+  transition:none; pointer-events:none;
+}
+.panel-hdr:hover::after { animation:panelSweep .5s ease-out forwards; }
+@keyframes panelSweep { from{left:-100%} to{left:100%} }
+
+/* ════════════════════════════════════════════════════════
+   SIDEBAR NAV — left accent bar slides in on hover
+════════════════════════════════════════════════════════ */
+[data-testid="stSidebar"] .stRadio label {
+  position:relative; overflow:hidden;
+}
+[data-testid="stSidebar"] .stRadio label::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
+  background:var(--cyan2); transform:scaleY(0); transform-origin:center;
+  transition:transform .2s ease; box-shadow:var(--glow-cyan);
+}
+[data-testid="stSidebar"] .stRadio label:hover::before { transform:scaleY(1); }
+
+/* ════════════════════════════════════════════════════════
+   CONTACT WINDOWS — lift + coloured glow on hover
+════════════════════════════════════════════════════════ */
+.contact-win:hover {
+  transform:translateY(-2px) !important;
+  box-shadow:0 6px 24px rgba(0,0,0,0.4), 0 0 14px rgba(0,200,180,0.1) !important;
+}
+.contact-win.blackout:hover {
+  box-shadow:0 6px 24px rgba(0,0,0,0.4), 0 0 14px rgba(255,123,0,0.12) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   GS CARDS — glow intensity upgrade
+════════════════════════════════════════════════════════ */
+.gs-card:hover {
+  box-shadow:0 0 22px rgba(0,200,180,0.14), 0 4px 20px rgba(0,0,0,0.4) !important;
+  transform:translateY(-2px) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   UPTIME BARS — fill glow on row hover
+════════════════════════════════════════════════════════ */
+.uptime-bar-row:hover { transform:translateX(4px) !important; }
+.uptime-bar-row:hover .uptime-bar-fill {
+  box-shadow:0 0 8px currentColor !important;
+  filter:brightness(1.15);
+}
+
+/* ════════════════════════════════════════════════════════
+   RUBRIC BOXES — stronger border glow
+════════════════════════════════════════════════════════ */
+.rubric-excellent:hover { box-shadow:0 4px 20px rgba(0,255,136,0.15) !important; }
+.rubric-good:hover      { box-shadow:0 4px 20px rgba(0,200,180,0.15) !important; }
+.rubric-ok:hover        { box-shadow:0 4px 20px rgba(255,215,0,0.12) !important; }
+.rubric-poor:hover      { box-shadow:0 4px 20px rgba(255,34,68,0.12) !important; }
+
+/* ════════════════════════════════════════════════════════
+   STREAMLIT METRICS — glow on hover
+════════════════════════════════════════════════════════ */
+div[data-testid="metric-container"]:hover {
+  border-color:var(--border3) !important;
+  box-shadow:0 0 14px rgba(0,210,180,0.1) inset !important;
+  transform:translateY(-1px);
+}
+
+/* ════════════════════════════════════════════════════════
+   DATAFRAME ROWS — stronger row hover
+════════════════════════════════════════════════════════ */
+[data-testid="stDataFrame"] tr:hover td {
+  background:rgba(0,200,180,0.06) !important;
+  color:var(--cyan2) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   TELEM VALUES — scan sweep on hover
+════════════════════════════════════════════════════════ */
+.telem-val { position:relative; overflow:hidden; }
+.telem-val::after {
+  content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,210,180,0.07),transparent);
+  pointer-events:none;
+}
+.telem-val:hover::after { animation:telemscani .5s ease-out forwards; }
+.telem-val:hover .telem-num { text-shadow:var(--glow-cyan); }
+@keyframes telemscani { from{left:-100%} to{left:100%} }
+
+/* ════════════════════════════════════════════════════════
+   BUTTON UPGRADE — ripple + stronger glow
+════════════════════════════════════════════════════════ */
+.stButton > button:hover {
+  box-shadow:0 0 24px rgba(0,200,180,0.28),
+             0 4px 16px rgba(0,0,0,0.4) !important;
+}
+.stButton > button:active {
+  box-shadow:0 0 12px rgba(0,200,180,0.4) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   SIDEBAR LOGO GLOW PULSE
+════════════════════════════════════════════════════════ */
+.tb-logo {
+  animation:logoPulse 4s ease-in-out infinite alternate;
+}
+@keyframes logoPulse {
+  from { text-shadow:0 0 10px rgba(0,232,208,0.4); }
+  to   { text-shadow:0 0 22px rgba(0,232,208,0.8), 0 0 40px rgba(0,232,208,0.2); }
+}
+
+/* ════════════════════════════════════════════════════════
+   BADGES — hover glow by colour
+════════════════════════════════════════════════════════ */
+.badge-cyan:hover   { box-shadow:0 0 10px rgba(0,232,208,0.4); }
+.badge-green:hover  { box-shadow:0 0 10px rgba(0,255,136,0.35); }
+.badge-red:hover    { box-shadow:0 0 10px rgba(255,34,68,0.4); }
+.badge-yellow:hover { box-shadow:0 0 10px rgba(255,215,0,0.3); }
+.badge-purple:hover { box-shadow:0 0 10px rgba(170,68,255,0.35); }
+.badge-blue:hover   { box-shadow:0 0 10px rgba(0,180,255,0.3); }
+
+/* ════════════════════════════════════════════════════════
+   LIVE DOT — pulsing dot upgrade
+════════════════════════════════════════════════════════ */
+.live-dot {
+  animation:liveDotPulse 1.8s ease-in-out infinite !important;
+}
+@keyframes liveDotPulse {
+  0%,100% { opacity:1; text-shadow:0 0 4px rgba(0,255,136,0.6); }
+  50%     { opacity:0.3; text-shadow:none; }
+}
+
+/* ════════════════════════════════════════════════════════
+   SIDEBAR UPTIME CARD — active glow
+════════════════════════════════════════════════════════ */
+.sidebar-uptime:hover {
+  box-shadow:0 0 16px rgba(0,200,180,0.18) !important;
+  border-color:var(--border3) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   SCROLLBAR STYLING — matches index.html dark aesthetic
+════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background:var(--bg2); }
+::-webkit-scrollbar-thumb {
+  background:rgba(0,210,180,0.25); border-radius:2px;
+}
+::-webkit-scrollbar-thumb:hover { background:rgba(0,210,180,0.5); }
+</style>
+
 <script>
 (function(){
-  var ring=document.getElementById('oi-cur'),tip=document.getElementById('oi-tip');
-  if(ring){
-    document.addEventListener('mousemove',function(e){ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
-    document.addEventListener('mousedown',function(){ring.classList.add('c');});
-    document.addEventListener('mouseup',function(){ring.classList.remove('c');});
-    document.addEventListener('mouseover',function(e){
-      if(e.target.closest('button,a,.metric-card,.cdm-item,.contact-win,.gs-card,.gs-item,.sat-row,.rubric-box,.panel-badge,[data-tip]'))ring.classList.add('h');
-      else ring.classList.remove('h');
-    });
+  // ═══════════════════════════════════════════════════════════════
+  //  ANIMATED STAR BACKGROUND — same engine as login page
+  // ═══════════════════════════════════════════════════════════════
+  function initStars(){
+    var sc = document.getElementById('oi-stars');
+    if(!sc) return;
+    var sctx = sc.getContext('2d');
+    function resize(){ sc.width=window.innerWidth; sc.height=window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    var stars = [];
+    for(var i=0;i<220;i++){
+      stars.push({
+        x: Math.random()*sc.width,
+        y: Math.random()*sc.height,
+        r: Math.random()*1.3+0.15,
+        speed: Math.random()*0.08+0.015,
+        twinkle: Math.random()*Math.PI*2,
+        twinkleSpeed: Math.random()*0.018+0.008
+      });
+    }
+
+    // shooting star state
+    var shoot = null, shootTimer = 3000;
+
+    function spawnShoot(){
+      shoot = {
+        x: Math.random()*sc.width*0.7,
+        y: Math.random()*sc.height*0.35,
+        len: 70+Math.random()*70,
+        speed: 4+Math.random()*5,
+        angle: Math.PI/6,
+        life: 1.0
+      };
+    }
+
+    var _vigCache = null, _vigW = 0, _vigH = 0;
+
+    function frame(){
+      if(sc.width!==window.innerWidth||sc.height!==window.innerHeight){
+        sc.width=window.innerWidth; sc.height=window.innerHeight;
+        _vigCache=null;
+      }
+      sctx.clearRect(0,0,sc.width,sc.height);
+
+      // vignette — cached
+      if(!_vigCache || _vigW!==sc.width || _vigH!==sc.height){
+        _vigW=sc.width; _vigH=sc.height;
+        _vigCache = sctx.createRadialGradient(
+          sc.width/2,sc.height/2,0,
+          sc.width/2,sc.height/2,sc.width*0.65
+        );
+        _vigCache.addColorStop(0,'rgba(0,15,30,0.25)');
+        _vigCache.addColorStop(1,'rgba(0,0,0,0.55)');
+      }
+      sctx.fillStyle=_vigCache; sctx.fillRect(0,0,sc.width,sc.height);
+
+      // stars
+      for(var i=0;i<stars.length;i++){
+        var s=stars[i];
+        s.y -= s.speed;
+        s.twinkle += s.twinkleSpeed;
+        if(s.y < -2){ s.y=sc.height+2; s.x=Math.random()*sc.width; }
+        var alpha = 0.25 + 0.45*Math.abs(Math.sin(s.twinkle));
+        sctx.fillStyle='rgba(180,235,255,'+alpha.toFixed(2)+')';
+        sctx.beginPath();
+        sctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        sctx.fill();
+      }
+
+      // shooting star
+      shootTimer -= 16;
+      if(shootTimer<=0){ spawnShoot(); shootTimer=5000+Math.random()*6000; }
+      if(shoot){
+        var dx=Math.cos(shoot.angle)*shoot.speed;
+        var dy=Math.sin(shoot.angle)*shoot.speed;
+        var tx=Math.cos(shoot.angle)*shoot.len;
+        var ty=Math.sin(shoot.angle)*shoot.len;
+        shoot.x+=dx; shoot.y+=dy; shoot.life-=0.018;
+        if(shoot.life>0 && shoot.x<sc.width && shoot.y<sc.height){
+          var g=sctx.createLinearGradient(shoot.x,shoot.y,shoot.x-tx,shoot.y-ty);
+          g.addColorStop(0,'rgba(0,235,215,'+shoot.life.toFixed(2)+')');
+          g.addColorStop(1,'transparent');
+          sctx.strokeStyle=g; sctx.lineWidth=1.5;
+          sctx.beginPath(); sctx.moveTo(shoot.x,shoot.y);
+          sctx.lineTo(shoot.x-tx,shoot.y-ty); sctx.stroke();
+        } else { shoot=null; }
+      }
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   }
-  if(tip){
-    document.addEventListener('mousemove',function(e){tip.style.left=(e.clientX+16)+'px';tip.style.top=(e.clientY-8)+'px';});
-    document.addEventListener('mouseover',function(e){var el=e.target.closest('[data-tip]');if(el){tip.innerHTML=el.getAttribute('data-tip').replace(/&#10;/g,'<br>');tip.style.opacity='1';}});
-    document.addEventListener('mouseout',function(e){if(e.target.closest('[data-tip]'))tip.style.opacity='0';});
+
+  // ═══════════════════════════════════════════════════════════════
+  //  CURSOR RING + TOOLTIP
+  // ═══════════════════════════════════════════════════════════════
+  function initCursor(){
+    var ring=document.getElementById('oi-cur');
+    var tip=document.getElementById('oi-tip');
+    if(ring){
+      document.addEventListener('mousemove',function(e){
+        ring.style.left=e.clientX+'px';
+        ring.style.top=e.clientY+'px';
+      });
+      document.addEventListener('mousedown',function(){ ring.classList.add('c'); });
+      document.addEventListener('mouseup',function(){   ring.classList.remove('c'); });
+      document.addEventListener('mouseover',function(e){
+        if(e.target.closest(
+          'button,a,.metric-card,.cdm-item,.contact-win,.gs-card,.gs-item,' +
+          '.sat-row,.rubric-box,.panel-badge,.uptime-bar-row,[data-tip]'
+        )) ring.classList.add('h');
+        else ring.classList.remove('h');
+      });
+    }
+    if(tip){
+      document.addEventListener('mousemove',function(e){
+        tip.style.left=(e.clientX+18)+'px';
+        tip.style.top=(e.clientY-10)+'px';
+      });
+      document.addEventListener('mouseover',function(e){
+        var el=e.target.closest('[data-tip]');
+        if(el){ tip.innerHTML=el.getAttribute('data-tip').replace(/&#10;/g,'<br>'); tip.style.opacity='1'; }
+      });
+      document.addEventListener('mouseout',function(e){
+        if(e.target.closest('[data-tip]')) tip.style.opacity='0';
+      });
+    }
+  }
+
+  // Wait for DOM then init both
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){ initStars(); initCursor(); hideSpinners(); });
+  } else {
+    initStars(); initCursor(); hideSpinners();
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  //  HIDE STREAMLIT RUNNING CIRCLE — MutationObserver approach
+  // ═══════════════════════════════════════════════════════════════
+  function hideSpinners(){
+    var sel = [
+      '[data-testid="stSpinner"]',
+      '[data-testid="stStatusWidget"]',
+      '.stSpinner',
+      '[class*="StatusWidget"]',
+      '[class*="stSpinner"]',
+    ].join(',');
+    function nuke(){
+      document.querySelectorAll(sel).forEach(function(el){
+        el.style.display='none'; el.style.opacity='0';
+      });
+    }
+    nuke();
+    var mo = new MutationObserver(nuke);
+    mo.observe(document.body, {childList:true, subtree:true});
   }
 })();
 </script>
@@ -1202,15 +1736,41 @@ def api_online() -> bool:
 
 # ── Component helpers ──────────────────────────────────────────────────────────
 def ph(title, badge="", badge_cls="badge-cyan"):
-    """panel_header — exact index.html .panel-hdr"""
+    """panel_header — exact index.html .panel-hdr with corner bracket"""
     b = f'<span class="panel-badge {badge_cls}">{badge}</span>' if badge else ""
-    return f'<div class="panel-hdr"><div class="panel-title">{title}</div>{b}</div>'
+    return (
+        f'<div class="panel-hdr">'
+        f'<div class="panel-title">{title}</div>'
+        f'<div style="display:flex;align-items:center;gap:6px">{b}'
+        f'<span style="font-family:var(--font-mono);font-size:8px;'
+        f'color:var(--text3);letter-spacing:0.04em">[ ]</span>'
+        f'</div></div>'
+    )
 
 def mc(label, val, color="", delta="", tip=""):
-    """metric_card with optional data-tip tooltip"""
+    """metric_card with scan-sweep glow, corner accent, and optional tooltip"""
     tip_attr = f' data-tip="{tip}"' if tip else ""
     dh = f'<div class="metric-delta">{delta}</div>' if delta else ""
-    return f'<div class="metric-card"{tip_attr}><div class="metric-label">{label}</div><div class="metric-value {color}">{val}</div>{dh}</div>'
+    glow_color = {
+        "red":"rgba(255,34,68,0.3)", "green":"rgba(0,255,136,0.25)",
+        "cyan":"rgba(0,210,180,0.3)", "yellow":"rgba(255,215,0,0.25)",
+        "purple":"rgba(170,68,255,0.25)", "blue":"rgba(0,180,255,0.25)",
+        "orange":"rgba(255,123,0,0.25)"
+    }.get(color, "rgba(0,210,180,0.15)")
+    accent = {
+        "red":"var(--red)", "green":"var(--green)", "cyan":"var(--cyan2)",
+        "yellow":"var(--yellow)", "purple":"var(--purple)",
+        "blue":"var(--blue2)", "orange":"var(--orange)"
+    }.get(color, "var(--cyan)")
+    return (
+        f'<div class="metric-card" {tip_attr} '
+        f'style="--mc-accent:{accent};--mc-glow:{glow_color}">'
+        f'<div style="position:absolute;top:0;left:0;right:0;height:1px;'
+        f'background:linear-gradient(90deg,transparent,{accent},transparent);opacity:0.5"></div>'
+        f'<div class="metric-label">{label}</div>'
+        f'<div class="metric-value {color}">{val}</div>'
+        f'{dh}</div>'
+    )
 
 def badge(text, cls="cyan"):
     return f'<span class="panel-badge badge-{cls}">{text}</span>'
@@ -1236,6 +1796,46 @@ def uptime_bar(sat_id, pct):
       <div class="uptime-bar-bg"><div class="uptime-bar-fill" style="width:{pct}%;background:{col};color:{col}"></div></div>
       <div class="uptime-pct" style="color:{col}">{pct:.1f}%</div>
     </div>'''
+
+def dark_table(df, max_rows=50):
+    """Render a pandas DataFrame as a fully dark-themed HTML table matching index.html."""
+    df2 = df.head(max_rows).reset_index(drop=True)
+    cols = list(df2.columns)
+    hdr = "".join(
+        f'<th style="font-family:var(--font-mono);font-size:8px;letter-spacing:0.12em;'
+        f'color:var(--cyan);background:rgba(0,200,180,0.06);padding:6px 10px;'
+        f'border-bottom:1px solid var(--border2);text-transform:uppercase;white-space:nowrap">{c}</th>'
+        for c in cols)
+    rows_html = ""
+    for _, row in df2.iterrows():
+        cells = ""
+        for c in cols:
+            v = row[c]
+            if isinstance(v, float):
+                txt = f"{v:.4f}" if abs(v) < 1000 else f"{v:.1f}"
+            else:
+                txt = str(v)
+            # colour-code known status/risk values
+            clr = "var(--text)"
+            if txt in ("NOMINAL","✓","LOW","SAFE"): clr = "var(--green)"
+            elif txt in ("MANEUVERING","OUT_OF_SLOT","WARN","WARNING","YELLOW"): clr = "var(--yellow)"
+            elif txt in ("EOL","CRITICAL","RED","✗","HIGH"): clr = "var(--red)"
+            elif txt.startswith("SAT-") or txt.startswith("A-"): clr = "var(--cyan2)"
+            elif txt.startswith("DEB-") or txt.startswith("GS-"): clr = "var(--text2)"
+            cells += (
+                f'<td style="font-family:var(--font-mono);font-size:9px;color:{clr};'
+                f'padding:5px 10px;border-bottom:1px solid var(--border)">{txt}</td>'
+            )
+        rows_html += (
+            f'<tr onmouseover="this.style.background=\'rgba(0,200,180,0.04)\'"'
+            f' onmouseout="this.style.background=\'\'"> {cells}</tr>'
+        )
+    return (
+        f'<div style="overflow-x:auto;border:1px solid var(--border);'
+        f'border-radius:3px;margin-top:6px">'
+        f'<table style="width:100%;border-collapse:collapse;background:var(--bg3)">'
+        f'<thead><tr>{hdr}</tr></thead><tbody>{rows_html}</tbody></table></div>'
+    )
 
 def altair_chart(df, x_field, y_field, color_field=None, color_scale=None, height=300, tooltips=None):
     """
@@ -1288,6 +1888,66 @@ def altair_chart(df, x_field, y_field, color_field=None, color_scale=None, heigh
 # ═══════════════════════════════════════════════════════════════════════════════
 #  SIDEBAR
 # ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Topbar (shown after login) ────────────────────────────────────────────────
+_tb_status = get_status() if True else {}
+_tb_sim_t  = int(_tb_status.get("sim_time", 0))
+_tb_nom    = _tb_status.get("satellites_nominal", 0)
+_tb_cdm    = _tb_status.get("active_conjunctions", 0)
+_tb_mans   = _tb_status.get("maneuvers_executed", 0)
+_tb_sp     = _tb_status.get("spatial_index", "KDTree").upper()
+_tb_online = bool(_tb_status)
+_tb_up     = get_fleet_uptime() if _tb_online else {}
+_tb_fp     = _tb_up.get("fleet_uptime_pct", 0)
+_tb_grade  = _tb_up.get("grade", "—")
+_tb_gcol   = {"EXCELLENT":"green","GOOD":"cyan","ACCEPTABLE":"yellow","POOR":"red"}.get(_tb_grade,"")
+_tb_met    = get_metrics() if _tb_online else {}
+_tb_ms     = _tb_met.get("step_ms_avg", 0)
+
+st.markdown(f'''
+<div class="oi-topbar">
+  <div class="oi-logo">ORBITAL <span>INSIGHT</span></div>
+  <div class="oi-tb-divider"></div>
+  <div class="oi-tb-item">
+    <span>SIM TIME</span>
+    <span class="val cyan">T+{_tb_sim_t//3600:04d}H {(_tb_sim_t%3600)//60:02d}M</span>
+  </div>
+  <div class="oi-tb-divider"></div>
+  <div class="oi-tb-item">
+    <span>FLEET</span>
+    <span class="val">{_tb_nom}/55</span>
+  </div>
+  <div class="oi-tb-item">
+    <span>CDM ACTIVE</span>
+    <span class="val {'red' if _tb_cdm else 'green'}">{_tb_cdm}</span>
+  </div>
+  <div class="oi-tb-item">
+    <span>UPTIME</span>
+    <span class="val {_tb_gcol}">{_tb_fp:.1f}%</span>
+  </div>
+  <div class="oi-tb-item">
+    <span>MANEUVERS</span>
+    <span class="val cyan">{_tb_mans}</span>
+  </div>
+  <div class="oi-tb-item">
+    <span>STEP AVG</span>
+    <span class="val">{_tb_ms:.0f}ms</span>
+  </div>
+  <div class="oi-tb-divider"></div>
+  <div class="oi-tb-item">
+    <span class="val" style="font-size:9px;color:rgba(170,68,255,0.9)">{_tb_sp}</span>
+  </div>
+  <div class="oi-tb-spacer"></div>
+  <div class="oi-tb-item" style="flex-direction:row;align-items:center">
+    <span class="oi-live-dot"></span>
+    <span class="val {'green' if _tb_online else 'red'}" style="font-size:9px">
+      {'LIVE' if _tb_online else 'OFFLINE'}
+    </span>
+  </div>
+</div>
+''', unsafe_allow_html=True)
+
+
 with st.sidebar:
     status      = get_status()   # single cached call — api_online() reuses this
     online      = bool(status)
@@ -1297,6 +1957,7 @@ with st.sidebar:
     st.markdown(f'''
     <div class="tb-logo">🛰 ORBITAL<span style="color:var(--muted);font-weight:400"> INSIGHT</span></div>
     <div class="tb-sub">NSH 2026 · ACM v7.4 · TEAM BROCODE</div>
+    <div class="sidebar-scan"></div>
     ''', unsafe_allow_html=True)
 
     if online:
@@ -1321,7 +1982,7 @@ with st.sidebar:
             st.warning("Backend not reachable — is the Docker container running?")
 
     st.markdown(ph("NAVIGATION"), unsafe_allow_html=True)
-    page = st.radio("", [
+    page = st.radio("Navigation", [
         "📊 Dashboard",
         "🛰 Fleet Status",
         "📡 Contact Schedule",
@@ -1387,11 +2048,11 @@ with st.sidebar:
           <div class="metric-value {gcol_q}" style="font-size:24px">{fp_q:.1f}%</div>
           <div class="metric-delta grade-{grade_q}">{grade_q}</div>
         </div>
-        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
-          {badge(f"{nom_q} NOM","green")}
-          {badge(f"{eol_q} EOL","purple") if eol_q else ""}
-          {badge(f"{cdm_q} CDM","red") if cdm_q else badge("0 CDM","green")}
-          {badge(f"{step_ms:.0f}ms","cyan") if step_ms else ""}
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;align-items:center">
+          <span class="panel-badge badge-green" style="font-size:8px;padding:2px 7px;border-radius:2px">⬤ {nom_q} NOM</span>
+          {'<span class="panel-badge badge-purple" style="font-size:8px;padding:2px 7px;border-radius:2px">⬤ ' + str(eol_q) + ' EOL</span>' if eol_q else ''}
+          {'<span class="panel-badge badge-red" style="font-size:8px;padding:2px 7px;border-radius:2px">⬤ ' + str(cdm_q) + ' CDM</span>' if cdm_q else '<span class="panel-badge badge-green" style="font-size:8px;padding:2px 7px;border-radius:2px">⬤ 0 CDM</span>'}
+          {'<span class="panel-badge badge-cyan" style="font-size:8px;padding:2px 7px;border-radius:2px">⏱ ' + f"{step_ms:.0f}" + 'ms</span>' if step_ms else ''}
         </div>''', unsafe_allow_html=True)
 
     auto_refresh = st.checkbox("Auto-refresh (3s)", value=False)
@@ -1457,25 +2118,84 @@ if "Dashboard" in page:
     with cl:
         st.markdown(ph("FLEET FUEL & ΔV DISTRIBUTION"), unsafe_allow_html=True)
         if satellites:
-            df = pd.DataFrame([{
-                "Satellite":  s["id"].replace("SAT-Alpha-","A-"),
-                "Fuel %":     round(s.get("fuel_pct", 0), 1),
-                "Status":     s.get("status", "?"),
-                "Slot km":    round(s.get("slot_distance_km", 0), 2),
-                "ΔV m/s":     round((s.get("total_dv_used_kms", 0) or 0)*1000, 1),
-                "Avoided":    s.get("collisions_avoided", 0),
-                "Pc Pruned":  s.get("pc_prune_count", 0),
-            } for s in satellites]).sort_values("Fuel %")
+            INIT_FUEL = 50.0  # matches backend STD_FUEL_MASS
+            rows_chart = []
+            for s in satellites:
+                fuel_kg  = s.get("fuel_mass_kg") or s.get("fuel_kg") or 0
+                fuel_pct_raw = s.get("fuel_pct")
+                # Compute fuel_pct from fuel_mass_kg if fuel_pct missing/wrong
+                if fuel_pct_raw is None or fuel_pct_raw > 100:
+                    fuel_pct_val = min(100.0, max(0.0, fuel_kg / INIT_FUEL * 100))
+                else:
+                    fuel_pct_val = float(fuel_pct_raw)
+                dv_ms = round((s.get("total_dv_used_kms", 0) or 0) * 1000, 2)
+                rows_chart.append({
+                    "Satellite":  s["id"].replace("SAT-Alpha-","A-"),
+                    "Fuel %":     round(fuel_pct_val, 1),
+                    "Fuel kg":    round(fuel_kg, 2),
+                    "ΔV m/s":    dv_ms,
+                    "Status":     s.get("status", "NOMINAL"),
+                    "Slot Δ km":  round(s.get("slot_distance_km", 0), 2),
+                    "Avoided":    s.get("collisions_avoided", 0),
+                    "Pc Pruned":  s.get("pc_prune_count", 0),
+                })
 
-            chart = altair_chart(df,
-                x_field="Fuel %:Q",
-                y_field=alt.Y("Satellite:N", sort="-x", axis=alt.Axis(labelColor="rgba(180,230,220,0.5)", labelFont="Share Tech Mono", labelFontSize=9)),
-                color_field="Fuel %:Q",
-                color_scale=alt.Scale(domain=[0,15,35,65,100], range=["#ff2244","#ff7b00","#ffd700","#00c8b4","#00ff88"]),
-                height=320,
-                tooltips=["Satellite","Fuel %","Status","Slot km","ΔV m/s","Avoided","Pc Pruned"]
-            )
-            st.altair_chart(chart, use_container_width=True)
+            df = pd.DataFrame(rows_chart).sort_values("Fuel %")
+
+            # Tab view: Fuel vs ΔV
+            _ct1, _ct2 = st.tabs(["⛽ FUEL %", "🚀 ΔV CONSUMED"])
+
+            with _ct1:
+                fuel_chart = altair_chart(
+                    df,
+                    x_field=alt.X("Fuel %:Q",
+                        scale=alt.Scale(domain=[0, 100]),
+                        axis=alt.Axis(labelColor="rgba(180,230,220,0.5)",
+                                      labelFont="Share Tech Mono", labelFontSize=9,
+                                      gridColor="rgba(0,210,180,0.07)",
+                                      domainColor="rgba(0,210,180,0.15)")),
+                    y_field=alt.Y("Satellite:N", sort=alt.SortField("Fuel %", order="ascending"),
+                        axis=alt.Axis(labelColor="rgba(180,230,220,0.5)",
+                                      labelFont="Share Tech Mono", labelFontSize=9,
+                                      gridColor="rgba(0,210,180,0.07)",
+                                      domainColor="rgba(0,210,180,0.15)")),
+                    color_field="Fuel %:Q",
+                    color_scale=alt.Scale(
+                        domain=[0, 10, 25, 50, 75, 100],
+                        range=["#ff2244","#ff7b00","#ffd700","#00c8b4","#00e8d0","#00ff88"]
+                    ),
+                    height=max(280, len(df) * 6),
+                    tooltips=["Satellite","Fuel %","Fuel kg","Status","Slot Δ km","Avoided","Pc Pruned"]
+                )
+                st.altair_chart(fuel_chart, use_container_width=True)
+
+            with _ct2:
+                if df["ΔV m/s"].sum() > 0:
+                    dv_chart = altair_chart(
+                        df.sort_values("ΔV m/s", ascending=False),
+                        x_field=alt.X("ΔV m/s:Q",
+                            axis=alt.Axis(labelColor="rgba(180,230,220,0.5)",
+                                          labelFont="Share Tech Mono", labelFontSize=9,
+                                          gridColor="rgba(0,210,180,0.07)",
+                                          domainColor="rgba(0,210,180,0.15)")),
+                        y_field=alt.Y("Satellite:N", sort=alt.SortField("ΔV m/s", order="descending"),
+                            axis=alt.Axis(labelColor="rgba(180,230,220,0.5)",
+                                          labelFont="Share Tech Mono", labelFontSize=9,
+                                          gridColor="rgba(0,210,180,0.07)",
+                                          domainColor="rgba(0,210,180,0.15)")),
+                        color_field="ΔV m/s:Q",
+                        color_scale=alt.Scale(
+                            domain=[0, 5, 15, 30, 50],
+                            range=["#00e8d0","#00b4ff","#ffd700","#ff7b00","#ff2244"]
+                        ),
+                        height=max(280, len(df) * 6),
+                        tooltips=["Satellite","ΔV m/s","Fuel %","Status","Avoided"]
+                    )
+                    st.altair_chart(dv_chart, use_container_width=True)
+                else:
+                    st.markdown(f'<div style="padding:20px 0;text-align:center">'
+                                f'{badge("NO ΔV CONSUMED YET — RUN SIM STEP","cyan")}</div>',
+                                unsafe_allow_html=True)
 
     with cr:
         n_conj = len(conjunctions)
@@ -1590,7 +2310,7 @@ elif "Contact Schedule" in page:
                 "Blackout?":   "⚠ YES" if nw.get("is_last_before_blackout") else "",
                 "Pc Pruned":   s.get("pc_prune_count",0),
             })
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        st.markdown(dark_table(pd.DataFrame(rows)), unsafe_allow_html=True)
 
     st.markdown(ph("PER-SATELLITE DETAIL"), unsafe_allow_html=True)
     sat_ids   = [s["id"] for s in satellites[:20]]
@@ -1614,7 +2334,7 @@ elif "Contact Schedule" in page:
                 "Peak El °":    w.get("peak_el_deg") or w.get("peak_elevation_deg","?"),
                 "Pre-Blackout": "⚠ YES" if w.get("is_last_before_blackout") else "",
             } for w in all_windows]
-            st.dataframe(pd.DataFrame(win_rows), use_container_width=True, hide_index=True)
+            st.markdown(dark_table(pd.DataFrame(win_rows)), unsafe_allow_html=True)
         windows = all_windows  # use full list for card display below
         if windows:
             cols = st.columns(min(len(windows), 5))
@@ -1797,7 +2517,7 @@ elif "Maneuver History" in page:
             "Pre-Upload":   "📡" if h.get("pre_upload") else "",
             "GS Window":    h.get("contact_window","—") or "—",
         } for h in history])
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.markdown(dark_table(df), unsafe_allow_html=True)
     else:
         st.info("No maneuver history yet — simulation is initialising.")
 
@@ -1828,7 +2548,7 @@ elif "Maneuver History" in page:
                 "Detail":    str({k:v for k,v in e.items()
                                   if k not in ("type","time","timestamp","satellite")})[:120],
             })
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        st.markdown(dark_table(pd.DataFrame(rows)), unsafe_allow_html=True)
     else:
         st.info("No ML decision events yet — events accumulate as the sim runs.")
 
@@ -1930,7 +2650,17 @@ elif "ML Intelligence" in page:
             ).configure_view(strokeOpacity=0)
             st.altair_chart(chart, use_container_width=True)
             show_cols = [c for c in ["dv_kms","posterior_mean","mean_reward","visits","alpha","beta"] if c in df.columns]
-            st.dataframe(df[show_cols], use_container_width=True, hide_index=True)
+            # Custom dark HTML table — st.dataframe uses an iframe that ignores our CSS
+            _df_show = df[show_cols].reset_index(drop=True)
+            _hdr = "".join(f'<th style="font-family:var(--font-mono);font-size:8px;letter-spacing:0.12em;color:var(--cyan);background:rgba(0,200,180,0.06);padding:6px 10px;border-bottom:1px solid var(--border2);text-transform:uppercase;white-space:nowrap">{c}</th>' for c in show_cols)
+            _rows = ""
+            for _, row in _df_show.iterrows():
+                _cells = "".join(
+                    f'<td style="font-family:var(--font-mono);font-size:9px;color:var(--text);padding:5px 10px;border-bottom:1px solid var(--border)">'
+                    f'{f"{row[c]:.4f}" if isinstance(row[c], float) else row[c]}</td>'
+                    for c in show_cols)
+                _rows += f'<tr style="transition:background 0.1s" onmouseover="this.style.background=\'rgba(0,200,180,0.04)\'" onmouseout="this.style.background=\'\'"> {_cells}</tr>'
+            st.markdown(f'<div style="overflow-x:auto;border:1px solid var(--border);border-radius:3px;margin-top:8px"><table style="width:100%;border-collapse:collapse;background:var(--bg3)"><thead><tr>{_hdr}</tr></thead><tbody>{_rows}</tbody></table></div>', unsafe_allow_html=True)
         else:
             st.info("Bandit data accumulates after first evasion burn (~60s)")
 
@@ -2068,13 +2798,7 @@ elif "ML Intelligence" in page:
             show_cols = [c for c in
                          ["satellite_id","debris_id","trend_kms","smoothed_miss_km","rate_uncertainty"]
                          if c in df.columns]
-            st.dataframe(df[show_cols], use_container_width=True, hide_index=True,
-                         column_config={
-                             "rate_uncertainty": st.column_config.NumberColumn(
-                                 "Rate Uncertainty P[1,1]",
-                                 format="%.6f",
-                                 help="Kalman covariance P[1,1]: low = confident trend estimate"),
-                         } if has_unc else {})
+            st.markdown(dark_table(df[show_cols]), unsafe_allow_html=True)
         else:
             st.info("Risk trends accumulate after first conjunction assessment (~60s)")
     with tab5:
