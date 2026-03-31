@@ -1,5 +1,5 @@
 FROM nginx:1.27-alpine
-COPY frontend/ /usr/share/nginx/html
+COPY frontend/ index.html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Replace backend URL with Railway internal reference
 ENV BACKEND_URL=http://backend.railway.internal:8000
