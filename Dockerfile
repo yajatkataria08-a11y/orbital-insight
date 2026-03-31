@@ -3,7 +3,12 @@
 #
 #  Base image: ubuntu:22.04  ← REQUIRED by NSH 2026 grading scripts
 #
+#  FIX: Railway's build environment cannot reach ppa:deadsnakes/ppa.
+#  Solution: python:3.11-slim is used as a binary DONOR only — it is never
+#  the final image. All three final stages still use ubuntu:22.04 as required.
+#
 #  Stages:
+#    py_bin    → temporary Python 3.11 binary donor (never the final image)
 #    deps      → shared Python dependency layer (cached separately)
 #    backend   → FastAPI simulation + ML inference server  (port 8000)
 #    streamlit → Analytics dashboard                       (port 8501)
@@ -16,35 +21,37 @@
 #    docker-compose up --build
 # ══════════════════════════════════════════════════════════════════════════════
 
+# ── Stage 0: Python 3.11 binary donor ─────────────────────────────────────────
+# This stage is NEVER the final image. It exists solely to donate Python 3.11
+# binaries to ubuntu:22.04 stages without needing the deadsnakes PPA.
+FROM python:3.11-slim AS py_bin
+
+
 # ── Stage 1: shared Python dependency builder ──────────────────────────────────
 # ubuntu:22.04 is the MANDATORY base image per NSH 2026 Section 8.
-# Ships Python 3.10 by default; we install 3.11 explicitly for consistency.
 FROM ubuntu:22.04 AS deps
 
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=UTC
 
-# System packages: Python 3.11 + build tools for scipy / xgboost native extensions
+# Borrow Python 3.11 binaries from the donor — replaces the deadsnakes PPA block
+COPY --from=py_bin /usr/local /usr/local
+
+# System packages: build tools for scipy / xgboost native extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
         software-properties-common \
         ca-certificates \
         curl \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update && apt-get install -y --no-install-recommends \
-        python3.11 \
-        python3.11-dev \
-        python3.11-distutils \
-        python3-pip \
         build-essential \
         gcc \
         g++ \
         libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ldconfig
 
 # Make python3.11 the default python / pip
-RUN update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 1 \
- && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
- && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+RUN update-alternatives --install /usr/bin/python  python  /usr/local/bin/python3.11 1 \
+ && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
 
 WORKDIR /install
 
@@ -61,22 +68,20 @@ FROM ubuntu:22.04 AS backend
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=UTC
 
+# Borrow Python 3.11 binaries from the donor — replaces the deadsnakes PPA block
+COPY --from=py_bin /usr/local /usr/local
+
 # Runtime system deps only (no build-essential needed at serve time)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         software-properties-common \
         ca-certificates \
         curl \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update && apt-get install -y --no-install-recommends \
-        python3.11 \
-        python3.11-distutils \
-        python3-pip \
         libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ldconfig
 
-RUN update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 1 \
- && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
- && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+RUN update-alternatives --install /usr/bin/python  python  /usr/local/bin/python3.11 1 \
+ && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
 
 # Reuse installed packages from builder — avoids re-downloading 800 MB of deps
 COPY --from=deps /usr/local/lib/python3.11/dist-packages \
@@ -125,21 +130,19 @@ FROM ubuntu:22.04 AS streamlit
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=UTC
 
+# Borrow Python 3.11 binaries from the donor — replaces the deadsnakes PPA block
+COPY --from=py_bin /usr/local /usr/local
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         software-properties-common \
         ca-certificates \
         curl \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update && apt-get install -y --no-install-recommends \
-        python3.11 \
-        python3.11-distutils \
-        python3-pip \
         libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ldconfig
 
-RUN update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 1 \
- && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
- && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+RUN update-alternatives --install /usr/bin/python  python  /usr/local/bin/python3.11 1 \
+ && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
 
 COPY --from=deps /usr/local/lib/python3.11/dist-packages \
                  /usr/local/lib/python3.11/dist-packages
@@ -152,7 +155,7 @@ RUN pip install --no-cache-dir \
 
 WORKDIR /app
 
-
+COPY streamlit/ .
 
 RUN useradd --create-home --shell /bin/bash acm_ui \
  && chown -R acm_ui:acm_ui /app
@@ -168,6 +171,11 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
         "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')" \
     || exit 1
 
+CMD ["streamlit", "run", "app.py", \
+     "--server.port=8501", \
+     "--server.address=0.0.0.0", \
+     "--server.headless=true", \
+     "--browser.gatherUsageStats=false"]
 CMD ["streamlit", "run", "app.py", \
      "--server.port=8501", \
      "--server.address=0.0.0.0", \
