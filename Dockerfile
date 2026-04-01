@@ -113,11 +113,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=5 \
     || exit 1
 
 # Binds to 0.0.0.0 as required by NSH Section 8 (not just localhost)
-CMD ["uvicorn", "main:app", \
-     "--host",       "0.0.0.0", \
-     "--port",       "8000", \
-     "--workers",    "1", \
-     "--log-level",  "info"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1 --log-level info"]
 
 
 # ── Stage 3: Streamlit analytics dashboard ─────────────────────────────────────
