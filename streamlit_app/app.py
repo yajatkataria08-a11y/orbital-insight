@@ -5,7 +5,10 @@ import altair as alt
 import time
 import os as _os
 from datetime import datetime
+
+# ── Resolve directory of this file so asset lookups work on Railway ──
 _DIR = _os.path.dirname(_os.path.abspath(__file__))
+
 
 st.set_page_config(
     page_title="Orbital Insight v7.4 — Analytics",
@@ -75,7 +78,7 @@ st.markdown("""<style>
 [data-testid="stSidebar"] { top:38px !important; height:calc(100vh - 38px) !important; }
 </style>""", unsafe_allow_html=True)
 
-API = _os.environ.get("BACKEND_URL", "https://orbital-insight-production-159a.up.railway.app/api")
+API = _os.environ.get("BACKEND_URL", "http://localhost:8000/api")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  CSS — exact index.html variable names, font stack, and component classes
@@ -2839,7 +2842,7 @@ elif "ML Intelligence" in page:
                     "combined_radius_m":             combined_radius,
                     "dist_rate_kms":                 dist_rate,
                     "atmospheric_density_multiplier": atm_density,
-                }, timeout=5)
+                }, timeout=30)
                 result = resp.json()
 
                 if "error" in result:
@@ -2901,8 +2904,8 @@ elif "ML Intelligence" in page:
 
                     with _shap_tabs[0]:
                         import os as _os2
-                        if _os2.path.exists("importance.png"):
-                            st.image("importance.png", use_container_width=True,
+                        if _os2.path.exists(_os.path.join(_DIR, "importance.png")):
+                            st.image(_os.path.join(_DIR, "importance.png"), use_container_width=True,
                                      caption="Mean |SHAP| — higher = more influence on collision risk predictions")
                         else:
                             st.info("Run train_model.py with shap installed to generate importance.png")
@@ -2916,8 +2919,8 @@ elif "ML Intelligence" in page:
                             </div>''', unsafe_allow_html=True)
 
                     with _shap_tabs[1]:
-                        if _os2.path.exists("shap_beeswarm.png"):
-                            st.image("shap_beeswarm.png", use_container_width=True,
+                        if _os2.path.exists(_os.path.join(_DIR, "shap_beeswarm.png")):
+                            st.image(_os.path.join(_DIR, "shap_beeswarm.png"), use_container_width=True,
                                      caption="SHAP Beeswarm — each dot is one sample. "
                                              "Red = high feature value, Blue = low. "
                                              "Right of centre = pushes toward HIGH RISK.")
@@ -2934,8 +2937,8 @@ elif "ML Intelligence" in page:
                             </div>''', unsafe_allow_html=True)
 
                     with _shap_tabs[2]:
-                        if _os2.path.exists("model_report.png"):
-                            st.image("model_report.png", use_container_width=True,
+                        if _os2.path.exists(_os.path.join(_DIR, "model_report.png")):
+                            st.image(_os.path.join(_DIR, "model_report.png"), use_container_width=True,
                                      caption="Left: XGBoost feature importance (gain). "
                                              "Right: Precision-Recall curve with optimal threshold marked.")
                         else:
@@ -2947,9 +2950,9 @@ elif "ML Intelligence" in page:
         # ── Model metadata card ───────────────────────────────────────────────
         st.markdown("<hr>", unsafe_allow_html=True)
         import os as _os3, json as _json3
-        if _os3.path.exists("model_meta.json"):
+        if _os3.path.exists(_os.path.join(_DIR, "model_meta.json")):
             try:
-                with open("model_meta.json") as _mf:
+                with open(_os.path.join(_DIR, "model_meta.json")) as _mf:
                     meta = _json3.load(_mf)
                 c1m, c2m, c3m, c4m = st.columns(4)
                 with c1m: st.metric("ROC-AUC",   f"{meta.get('test_roc_auc',0):.4f}")
@@ -2975,7 +2978,7 @@ elif "ML Intelligence" in page:
 
 
 elif "Live Visualizer" in page:
-    frontend_url = _os.environ.get("FRONTEND_URL", "https://orbital-insight-production-159a.up.railway.app")
+    frontend_url = _os.environ.get("FRONTEND_URL", "http://localhost:80")
 
     st.markdown(ph("LIVE ORBITAL DASHBOARD", "HTML CANVAS", "badge-cyan"), unsafe_allow_html=True)
     st.markdown(f'''
@@ -2991,8 +2994,8 @@ elif "Live Visualizer" in page:
     <div style="font-family:var(--font-mono);font-size:8px;color:var(--text3);margin-top:6px;text-align:center;letter-spacing:0.1em">
       <a href="{frontend_url}" target="_blank" style="color:var(--muted);text-decoration:none">↗ FULLSCREEN</a>
       &nbsp;·&nbsp;
-      <a href="https://orbital-insight-production-159a.up.railway.app/docs" target="_blank" style="color:var(--muted2);text-decoration:none">API DOCS</a>
+      <a href="http://localhost:8000/docs" target="_blank" style="color:var(--muted2);text-decoration:none">API DOCS</a>
       &nbsp;·&nbsp;
-      <a href="https://orbital-insight-production-159a.up.railway.app/api/logs" target="_blank" style="color:var(--muted2);text-decoration:none">AUDIT LOG</a>
+      <a href="http://localhost:8000/api/logs" target="_blank" style="color:var(--muted2);text-decoration:none">AUDIT LOG</a>
     </div>
     ''', unsafe_allow_html=True)
