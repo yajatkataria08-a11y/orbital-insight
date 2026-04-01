@@ -44,7 +44,7 @@ team = {
 
 ### 🏷️ Badges
 
-![Deployed Version](https://orbital-insight-production.up.railway.app/-10B981?style=for-the-badge)
+[![🚀 Live Deploy](https://img.shields.io/badge/🚀_LIVE_DEPLOY-Railway-0A1628?style=for-the-badge&logo=railway&logoColor=10B981)](https://orbital-insight-production.up.railway.app)
 ![ML](https://img.shields.io/badge/ML-v4.0-0A1628?style=for-the-badge&logo=python&logoColor=white)
 ![Team](https://img.shields.io/badge/Team-BroCODE-10B981?style=for-the-badge&logo=github&logoColor=white)
 ![Event](https://img.shields.io/badge/NSH_2026-IIT_Delhi-0A1628?style=for-the-badge)
@@ -334,7 +334,7 @@ The core supervised ML model — a **CalibratedClassifierCV wrapping XGBoost (DA
 **Batch prediction** (`POST /api/ml/predict_risk_batch`, up to 500 conjunctions):
 - **Pass 1**: validates every item + computes Chan Pc for each — fully independent
 - **Pass 2**: stacks all valid feature vectors into one `(N, 21)` NumPy matrix → single ONNX/XGBoost dispatch
-- Throughput improvement: **10–40× faster** than N sequential API calls because one `predict()` amortises all Python/NumPy overhead across the batch and XGBoost's histogram engine processes rows in parallel
+- Throughput improvement: **10–40× faster** than N sequential API calls
 
 | Metric | Score |
 |--------|-------|
@@ -369,28 +369,23 @@ The core supervised ML model — a **CalibratedClassifierCV wrapping XGBoost (DA
 
 ### How It Weighs Mistakes (Temporal Decay + Difficulty Scaling)
 
-**Newer mistakes matter more** (half-life = 200 rows from train_model.py):
+**Newer mistakes matter more** (half-life = 200 rows):
 ```
 decay_λ = ln(2) / 200
 weight  = e^(−λ × age_from_end)
 ```
-→ Most recent mistake → weight 1.0. A mistake 200 rows ago → weight 0.5.
 
 **Harder mistakes matter more** (max scale = 8×):
 ```
 confidence_gap = max(0, 0.5 − ml_probability)
 difficulty     = 1.0 + 7.0 × (confidence_gap / 0.5)
 ```
-→ AI said 0% danger but physics said 100% → amplified **8×** in training!
-→ AI said 49.9% (borderline) → weight **1.0×** (barely wrong, minimal boost)
-
-**Combined weight** = `temporal_w × difficulty`, normalised so mean = 1.0
 
 ### Hot-Swap Safety Gate
 
 The new model only **replaces** the incumbent if its recall beats the old one by ≥ **0.2 percentage points**. Otherwise it's saved as `collision_model_candidate.pkl` for manual inspection.
 
-If missed cases hit ≥ **100** → a **full Optuna re-search** (60 trials) is forced before the hot-swap decision — not just a quick retrain.
+If missed cases hit ≥ **100** → a **full Optuna re-search** (60 trials) is forced before the hot-swap decision.
 
 ---
 
@@ -424,7 +419,7 @@ Every prediction comes with a calibrated uncertainty band:
 ```
 
 - Keeps a rolling window of last 500 cases to calibrate the interval
-- If band width > 0.4 → `high_alert = true` → system falls back to the classical **Chan formula** (safer!)
+- If band width > 0.4 → `high_alert = true` → system falls back to the classical **Chan formula**
 
 ---
 
@@ -434,7 +429,7 @@ Every prediction comes with a calibrated uncertainty band:
 
 Regularly compares the distribution of **live data** vs **training data** using a **Kolmogorov-Smirnov test** on 4 key features: `altitude`, `miss_distance`, `relative_velocity`, `atmospheric_density`.
 
-If they've drifted significantly (p-value < 0.05) → fires a **⚠️ DRIFT ALERT** in the logs. This means: "The AI might not be reliable anymore — retrain with new data!"
+If they've drifted significantly (p-value < 0.05) → fires a **⚠️ DRIFT ALERT** in the logs.
 
 ---
 
@@ -443,8 +438,7 @@ If they've drifted significantly (p-value < 0.05) → fires a **⚠️ DRIFT ALE
 > **Like switching from a regular calculator to a scientific calculator** — same answer, much faster.
 
 When `collision_model.onnx` exists and `onnxruntime` is installed:
-- All **batch ML inference** (`/api/ml/predict_risk_batch`) routes through **ONNX Runtime** instead of the sklearn `.pkl` model
-- The internal `_assess_conjunctions` engine also uses the ONNX path for the vectorised batch pass
+- All **batch ML inference** routes through **ONNX Runtime** instead of the sklearn `.pkl` model
 - Falls back gracefully to the calibrated sklearn model if ONNX isn't available
 - Speed improvement: **2–5×** faster on large batches (500 conjunctions at once)
 
@@ -472,15 +466,6 @@ When a satellite is critically low on fuel (< 5%), the system plans a **two-burn
 Burn 1: Raise apogee from current orbit → phasing orbit
 Burn 2: Circularise at graveyard altitude
 ```
-This is the mathematically optimal way to change orbit altitude with minimum fuel.
-
-### Adaptive Station-Keeping
-
-When a satellite drifts > 10 km from its assigned slot:
-- Calculates the **transverse component** of the slot-error vector (T-axis burn is most efficient)
-- Scales ΔV adaptively: more urgent = bigger burn
-- In **urgency mode** (active service outage): skips fuel forecast gate and burns immediately
-- In **normal mode**: checks fuel forecast to ensure the satellite can afford the burn
 
 ### Key Physics Constants
 
@@ -494,7 +479,7 @@ When a satellite drifts > 10 km from its assigned slot:
 | Cooldown between burns | 600 seconds | Thruster needs to cool down |
 | DANGER zone | < 100 meters | If debris gets this close, PANIC |
 | Station-keeping box | 10 km radius | Satellite must stay in this zone |
-| Safe standoff | 500 m | Target post-maneuver miss distance (5× danger zone) |
+| Safe standoff | 500 m | Target post-maneuver miss distance |
 | Fuel emergency | < 5% fuel left | Time to think about retirement |
 | Graveyard orbit | 2,000 km up | Where we park dead satellites safely |
 
@@ -503,22 +488,22 @@ When a satellite drifts > 10 km from its assigned slot:
 ## 🚀 How the System Dodges Debris (Step by Step)
 
 ### Step 1 — Spatial Pre-filter (O(log N))
-Uses a **KD-Tree** (falls back to **3D Voxel Hash** if KD-Tree fails) to find only debris within the conjunction screening radius — avoids checking all 15,000 objects every tick.
+Uses a **KD-Tree** (falls back to **3D Voxel Hash** if KD-Tree fails) to find only debris within the conjunction screening radius.
 
 ### Step 2 — Kalman Gate (ML-4)
-The **ConjunctionRiskTracker** checks its Kalman state: if the pair is confidently diverging → skip immediately. This eliminates ~40% of pairs before any expensive computation.
+The **ConjunctionRiskTracker** checks its Kalman state: if the pair is confidently diverging → skip immediately. Eliminates ~40% of pairs.
 
 ### Step 3 — Chan Pc Hard Short-Circuit
-If `Chan Pc < 0.000001` → skip AI inference entirely, it's not worth burning fuel. This saves 60-70% of ML inference calls.
+If `Chan Pc < 0.000001` → skip AI inference entirely. Saves 60-70% of ML inference calls.
 
 ### Step 4 — Vectorised Batch ML Inference (ONNX)
-All remaining conjunction candidates are **batched into a single NumPy matrix** and sent to ONNX Runtime in one call. No Python loop overhead.
+All remaining candidates are **batched into a single NumPy matrix** and sent to ONNX Runtime in one call.
 
 ### Step 5 — Thompson Sampling Burn Direction (ML-1)
-The **DVBandit** picks the most promising burn direction based on its Thompson-sampled posteriors + Kalman rate estimates, then minimises ΔV magnitude along that direction.
+The **DVBandit** picks the most promising burn direction based on its Thompson-sampled posteriors + Kalman rate estimates.
 
 ### Step 6 — Contact-Schedule-Aware Upload
-The burn command is uploaded before the satellite enters a **radio blackout zone** — calculated by finding the last moment any ground station has line-of-sight.
+The burn command is uploaded before the satellite enters a **radio blackout zone**.
 
 ---
 
@@ -530,11 +515,11 @@ The burn command is uploaded before the satellite enters a **radio blackout zone
 |-------|--------------|
 | 🗺️ World Map | Satellite ground tracks + Earth's terminator (day/night line) |
 | 🌐 3D Globe | Drag to rotate · Scroll to zoom · Day/night shading |
-| 🎯 RTN Bullseye | How close debris is in red/yellow/green rings (right panel) |
-| 📡 Contact Schedule | Next ground station windows per satellite (right panel) |
-| 📈 Uptime Bars | Per-satellite slot-keeping performance (right panel) |
-| 🔥 Fuel Heatmap | Fleet-wide fuel levels in a colour-coded grid (bottom) |
-| 📅 Maneuver Gantt | All planned burns on a timeline (bottom) |
+| 🎯 RTN Bullseye | How close debris is in red/yellow/green rings |
+| 📡 Contact Schedule | Next ground station windows per satellite |
+| 📈 Uptime Bars | Per-satellite slot-keeping performance |
+| 🔥 Fuel Heatmap | Fleet-wide fuel levels in a colour-coded grid |
+| 📅 Maneuver Gantt | All planned burns on a timeline |
 
 ### Streamlit Dashboard (Port 8501)
 
@@ -586,7 +571,7 @@ Live check: `GET /api/fleet/uptime`
 - Kalman gate → ~40% fewer ML calls
 - Vectorised ONNX batch inference
 - 512-entry LRU cache for repeated calculations
-- Async thread pool so API stays responsive during physics steps
+- Async thread pool so API stays responsive
 
 ### 🖥️ [15 points] Visualisation
 Ground track · 3D globe · RTN bullseye · contact schedule · uptime bars · fuel heatmap · Gantt timeline
