@@ -5,7 +5,7 @@ import altair as alt
 import time
 import os as _os
 from datetime import datetime
-
+_DIR = _os.path.dirname(_os.path.abspath(__file__))
 
 st.set_page_config(
     page_title="Orbital Insight v7.4 — Analytics",
