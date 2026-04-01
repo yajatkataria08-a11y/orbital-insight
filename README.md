@@ -44,7 +44,7 @@ team = {
 
 ### 🏷️ Badges
 
-![Version](https://img.shields.io/badge/ACM-v7.0-10B981?style=for-the-badge)
+![Deployed Version](https://orbital-insight-production.up.railway.app/-10B981?style=for-the-badge)
 ![ML](https://img.shields.io/badge/ML-v4.0-0A1628?style=for-the-badge&logo=python&logoColor=white)
 ![Team](https://img.shields.io/badge/Team-BroCODE-10B981?style=for-the-badge&logo=github&logoColor=white)
 ![Event](https://img.shields.io/badge/NSH_2026-IIT_Delhi-0A1628?style=for-the-badge)
