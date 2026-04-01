@@ -75,7 +75,7 @@ st.markdown("""<style>
 [data-testid="stSidebar"] { top:38px !important; height:calc(100vh - 38px) !important; }
 </style>""", unsafe_allow_html=True)
 
-API = _os.environ.get("BACKEND_URL", "http://localhost:8000/api")
+API = _os.environ.get("BACKEND_URL", "https://orbital-insight-production-159a.up.railway.app/api")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  CSS — exact index.html variable names, font stack, and component classes
@@ -2975,7 +2975,7 @@ elif "ML Intelligence" in page:
 
 
 elif "Live Visualizer" in page:
-    frontend_url = _os.environ.get("FRONTEND_URL", "http://localhost:80")
+    frontend_url = _os.environ.get("FRONTEND_URL", "https://orbital-insight-production-159a.up.railway.app")
 
     st.markdown(ph("LIVE ORBITAL DASHBOARD", "HTML CANVAS", "badge-cyan"), unsafe_allow_html=True)
     st.markdown(f'''
