@@ -2991,8 +2991,8 @@ elif "Live Visualizer" in page:
     <div style="font-family:var(--font-mono);font-size:8px;color:var(--text3);margin-top:6px;text-align:center;letter-spacing:0.1em">
       <a href="{frontend_url}" target="_blank" style="color:var(--muted);text-decoration:none">↗ FULLSCREEN</a>
       &nbsp;·&nbsp;
-      <a href="http://localhost:8000/docs" target="_blank" style="color:var(--muted2);text-decoration:none">API DOCS</a>
+      <a href="https://orbital-insight-production-159a.up.railway.app/docs" target="_blank" style="color:var(--muted2);text-decoration:none">API DOCS</a>
       &nbsp;·&nbsp;
-      <a href="http://localhost:8000/api/logs" target="_blank" style="color:var(--muted2);text-decoration:none">AUDIT LOG</a>
+      <a href="https://orbital-insight-production-159a.up.railway.app/api/logs" target="_blank" style="color:var(--muted2);text-decoration:none">AUDIT LOG</a>
     </div>
     ''', unsafe_allow_html=True)
